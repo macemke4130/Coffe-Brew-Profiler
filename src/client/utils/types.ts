@@ -8,3 +8,8 @@ export interface IPost {
     updated_at: Date,
     username: string
 }
+
+export interface IOption {
+    id: number,
+    name: string
+}

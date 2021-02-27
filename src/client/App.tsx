@@ -10,6 +10,8 @@ import Home from './pages/Home';
 import Brew from './pages/Brew';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Chemex from './pages/brewmethods/Chemex';
+import CoffeeBag from './pages/CoffeeBag';
 
 const App = (props: AppProps) => {
 	const [greeting, setGreeting] = useState<string>('');
@@ -26,7 +28,13 @@ const App = (props: AppProps) => {
 				<Route exact path="/register">
 					<Register />
 				</Route>
-				<PrivateRoute path="/brew">
+				<PrivateRoute path="/coffeebag">
+					<CoffeeBag />
+				</PrivateRoute>
+				<PrivateRoute path="/brew/chemex/:id">
+					<Chemex />
+				</PrivateRoute>
+				<PrivateRoute exact path="/brew">
 					<Brew />
 				</PrivateRoute>
 			</Switch>

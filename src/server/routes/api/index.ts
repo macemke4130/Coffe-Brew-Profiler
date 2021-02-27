@@ -1,10 +1,10 @@
 import * as express from 'express';
-// import postsRouter from './posts';
 import usersRouter from './users';
+import optionsRouter from './options';
 
 const router = express.Router();
 
-// router.use('/posts', postsRouter);
+router.use('/options', optionsRouter);
 router.use('/users', usersRouter);
 
 export default router;

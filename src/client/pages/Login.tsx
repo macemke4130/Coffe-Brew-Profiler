@@ -11,7 +11,7 @@ const Login = (props: LoginProps) => {
 
     const history = useHistory();
 
-    const verifyRegister = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const verifyLogIn = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
         sendLogIn();
     }
@@ -44,7 +44,7 @@ const Login = (props: LoginProps) => {
             <form>
                 <input type="email" placeholder="Email" value={theEmail} onChange={hEmail}></input>
                 <input type="password" placeholder="Password" value={thePassword} onChange={hPassword}></input>
-                <button className="btn-btn-primary" onClick={verifyRegister}>Log In!</button>
+                <button className="btn-btn-primary" onClick={verifyLogIn}>Log In!</button>
             </form>
         </>
     );
