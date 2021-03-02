@@ -25,14 +25,14 @@ create table baristas (
 select * from baristas;
 update baristas set role = 1 where id = 1;
 
+drop table brewmethods;
 create table brewmethods (
 	id int primary key auto_increment not null,
     name varchar(32) not null
 );
 insert into brewmethods (name) values
-("Chemex 3-Cup"), ("Chemex 6-Cup"), ("Chemex 8-Cup"), ("Chemex 10-Cup"),
-("Hario V60"), ("Kona"), ("Aero-Press"), ("French Press"),
-("Kalita Wave"), ("Clever");
+("Chemex"), ("Hario V60"), ("Kona"), ("Aero-Press"),
+("French Press"), ("Kalita Wave"), ("Clever");
 
 create table brands (
 	id int primary key auto_increment not null,
@@ -80,6 +80,7 @@ create table coffeebags (
 );
 
 select coffeebags.name as coffeename, coffeebags.region, coffeebags.elevationabovesealevelinmeters as elevation, coffeebags.breed, coffeebags.blend, brands.name as brand, processes.name as process from coffeebags join brands on brands.id = coffeebags.brand join processes on processes.id = coffeebags.process;
+select coffeebags.id, coffeebags.name as coffeename, coffeebags.region, coffeebags.elevationabovesealevelinmeters as elevation, coffeebags.breed, coffeebags.blend, coffeebags.barista as baristaid, brands.name as brand, processes.name as process from coffeebags join brands on brands.id = coffeebags.brand join processes on processes.id = coffeebags.process where coffeebags.id = 6;
 
 create table tastingnotes (
 	id int primary key auto_increment not null,

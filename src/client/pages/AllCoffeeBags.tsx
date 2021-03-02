@@ -31,7 +31,7 @@ const NewCoffeeBag = (props: NewCoffeeBagProps) => {
             <h1>CoffeeBag Page</h1>
             {allCoffeeBags?.map(bag => (
                 <div key={bag.id}>
-                    <Link to={"/coffee/bag/" + bag.id}><h4>{bag.coffeename}</h4></Link>
+                    <Link to={"/coffeebags/" + bag.id}><h4>{bag.coffeename}</h4></Link>
                     <p>{bag.brand}</p>
                     <p>{bag.region}</p>
                     <p>{bag.breed}</p>

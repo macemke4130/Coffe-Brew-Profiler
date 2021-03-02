@@ -13,6 +13,7 @@ import NewBrew from './pages/NewBrew';
 import Chemex from './pages/brewmethods/Chemex';
 import NewCoffeeBag from './pages/NewCoffeeBag';
 import AllCoffeeBags from './pages/AllCoffeeBags';
+import SingleCoffeeBag from './pages/SingleCoffeeBag';
 // import AllBrews from './pages/AllBrews';
 
 const App = (props: AppProps) => {
@@ -33,6 +34,9 @@ return (
 				</PrivateRoute>
 				<PrivateRoute path="/coffeebags/all">
 					<AllCoffeeBags />
+				</PrivateRoute>
+				<PrivateRoute path="/coffeebags/:id">
+					<SingleCoffeeBag />
 				</PrivateRoute>
 				<PrivateRoute path="/brew/chemex/:id">
 					<Chemex />

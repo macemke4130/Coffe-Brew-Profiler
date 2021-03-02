@@ -16,6 +16,7 @@ export interface IOption {
 
 export interface ICoffeeBag {
     id: number,
+    baristaid: number,
     coffeename: string,
     region: string,
     elevation: number,
