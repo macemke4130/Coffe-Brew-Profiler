@@ -13,3 +13,14 @@ export interface IOption {
     id: number,
     name: string
 }
+
+export interface ICoffeeBag {
+    id: number,
+    coffeename: string,
+    region: string,
+    elevation: number,
+    breed: string,
+    blend: number,
+    brand: string,
+    process: string
+}

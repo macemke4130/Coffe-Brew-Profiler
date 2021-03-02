@@ -10,11 +10,11 @@ router.post('/', async (req, res) => {
     try {
         newUser.password = await generateHash(newUser.password);
         const result = await db.users.insert(newUser);
-        const token = signToken({ baristaid: result.insertId, email: newUser.email, username: newUser.username });
+        const token = signToken({ userid: result.insertId, email: newUser.email, username: newUser.username });
         res.json(token);
     } catch (e) {
         console.log(e);
-        res.status(500).json({ message: "Access Denied", e });
+        res.status(500).json({ message: "NOPE", e });
     }
 });
 

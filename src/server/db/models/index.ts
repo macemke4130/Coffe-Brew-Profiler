@@ -1,11 +1,10 @@
-export interface BaristasTable {
+export interface UsersTable {
     id?: number,
-    is_active?: number | boolean,
-    role: number | string,
     username?: string,
     email?: string,
     password?: string,
-    _created?: Date
+    is_visible?: number,
+    created_at?: Date
 }
 
 export interface PostsTable {

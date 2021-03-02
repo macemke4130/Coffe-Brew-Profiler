@@ -1,14 +1,14 @@
 import { Request } from 'express';
-import { BaristasTable } from '../db/models';
+import { UsersTable } from '../db/models';
 
 export interface IPayload {
     id?: number,
-    baristaid: number,
+    userid: number,
     email: string,
     username: string
 }
 
 export interface ReqUser extends Request {
     id?: number,
-    barista?: BaristasTable | IPayload
+    user?: UsersTable | IPayload
 }

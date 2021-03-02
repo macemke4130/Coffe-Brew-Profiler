@@ -1,6 +1,7 @@
 import * as express from 'express';
 import routes from './routes/index';
 import * as path from 'path';
+
 import * as passport from 'passport';
 
 import './middlewares/passport-strategies'; // File runs as import --

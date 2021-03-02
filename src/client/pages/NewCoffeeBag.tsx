@@ -6,30 +6,35 @@ import Nav from '../components/Nav';
 import apiService from '../utils/api-service';
 import { IOption } from '../utils/types';
 
-const CoffeeBag = (props: CoffeeBagProps) => {
+const NewCoffeeBag = (props: NewCoffeeBagProps) => {
     const [allBrands, setAllBrands] = useState<Array<IOption>>([]);
     const [allProcesses, setAllProcesses] = useState<Array<IOption>>([]);
+
     const [theBrand, setTheBrand] = useState<string>('');
-    const [theProcess, setTheProcess] = useState<string>('');
+    const [theProcess, setTheProcess] = useState<number>(0);
     const [theCoffee, setTheCoffee] = useState<string>('');
     const [theRegion, setTheRegion] = useState<string>('');
     const [theElevation, setTheElevation] = useState<number>(0);
     const [theCultivar, setTheCultivar] = useState<string>('');
     const [theBlend, setTheBlend] = useState<number>(0);
 
+    const [theBarista, setTheBarista] = useState<number>(0);
+
     const history = useHistory();
 
     useEffect(() => {
-        getOptions();
+        DBCalls();
     }, []);
 
-    const getOptions = async () => {
+    const DBCalls = async () => {
         const rBrands = apiService("/api/options/brands");
         const rProcesses = apiService("/api/options/processes");
-        Promise.all([rBrands, rProcesses])
+        const rWho = apiService("/api/users/who");
+        Promise.all([rBrands, rProcesses, rWho])
             .then(v => {
                 setAllBrands(v[0]);
                 setAllProcesses(v[1]);
+                setTheBarista(v[2]);
             })
     }
 
@@ -38,7 +43,7 @@ const CoffeeBag = (props: CoffeeBagProps) => {
     }
 
     const hProcess = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setTheProcess(e.target.value);
+        setTheProcess(Number(e.target.value));
     }
 
     const hTheCoffee = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -61,17 +66,21 @@ const CoffeeBag = (props: CoffeeBagProps) => {
         setTheBlend(Number(e.target.value));
     }
 
-    const verifyBag = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const verifyBag = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
+        let processCatch = theProcess === 0 ? 4 : theProcess; // 4 is "None" in the Database. Fulfils a foreign key constraint --
         const bodyObject = {
             brand: theBrand,
             name: theCoffee,
             region: theRegion,
             elevationabovesealevelinmeters: theElevation,
             breed: theCultivar,
-            process: theProcess,
-
+            process: processCatch,
+            blend: theBlend,
+            barista: theBarista
         }
+        const r = await apiService("/api/coffee/new", "POST", bodyObject);
+        if (r.serverStatus === 2) history.push('/coffeebag/' + r.insertId);
     }
 
     return (
@@ -93,7 +102,7 @@ const CoffeeBag = (props: CoffeeBagProps) => {
                 </select>
                 <input type="text" placeholder="Coffee Name" value={theCoffee} onChange={hTheCoffee}></input>
                 <input type="text" placeholder="Region(s)" value={theRegion} onChange={hTheRegion}></input>
-                <input type="text" placeholder="Elevation" value={theElevation} onChange={hTheElevation}></input>
+                <input type="number" placeholder="Elevation" value={theElevation} onChange={hTheElevation}></input>
                 <input type="text" placeholder="Cultivar" value={theCultivar} onChange={hTheCultivar}></input>
                 <select onChange={hBlend}>
                     <option value="0">Single Origin</option>
@@ -105,6 +114,6 @@ const CoffeeBag = (props: CoffeeBagProps) => {
     );
 };
 
-interface CoffeeBagProps { }
+interface NewCoffeeBagProps { }
 
-export default CoffeeBag;
+export default NewCoffeeBag;

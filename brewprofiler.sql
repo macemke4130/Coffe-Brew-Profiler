@@ -22,6 +22,8 @@ create table baristas (
     password varchar(64) not null,
     _created timestamp default now()
 );
+select * from baristas;
+update baristas set role = 1 where id = 1;
 
 create table brewmethods (
 	id int primary key auto_increment not null,
@@ -53,12 +55,14 @@ create table processes (
 );
 insert into processes (name) values
 ("Washed / Wet"), ("Natural / Dry"), ("Honey");
+insert into processes (name) values ("None");
 
 create table brewphotos (
 	id int primary key auto_increment not null,
     url varchar(1000) not null
 );
 
+drop table coffeebags;
 create table coffeebags (
 	id int primary key auto_increment not null,
     is_active bool default true,
@@ -70,16 +74,18 @@ create table coffeebags (
     region varchar(64),
     elevationabovesealevelinmeters int,
     breed varchar(64),
-    process int,
+    process int default 4,
 		foreign key (process) references processes (id),
     blend bool
 );
+
+select coffeebags.name as coffeename, coffeebags.region, coffeebags.elevationabovesealevelinmeters as elevation, coffeebags.breed, coffeebags.blend, brands.name as brand, processes.name as process from coffeebags join brands on brands.id = coffeebags.brand join processes on processes.id = coffeebags.process;
 
 create table tastingnotes (
 	id int primary key auto_increment not null,
     notes varchar(10000)
 );
-
+drop table brews;
 create table brews (
 	id int primary key auto_increment not null,
     is_active bool default true,

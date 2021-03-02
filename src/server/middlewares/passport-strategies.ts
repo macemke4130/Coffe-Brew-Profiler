@@ -9,7 +9,7 @@ import { IPayload } from '../utils/types';
 passport.serializeUser((user, done) => done(null, user));
 passport.deserializeUser((user, done) => done(null, user));
 
-passport.use(new LocalStrategy.Strategy({ usernameField: 'email' }, async (email, password, done) => {
+passport.use(new LocalStrategy.Strategy({ usernameField: 'email' }, async (email, password, done) => { // usernameField: 'email' needs to match req.body.email --
     try {
         const [userRecord] = await db.users.find('email', email);
         if (userRecord && comparePasswords(password, userRecord.password)) {
@@ -30,5 +30,5 @@ passport.use(new PassPortJWT.Strategy(
         secretOrKey: config.jwt.secret
     },
     async (payload: IPayload, done) => {
-        done(null, { id: payload.baristaid, ...payload});
+        done(null, { id: payload.userid, ...payload});
     }));

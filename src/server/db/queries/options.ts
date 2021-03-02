@@ -1,5 +1,4 @@
 import { Query } from '..';
-import { MySQLResponse, BaristasTable } from '../models';
 
 const allBrewMethods = () => Query<[]>('select * from brewmethods');
 const allGrinders = () => Query<[]>('select * from grinders');

@@ -6,7 +6,7 @@ import Nav from '../components/Nav';
 import apiService from '../utils/api-service';
 import { IOption } from '../utils/types';
 
-const Brew = (props: BrewProps) => {
+const NewBrew = (props: NewBrewProps) => {
     const [brewMethods, setBrewMethods] = useState<Array<IOption>>([]);
     const [thebrewMethod, setTheBrewMethod] = useState<string>('');
 
@@ -43,6 +43,6 @@ const Brew = (props: BrewProps) => {
     );
 };
 
-interface BrewProps { }
+interface NewBrewProps { }
 
-export default Brew;
+export default NewBrew;

@@ -26,7 +26,7 @@ const Register = (props: RegisterProps) => {
         const r = await apiService("/auth/register", "POST", bodyObject);
         const token = r;
         if (token) {
-            localStorage.setItem("authToken", token);
+            localStorage.setItem("token", token);
             history.push('/');
         }
     }

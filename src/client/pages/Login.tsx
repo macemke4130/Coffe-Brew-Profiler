@@ -24,7 +24,8 @@ const Login = (props: LoginProps) => {
         const r = await apiService("/auth/login", "POST", bodyObject);
         const token = r;
         if (token) {
-            localStorage.setItem("authToken", token);
+            console.log(token);
+            localStorage.setItem("token", token);
             history.push('/');
         }
     }

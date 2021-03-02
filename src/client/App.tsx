@@ -7,16 +7,16 @@ import PrivateRoute from './components/PrivateRoute';
 
 // Import Custom Pages --
 import Home from './pages/Home';
-import Brew from './pages/Brew';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import NewBrew from './pages/NewBrew';
 import Chemex from './pages/brewmethods/Chemex';
-import CoffeeBag from './pages/CoffeeBag';
+import NewCoffeeBag from './pages/NewCoffeeBag';
+import AllCoffeeBags from './pages/AllCoffeeBags';
+// import AllBrews from './pages/AllBrews';
 
 const App = (props: AppProps) => {
-	const [greeting, setGreeting] = useState<string>('');
-
-	return (
+return (
 		<Router>
 			<Switch>
 				<Route exact path="/">
@@ -28,14 +28,20 @@ const App = (props: AppProps) => {
 				<Route exact path="/register">
 					<Register />
 				</Route>
-				<PrivateRoute path="/coffeebag">
-					<CoffeeBag />
+				<PrivateRoute path="/coffeebags/new">
+					<NewCoffeeBag />
+				</PrivateRoute>
+				<PrivateRoute path="/coffeebags/all">
+					<AllCoffeeBags />
 				</PrivateRoute>
 				<PrivateRoute path="/brew/chemex/:id">
 					<Chemex />
 				</PrivateRoute>
-				<PrivateRoute exact path="/brew">
-					<Brew />
+				<PrivateRoute exact path="/brews/new">
+					<NewBrew />
+				</PrivateRoute>
+				<PrivateRoute exact path="/brews/all">
+					{/* <AllBrews /> */}
 				</PrivateRoute>
 			</Switch>
 		</Router>
