@@ -23,6 +23,16 @@ router.get('/all/:barista', async (req, res) => {
     }
 });
 
+router.get('/all/list/:barista', async (req, res) => {
+    try {
+        const allMyCoffeeList = await db.coffee.allMyCoffeeList(Number(req.params.barista));
+        res.json(allMyCoffeeList);
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({ message: "nope", e});
+    }
+});
+
 router.get('/', async (req, res) => {
     try {
         const coffeeBags = await db.coffee.all();

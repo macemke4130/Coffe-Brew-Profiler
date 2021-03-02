@@ -23,7 +23,8 @@ create table baristas (
     _created timestamp default now()
 );
 select * from baristas;
-update baristas set role = 1 where id = 1;
+update baristas set bloom = 45 where id = 1;
+alter table baristas add bloom int after email;
 
 drop table brewmethods;
 create table brewmethods (
@@ -81,6 +82,7 @@ create table coffeebags (
 
 select coffeebags.name as coffeename, coffeebags.region, coffeebags.elevationabovesealevelinmeters as elevation, coffeebags.breed, coffeebags.blend, brands.name as brand, processes.name as process from coffeebags join brands on brands.id = coffeebags.brand join processes on processes.id = coffeebags.process;
 select coffeebags.id, coffeebags.name as coffeename, coffeebags.region, coffeebags.elevationabovesealevelinmeters as elevation, coffeebags.breed, coffeebags.blend, coffeebags.barista as baristaid, brands.name as brand, processes.name as process from coffeebags join brands on brands.id = coffeebags.brand join processes on processes.id = coffeebags.process where coffeebags.id = 6;
+select brands.name, coffeebags.name, coffeebags.id from coffeebags join brands on brands.id = coffeebags.brand where barista = 1;
 
 create table tastingnotes (
 	id int primary key auto_increment not null,

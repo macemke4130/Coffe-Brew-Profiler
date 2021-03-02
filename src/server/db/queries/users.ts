@@ -13,11 +13,14 @@ const editProfile = (id: number, username: string, email: string) => Query('upda
 
 const disable = (id: number) => Query('update users set is_visible = 0 where id = ?', [id]);
 
+const myBloom = (id: number) => Query('select bloom from baristas where id = ?', [id]);
+
 export default {
     one,
     username,
     insert,
     find,
     editProfile,
-    disable
+    disable,
+    myBloom
 }
