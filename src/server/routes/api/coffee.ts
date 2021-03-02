@@ -1,4 +1,5 @@
 import * as express from 'express';
+import * as passport from 'passport';
 import db from '../../db';
 
 const router = express.Router();
@@ -47,6 +48,18 @@ router.post('/new', async (req, res) => {
     try {
         const newCoffeeBag = await db.coffee.insert(req.body);
         res.status(200).json(newCoffeeBag);
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({ message: "nope", e});
+    }
+});
+
+// Move to Brew Route. Follow Rest! --
+router.post('/brew/new', passport.authenticate('jwt'), async (req, res) => {
+    try {
+        console.log(req.body);
+        const newBrew = await db.coffee.insertBrew(req.body);
+        res.status(200).json(newBrew);
     } catch (e) {
         console.log(e);
         res.status(500).json({ message: "nope", e});
