@@ -2,10 +2,10 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import apiService from '../../utils/api-service';
-import { ICoffeeBag, IOption } from '../../utils/types';
+import { ICoffeeBag, IOption, IBarista } from '../../utils/types';
 
 const Chemex = (props: ChemexProps) => {
-    let theBarista = 0;
+    let theBarista = 2;
     const [allCoffeeBags, setAllCoffeeBags] = useState<Array<ICoffeeBag>>([]);
     const [allGrinders, setAllGrinders] = useState<Array<IOption>>([]);
     const [bloomTime, setBloomTime] = useState<number>(0);
@@ -20,12 +20,12 @@ const Chemex = (props: ChemexProps) => {
 
         const r0 = apiService('/api/coffee/all/list/' + theBarista);
         const r1 = apiService('/api/options/grinders');
-        const r2 = apiService('/api/users/bloom/' + theBarista);
+        const r2 = apiService('/api/users/bloom/');
         Promise.all([r0, r1, r2])
             .then(v => {
                 setAllCoffeeBags(v[0]);
                 setAllGrinders(v[1]);
-                setBloomTime(v[2]);
+                setBloomTime(v[2][0].bloom);
             });
     }
 
@@ -34,7 +34,7 @@ const Chemex = (props: ChemexProps) => {
     }
 
     const hBloomTime = (e: React.ChangeEvent<HTMLInputElement>) => {
-        
+        setBloomTime(Number(e.target.value));
     }
 
 
@@ -61,7 +61,7 @@ const Chemex = (props: ChemexProps) => {
                 <label className="mr-2">Grind Post Grind: <input type="number" className="m-2"></input></label>
                 <label className="mr-2">Water Temp Pre Brew (F): <input type="number" className="m-2"></input></label>
 
-                {/* <label className="mr-2">Bloom Duration: <input type="number" value={bloomTime} onChange={hBloomTime} className="m-2"></input></label> */}
+                <label className="mr-2">Bloom Duration: <input type="number" value={bloomTime} onChange={hBloomTime} className="m-2"></input></label>
 
 
 

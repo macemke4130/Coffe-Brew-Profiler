@@ -6,7 +6,7 @@ import { ReqUser } from '../../utils/types';
 
 const router = express.Router();
 
-router.use('/bloom/:id', passport.authenticate('jwt'), async (req: ReqUser, res) => {
+router.use('/bloom', passport.authenticate('jwt'), async (req: ReqUser, res) => {
     try {
         const userid = req.user.id;
         const myBloom = await db.users.myBloom(userid);

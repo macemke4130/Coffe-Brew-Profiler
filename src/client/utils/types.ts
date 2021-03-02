@@ -25,3 +25,14 @@ export interface ICoffeeBag {
     brand: string,
     process: string
 }
+
+export interface IBarista {
+    id: number,
+    is_active: number,
+    role: number,
+    username: string,
+    email: string,
+    bloom: number,
+    password: string,
+    _created: Date
+}
