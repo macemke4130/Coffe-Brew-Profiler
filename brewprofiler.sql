@@ -111,8 +111,38 @@ create table brews (
     bloomweight decimal(5, 2),
     brewtimeinsec int,
     brewweight decimal(5, 2),
+    yeild decimal(5, 2),
     tastingnote int,
 		foreign key (tastingnote) references tastingnotes (id),
 	brewphoto int,
 		foreign key (brewphoto) references brewphotos (id)
 );
+select * from brews;
+
+select 
+brews.id,
+brews._createdat,
+brews.roasteddate,
+brews.grindsize,
+brews.gramspregrind,
+brews.gramspostgrind,
+brews.watertempprebrew,
+brews.watertemppostbrew,
+brews.bloomtimeinsec,
+brews.bloomweight,
+brews.brewtimeinsec,
+brews.brewweight,
+brews.yeild,
+coffeebags.id as coffeebagid,
+coffeebags.brand as coffeebrand,
+coffeebags.name as coffeename,
+grinders.name as grinder,
+brewmethods.name as brewmethod,
+brands.name as brandname
+ from brews 
+join brands on brands.id = (select coffeebags.brand from coffeebags where coffeebags.id = (select brews.coffeebag where brews.id = 1))
+join coffeebags on coffeebags.id = brews.coffeebag
+join brewmethods on brewmethods.id = brews.brewmethod
+join grinders on grinders.id = brews.grinder
+where brews.id = 1
+;

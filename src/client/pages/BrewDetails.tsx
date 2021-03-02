@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import apiService from '../../utils/api-service';
-import { ICoffeeBag, IOption, IBarista } from '../../utils/types';
+import apiService from '../utils/api-service';
+import { ICoffeeBag, IOption, IBarista } from '../utils/types';
 
-const Chemex = (props: ChemexProps) => {
+const BrewDetails = (props: BrewDetails) => {
     const [theBarista, setTheBarista] = useState<number>(0); // Baristas Table ID --
     const [allCoffeeBags, setAllCoffeeBags] = useState<Array<ICoffeeBag>>([]);
     const [allGrinders, setAllGrinders] = useState<Array<IOption>>([]);
@@ -177,6 +177,6 @@ const Chemex = (props: ChemexProps) => {
     );
 };
 
-interface ChemexProps { }
+interface BrewDetails { }
 
-export default Chemex;
+export default BrewDetails;
