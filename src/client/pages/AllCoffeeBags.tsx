@@ -21,7 +21,7 @@ const AllCoffeeBags = (props: AllCoffeeBagsProps) => {
         const rWho = await apiService("/api/users/who");
         theBarista = rWho;
         
-        const rCoffeeBags = await apiService("/api/coffee/all/" + theBarista);
+        const rCoffeeBags = await apiService("/api/coffee/all/");
         setAllCoffeeBags(rCoffeeBags);
     }
 

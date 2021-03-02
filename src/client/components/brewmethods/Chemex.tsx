@@ -27,18 +27,17 @@ const Chemex = (props: ChemexProps) => {
     }, []);
 
     const DBCalls = async () => {
-        const rWho = await apiService('/api/users/who');
-        setTheBarista(rWho);
-
-        const r0 = apiService('/api/coffee/all/list/' + rWho);
+        const r0 = apiService('/api/coffee/all/list/');
         const r1 = apiService('/api/options/grinders');
-        const r2 = apiService('/api/users/bloom/');
-        Promise.all([r0, r1, r2])
+        const r2 = apiService('/api/users/bloom/'); // Get Default Bloom --
+        const r3 = apiService('/api/users/who'); // Get Barista ID --
+        Promise.all([r0, r1, r2, r3])
             .then(v => {
                 setAllCoffeeBags(v[0]);
                 setTheCoffee(v[0].length + 1); // Newest Coffee Bag, won't work forever --
                 setAllGrinders(v[1]);
                 setBloomTime(v[2][0].bloom);
+                setTheBarista(v[3]);
             });
     }
 

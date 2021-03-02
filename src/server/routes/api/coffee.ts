@@ -1,6 +1,7 @@
 import * as express from 'express';
 import * as passport from 'passport';
 import db from '../../db';
+import { ReqUser } from '../../utils/types';
 
 const router = express.Router();
 
@@ -14,20 +15,20 @@ router.get('/bag/:coffee', async (req, res) => {
     }
 });
 
-router.get('/all/:barista', async (req, res) => {
+router.get('/all/list/', passport.authenticate('jwt'), async (req: ReqUser, res) => {
     try {
-        const allMyCoffee = await db.coffee.allMyCoffee(Number(req.params.barista));
-        res.json(allMyCoffee);
+        const allMyCoffeeList = await db.coffee.allMyCoffeeList(Number(req.user.id));
+        res.json(allMyCoffeeList);
     } catch (e) {
         console.log(e);
         res.status(500).json({ message: "nope", e});
     }
 });
 
-router.get('/all/list/:barista', async (req, res) => {
+router.get('/all/', passport.authenticate('jwt'), async (req: ReqUser, res) => {
     try {
-        const allMyCoffeeList = await db.coffee.allMyCoffeeList(Number(req.params.barista));
-        res.json(allMyCoffeeList);
+        const allMyCoffee = await db.coffee.allMyCoffee(Number(req.user.id));
+        res.json(allMyCoffee);
     } catch (e) {
         console.log(e);
         res.status(500).json({ message: "nope", e});

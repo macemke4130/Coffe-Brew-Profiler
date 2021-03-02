@@ -1,13 +1,14 @@
 import * as express from 'express';
 import * as passport from 'passport';
 import db from '../../db';
+import { ReqUser } from '../../utils/types';
 
 const router = express.Router();
 
-router.get('/all/:barista', passport.authenticate('jwt'), async (req, res) => {
+router.get('/all/', passport.authenticate('jwt'), async (req: ReqUser, res) => {
     try {
-        const barista = Number(req.params.barista);
-        const getAllBrews = await db.brews.all(barista);
+        // const barista = Number(req.params.barista);
+        const getAllBrews = await db.brews.all(req.user.id);
         res.status(200).json(getAllBrews);
     } catch (e) {
         console.log(e);

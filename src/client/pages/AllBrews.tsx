@@ -21,7 +21,7 @@ const AllBrews = (props: AllBrewsProps) => {
         const rWho = await apiService("/api/users/who");
         setTheBarista(rWho);
         
-        const rAllBrews = await apiService("/api/brews/all/" + rWho);
+        const rAllBrews = await apiService("/api/brews/all/");
         setAllBrews(rAllBrews);
     }
 
