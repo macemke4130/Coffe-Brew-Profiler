@@ -61,7 +61,7 @@ const Chemex = (props: ChemexProps) => {
             brewweight: brewWeight,
             yeild
         }
-        const r = await apiService('/api/coffee/brew/new', "POST", bodyObject);
+        const r = await apiService('/api/brews/new', "POST", bodyObject);
         console.log(r);
     }
 

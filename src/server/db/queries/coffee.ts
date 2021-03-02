@@ -7,14 +7,10 @@ const insert = (newCoffee: any) => Query('insert into coffeebags set ?', newCoff
 const allMyCoffee = (id: number) => Query('select coffeebags.id, coffeebags.name as coffeename, coffeebags.region, coffeebags.elevationabovesealevelinmeters as elevation, coffeebags.breed, coffeebags.blend, brands.name as brand, processes.name as process from coffeebags join brands on brands.id = coffeebags.brand join processes on processes.id = coffeebags.process where barista = ? order by coffeebags.id desc', [id]);
 const allMyCoffeeList = (id: number) => Query('select brands.name as brand, coffeebags.name as coffeename, coffeebags.id from coffeebags join brands on brands.id = coffeebags.brand where barista = ? order by coffeebags.id desc', [id]);
 
-// Move this to a Brew Path. Follow Rest! --
-const insertBrew = (newBrew: any) => Query<MySQLResponse>('Insert into brews set ?', [newBrew]);
-
 export default {
     all,
     one,
     insert,
     allMyCoffee,
-    allMyCoffeeList,
-    insertBrew
+    allMyCoffeeList
 }

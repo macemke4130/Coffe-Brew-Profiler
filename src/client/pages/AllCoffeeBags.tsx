@@ -6,7 +6,7 @@ import Nav from '../components/Nav';
 import apiService from '../utils/api-service';
 import { ICoffeeBag } from '../utils/types';
 
-const NewCoffeeBag = (props: NewCoffeeBagProps) => {
+const AllCoffeeBags = (props: AllCoffeeBagsProps) => {
     const [allCoffeeBags, setAllCoffeeBags] = useState<Array<ICoffeeBag>>([]);
 
     let theBarista = 0;
@@ -42,6 +42,6 @@ const NewCoffeeBag = (props: NewCoffeeBagProps) => {
     );
 };
 
-interface NewCoffeeBagProps { }
+interface AllCoffeeBagsProps { }
 
-export default NewCoffeeBag;
+export default AllCoffeeBags;

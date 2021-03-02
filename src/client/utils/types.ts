@@ -26,6 +26,19 @@ export interface ICoffeeBag {
     process: string
 }
 
+export interface IBrew {
+    id: number,
+    baristaid: number,
+    coffeename: string,
+    region: string,
+    elevation: number,
+    breed: string,
+    blend: number,
+    brand: string,
+    process: string
+}
+
+
 export interface IBarista {
     id: number,
     is_active: number,

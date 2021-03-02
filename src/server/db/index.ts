@@ -3,7 +3,7 @@ import config from '../config';
 
 const pool = mysql.createPool(config.mysql);
 
-export const Query = <T = any>(query: string, values?: any) => {
+export const Query = <T = PromiseConstructor>(query: string, values?: any) => {
     return new Promise<T>((resolve, reject) => {
 
         const sql = mysql.format(query, values);
@@ -24,8 +24,11 @@ export const Query = <T = any>(query: string, values?: any) => {
 import users from './queries/users';
 import options from './queries/options';
 import coffee from './queries/coffee';
+import brews from './queries/brews';
+
 export default {
     users,
     options,
-    coffee
+    coffee,
+    brews
 }

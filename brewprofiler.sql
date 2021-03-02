@@ -146,3 +146,13 @@ join brewmethods on brewmethods.id = brews.brewmethod
 join grinders on grinders.id = brews.grinder
 where brews.id = 1
 ;
+
+select 
+brews.id,
+brews._createdat, 
+brewmethods.name as brewmethod, 
+coffeebags.name as coffeename 
+from brews 
+	join brewmethods on brewmethods.id = brews.brewmethod
+    join coffeebags on coffeebags.id = brews.coffeebag
+where brews.barista = 1;

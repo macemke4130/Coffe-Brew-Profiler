@@ -14,7 +14,7 @@ import Chemex from './pages/brewmethods/Chemex';
 import NewCoffeeBag from './pages/NewCoffeeBag';
 import AllCoffeeBags from './pages/AllCoffeeBags';
 import SingleCoffeeBag from './pages/SingleCoffeeBag';
-// import AllBrews from './pages/AllBrews';
+import AllBrews from './pages/AllBrews';
 
 const App = (props: AppProps) => {
 return (
@@ -45,7 +45,7 @@ return (
 					<NewBrew />
 				</PrivateRoute>
 				<PrivateRoute exact path="/brews/all">
-					{/* <AllBrews /> */}
+					<AllBrews />
 				</PrivateRoute>
 			</Switch>
 		</Router>
