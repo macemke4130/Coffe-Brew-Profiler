@@ -140,11 +140,11 @@ grinders.name as grinder,
 brewmethods.name as brewmethod,
 brands.name as brandname
  from brews 
-join brands on brands.id = (select coffeebags.brand from coffeebags where coffeebags.id = (select brews.coffeebag where brews.id = 1))
+join brands on brands.id = (select coffeebags.brand from coffeebags where coffeebags.id = (select brews.coffeebag where brews.id = 3))
 join coffeebags on coffeebags.id = brews.coffeebag
 join brewmethods on brewmethods.id = brews.brewmethod
 join grinders on grinders.id = brews.grinder
-where brews.id = 1
+where brews.id = 3
 ;
 
 select 

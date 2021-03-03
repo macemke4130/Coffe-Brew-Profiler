@@ -22,6 +22,8 @@ const Chemex = (props: ChemexProps) => {
     const [brewTime, setBrewTime] = useState<number>(0);
     const [yeild, setYeild] = useState<number>(0);
 
+    const history = useHistory();
+
     useEffect(() => {
         DBCalls();
     }, []);
@@ -61,7 +63,7 @@ const Chemex = (props: ChemexProps) => {
             yeild
         }
         const r = await apiService('/api/brews/new', "POST", bodyObject);
-        console.log(r);
+        if(r.serverStatus === 2) history.push("/brew/details/" + r.insertId);
     }
 
     const hCoffeeBag = (e: React.ChangeEvent<HTMLSelectElement>) => {

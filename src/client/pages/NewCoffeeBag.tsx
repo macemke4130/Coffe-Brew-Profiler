@@ -103,6 +103,7 @@ const NewCoffeeBag = (props: NewCoffeeBagProps) => {
                 <input type="text" placeholder="Coffee Name" value={theCoffee} onChange={hTheCoffee}></input>
                 <input type="text" placeholder="Region(s)" value={theRegion} onChange={hTheRegion}></input>
                 <input type="number" placeholder="Elevation" value={theElevation} onChange={hTheElevation}></input>
+                <small>If given a range of elevation, please input an average.</small>
                 <input type="text" placeholder="Cultivar" value={theCultivar} onChange={hTheCultivar}></input>
                 <select onChange={hBlend}>
                     <option value="0">Single Origin</option>

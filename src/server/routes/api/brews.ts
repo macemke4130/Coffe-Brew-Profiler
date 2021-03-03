@@ -10,7 +10,7 @@ router.get('/details/:brew', passport.authenticate('jwt'), async (req, res) => {
         const brewid = Number(req.params.brew);
         // Passed into one() twice due to a subquery inside the DB call --
         const getBrew = await db.brews.one(brewid, brewid);
-        res.status(200).json({ data: getBrew, status: 418 });
+        res.status(200).json({ data: getBrew, status: 418 }); // Just for fun --
     } catch (e) {
         console.log(e);
         res.status(500).json({ message: "nope", e});
