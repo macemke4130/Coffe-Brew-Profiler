@@ -5,23 +5,23 @@ import { ReqUser } from '../../utils/types';
 
 const router = express.Router();
 
-router.get('/all/', passport.authenticate('jwt'), async (req: ReqUser, res) => {
+router.get('/details/:brew', passport.authenticate('jwt'), async (req, res) => {
     try {
-        // const barista = Number(req.params.barista);
-        const getAllBrews = await db.brews.all(req.user.id);
-        res.status(200).json(getAllBrews);
+        const brewid = Number(req.params.brew);
+        // Passed into one() twice due to a subquery inside the DB call --
+        const getBrew = await db.brews.one(brewid, brewid);
+        res.status(200).json({ data: getBrew, status: 418 });
     } catch (e) {
         console.log(e);
         res.status(500).json({ message: "nope", e});
     }
 });
 
-router.get('/details/:brew', passport.authenticate('jwt'), async (req, res) => {
+router.get('/all/', passport.authenticate('jwt'), async (req: ReqUser, res) => {
     try {
-        const brewid = Number(req.params.brew);
-        // Passed into one() twice due to a subquery inside the DB call --
-        const getBrew = await db.brews.one(brewid, brewid);
-        res.status(200).json(getBrew);
+        // const barista = Number(req.params.barista);
+        const getAllBrews = await db.brews.all(req.user.id);
+        res.status(200).json(getAllBrews);
     } catch (e) {
         console.log(e);
         res.status(500).json({ message: "nope", e});

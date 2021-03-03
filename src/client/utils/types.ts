@@ -28,14 +28,24 @@ export interface ICoffeeBag {
 
 export interface IBrew {
     id: number,
-    baristaid: number,
+    _createdat: Date,
+    roasteddate: Date,
+    grindsize: number,
+    gramspregrind: number,
+    gramspostgrind: number,
+    watertempprebrew: number,
+    watertemppostbrew: number,
+    bloomtimeinsec: number,
+    bloomweight: number,
+    brewtimeinsec: number,
+    brewweight: number,
+    yeild: number,
+    coffeebagid: number,
+    coffeebrand: number,
     coffeename: string,
-    region: string,
-    elevation: number,
-    breed: string,
-    blend: number,
-    brand: string,
-    process: string
+    grinder: string,
+    brewmethod: string,
+    brandname: string
 }
 
 

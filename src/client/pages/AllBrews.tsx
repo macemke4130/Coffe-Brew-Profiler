@@ -1,15 +1,15 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import Moment from 'react-moment';
 
 import Nav from '../components/Nav';
 import apiService from '../utils/api-service';
-import { ICoffeeBag } from '../utils/types';
+import { IBrew, ICoffeeBag } from '../utils/types';
 
 const AllBrews = (props: AllBrewsProps) => {
     const [theBarista, setTheBarista] = useState<number>(0);
-    const [allBrews, setAllBrews] = useState<Array<any>>([]); //IBrew --
+    const [allBrews, setAllBrews] = useState<Array<IBrew>>([]);
 
     const history = useHistory();
 
