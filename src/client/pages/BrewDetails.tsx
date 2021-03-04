@@ -4,6 +4,7 @@ import { Link, useHistory, useParams } from 'react-router-dom';
 import apiService from '../utils/api-service';
 import { ICoffeeBag, IOption, IBarista, IBrew } from '../utils/types';
 import Nav from '../components/Nav';
+import Loading from '../components/Loading';
 import Moment from 'react-moment';
 
 const BrewDetails = (props: BrewDetails) => {
@@ -61,7 +62,7 @@ const BrewDetails = (props: BrewDetails) => {
         }
     }
 
-    if (loading === true) { return (<><Nav /> <h1>Loading...</h1></>) } else {
+    if (loading === true) { return (<><Nav /><Loading /></>) } else {
         return (
             <>
                 <Nav />

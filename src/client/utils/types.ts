@@ -10,8 +10,10 @@ export interface IPost {
 }
 
 export interface IOption {
-    id: number,
-    name: string
+    id?: number,
+    name?: string
+    brand_name_style?: string,
+    barista?: number
 }
 
 export interface ICoffeeBag {

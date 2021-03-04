@@ -85,7 +85,7 @@ drop table filters;
 create table filters (
 	id int primary key auto_increment,
     barista int,
-    brand_name_number varchar(80)
+    brand_name_style varchar(80)
 );
 select * from filters;
 
@@ -128,6 +128,7 @@ create table brews (
 );
 select * from brews;
 alter table brews add drawdown int after brewweight;
+alter table brews add filter int after coffeebag;
 update brews set drawdown = 123 where id = 10;
 
 select 
