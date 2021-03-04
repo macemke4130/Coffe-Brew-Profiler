@@ -23,12 +23,14 @@ export const Query = <T = PromiseConstructor>(query: string, values?: any) => {
 
 import users from './queries/users';
 import options from './queries/options';
+import filters from './queries/filters';
 import coffee from './queries/coffee';
 import brews from './queries/brews';
 
 export default {
     users,
     options,
+    filters,
     coffee,
     brews
 }

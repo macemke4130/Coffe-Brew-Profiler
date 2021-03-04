@@ -39,6 +39,7 @@ export interface IBrew {
     bloomweight: number,
     brewtimeinsec: number,
     brewweight: number,
+    drawdown: number,
     yeild: number,
     coffeebagid: number,
     coffeebrand: number,

@@ -8,6 +8,7 @@ import Chemex from '../components/brewmethods/Chemex';
 import apiService from '../utils/api-service';
 import { IOption } from '../utils/types';
 import SelectBrewMethod from '../components/brewmethods/SelectBrewMethod';
+import Clever from '../components/brewmethods/Clever';
 
 const NewBrew = (props: NewBrewProps) => {
     const [theView, setTheView] = useState<number>(0);
@@ -79,7 +80,7 @@ const NewBrew = (props: NewBrewProps) => {
             return (
                 <>
                     <Nav />
-                    <h1>Clever</h1>
+                    <Clever />
                 </>
             )
             break;

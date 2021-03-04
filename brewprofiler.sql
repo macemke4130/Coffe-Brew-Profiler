@@ -41,6 +41,7 @@ create table brands (
 );
 insert into brands (name) values
 ("Hyperion Coffee Company"), ("Peace Coffee Company"), ("Anodyne Coffee Company");
+insert into brands (name) values ("Dogwood Coffee Company");
 
 create table grinders (
 	id int primary key auto_increment not null,
@@ -80,6 +81,14 @@ create table coffeebags (
     blend bool
 );
 
+drop table filters;
+create table filters (
+	id int primary key auto_increment,
+    barista int,
+    brand_name_number varchar(80)
+);
+select * from filters;
+
 select coffeebags.name as coffeename, coffeebags.region, coffeebags.elevationabovesealevelinmeters as elevation, coffeebags.breed, coffeebags.blend, brands.name as brand, processes.name as process from coffeebags join brands on brands.id = coffeebags.brand join processes on processes.id = coffeebags.process;
 select coffeebags.id, coffeebags.name as coffeename, coffeebags.region, coffeebags.elevationabovesealevelinmeters as elevation, coffeebags.breed, coffeebags.blend, coffeebags.barista as baristaid, brands.name as brand, processes.name as process from coffeebags join brands on brands.id = coffeebags.brand join processes on processes.id = coffeebags.process where coffeebags.id = 6;
 select brands.name, coffeebags.name, coffeebags.id from coffeebags join brands on brands.id = coffeebags.brand where barista = 1;
@@ -118,6 +127,8 @@ create table brews (
 		foreign key (brewphoto) references brewphotos (id)
 );
 select * from brews;
+alter table brews add drawdown int after brewweight;
+update brews set drawdown = 123 where id = 10;
 
 select 
 brews.id,
@@ -140,11 +151,11 @@ grinders.name as grinder,
 brewmethods.name as brewmethod,
 brands.name as brandname
  from brews 
-join brands on brands.id = (select coffeebags.brand from coffeebags where coffeebags.id = (select brews.coffeebag where brews.id = 3))
+join brands on brands.id = (select coffeebags.brand from coffeebags where coffeebags.id = (select brews.coffeebag where brews.id = 9))
 join coffeebags on coffeebags.id = brews.coffeebag
 join brewmethods on brewmethods.id = brews.brewmethod
 join grinders on grinders.id = brews.grinder
-where brews.id = 3
+where brews.id = 9
 ;
 
 select 

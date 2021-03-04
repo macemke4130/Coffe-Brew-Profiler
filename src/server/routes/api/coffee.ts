@@ -15,7 +15,7 @@ router.get('/bag/:coffee', async (req, res) => {
     }
 });
 
-router.get('/all/list/', passport.authenticate('jwt'), async (req: ReqUser, res) => {
+router.get('/all/list', passport.authenticate('jwt'), async (req: ReqUser, res) => {
     try {
         const allMyCoffeeList = await db.coffee.allMyCoffeeList(Number(req.user.id));
         res.json(allMyCoffeeList);
@@ -25,7 +25,7 @@ router.get('/all/list/', passport.authenticate('jwt'), async (req: ReqUser, res)
     }
 });
 
-router.get('/all/', passport.authenticate('jwt'), async (req: ReqUser, res) => {
+router.get('/all', passport.authenticate('jwt'), async (req: ReqUser, res) => {
     try {
         const allMyCoffee = await db.coffee.allMyCoffee(Number(req.user.id));
         res.json(allMyCoffee);
