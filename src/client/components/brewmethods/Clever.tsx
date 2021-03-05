@@ -22,6 +22,8 @@ const Clever = (props: CleverProps) => {
     const [roastedOn, setRoastedOn] = useState<string>(localStorage.getItem("RoastedOn") || "");
     const [brewWeight, setBrewWeight] = useState<number>(Number(localStorage.getItem("ChemexBrewWeight")) || 0);
     const [drawDown, setDrawDown] = useState<number>(0);
+    const [theBrewMinute, setTheBrewMinute] = useState<number>(0);
+    const [theBrewSecond, setTheBrewSecond] = useState<number>(0);
 
     const [brewTime, setBrewTime] = useState<number>(0);
     const [yeild, setYeild] = useState<number>(0);
@@ -141,6 +143,20 @@ const Clever = (props: CleverProps) => {
         setYeild(Number(e.target.value));
     }
 
+    const hBrewMinute = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setTheBrewMinute(Number(e.target.value));
+        handleBrewTime();
+    }
+
+    const hBrewSecond = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setTheBrewSecond(Number(e.target.value));
+        handleBrewTime();
+    }
+
+    const handleBrewTime = () => {
+        console.log((theBrewMinute * 60) + theBrewSecond);
+    }
+
     return (
         <>
             <h1>Clever</h1>
@@ -190,11 +206,10 @@ const Clever = (props: CleverProps) => {
 
                 <label className="mr-2">Drawdown in Seconds:
                 <input type="number" value={drawDown} onChange={hDrawDown} className="m-2"></input></label>
-                <small>Number of minutes / 60 + any remaining seconds</small>
 
-                <label className="mr-2">Total Brew Duration in Seconds:
-                <input type="number" value={brewTime} onChange={hBrewTime} className="m-2"></input></label>
-                <small>Number of minutes / 60 + any remaining seconds</small>
+                <label className="mr-2">Total Brew Duration: (Minutes:Seconds)
+                <input type="number" value={theBrewMinute} onChange={hBrewMinute}></input><span>:</span>
+                <input type="number" value={theBrewSecond} onChange={hBrewSecond}></input></label>
 
                 <label className="mr-2">Water Temp Post Brew (F):
                 <input type="number" value={waterPost} onChange={hWaterPost} className="m-2"></input></label>
@@ -202,7 +217,6 @@ const Clever = (props: CleverProps) => {
                 <label className="mr-2">Coffee Yeild in Grams:
                 <input type="number" value={yeild} onChange={hYeild} className="m-2"></input></label>
 
-                
                 <button onClick={hSubmitBrew} className="btn btn-primary">Submit Brew</button>
             </form>
         </>

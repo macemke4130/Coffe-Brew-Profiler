@@ -125,7 +125,7 @@ create table brews (
 	brewphoto int,
 		foreign key (brewphoto) references brewphotos (id)
 );
-select * from brews;
+select * from brews where id = 12;
 alter table brews add drawdown int after brewweight;
 alter table brews add filter int after coffeebag;
 update brews set drawdown = 123 where id = 10;
@@ -144,6 +144,7 @@ brews.watertemppostbrew,
 brews.bloomtimeinsec,
 brews.bloomweight,
 brews.brewtimeinsec,
+brews.drawdown,
 brews.brewweight,
 brews.yeild,
 coffeebags.id as coffeebagid,
@@ -154,12 +155,12 @@ grinders.name as grinder,
 brewmethods.name as brewmethod,
 brands.name as brandname
  from brews 
-join brands on brands.id = (select coffeebags.brand from coffeebags where coffeebags.id = (select brews.coffeebag where brews.id = 11))
+join brands on brands.id = (select coffeebags.brand from coffeebags where coffeebags.id = (select brews.coffeebag where brews.id = 12))
 join filters on filters.id = brews.filter
 join coffeebags on coffeebags.id = brews.coffeebag
 join brewmethods on brewmethods.id = brews.brewmethod
 join grinders on grinders.id = brews.grinder
-where brews.id = 11
+where brews.id = 12
 ;
 
 select filters.brand_name_style from brews
