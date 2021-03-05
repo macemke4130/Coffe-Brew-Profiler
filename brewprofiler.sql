@@ -26,7 +26,6 @@ select * from baristas;
 update baristas set bloom = 45 where id = 1;
 alter table baristas add bloom int after email;
 
-drop table brewmethods;
 create table brewmethods (
 	id int primary key auto_increment not null,
     name varchar(32) not null
@@ -131,6 +130,8 @@ alter table brews add drawdown int after brewweight;
 alter table brews add filter int after coffeebag;
 update brews set drawdown = 123 where id = 10;
 
+select DATEDIFF((select _createdat from brews where id = 10), (select roasteddate from brews where id = 10));
+
 select 
 brews.id,
 brews._createdat,
@@ -148,16 +149,21 @@ brews.yeild,
 coffeebags.id as coffeebagid,
 coffeebags.brand as coffeebrand,
 coffeebags.name as coffeename,
+filters.brand_name_style as filter,
 grinders.name as grinder,
 brewmethods.name as brewmethod,
 brands.name as brandname
  from brews 
-join brands on brands.id = (select coffeebags.brand from coffeebags where coffeebags.id = (select brews.coffeebag where brews.id = 9))
+join brands on brands.id = (select coffeebags.brand from coffeebags where coffeebags.id = (select brews.coffeebag where brews.id = 11))
+join filters on filters.id = brews.filter
 join coffeebags on coffeebags.id = brews.coffeebag
 join brewmethods on brewmethods.id = brews.brewmethod
 join grinders on grinders.id = brews.grinder
-where brews.id = 9
+where brews.id = 11
 ;
+
+select filters.brand_name_style from brews
+join filters on filters.id = brews.filter;
 
 select 
 brews.id,

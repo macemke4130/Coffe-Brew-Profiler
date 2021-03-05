@@ -28,7 +28,7 @@ const AllBrews = (props: AllBrewsProps) => {
     return (
         <>
             <Nav />
-            <h1>All Brews Page</h1>
+            <h2>All Your Brews</h2>
             {allBrews?.map(brew => (
                 <div key={brew.id}>
                     <Link to={"/brew/details/" + brew.id}><h4>{brew.coffeename}</h4></Link>

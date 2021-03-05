@@ -31,7 +31,9 @@ export interface ICoffeeBag {
 export interface IBrew {
     id: number,
     _createdat: Date,
+    barista: number,
     roasteddate: Date,
+    filter: string,
     grindsize: number,
     gramspregrind: number,
     gramspostgrind: number,
