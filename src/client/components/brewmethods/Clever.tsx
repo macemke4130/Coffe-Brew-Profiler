@@ -8,8 +8,10 @@ const Clever = (props: CleverProps) => {
     const [theBarista, setTheBarista] = useState<number>(0); // Baristas Table ID --
     const [allCoffeeBags, setAllCoffeeBags] = useState<Array<ICoffeeBag>>([]);
     const [allGrinders, setAllGrinders] = useState<Array<IOption>>([]);
+    const [allFilters, setAllFilters] = useState<Array<IOption>>([]);
     const [theCoffee, setTheCoffee] = useState<number>(0);
     const [theGrinder, setTheGrinder] = useState<number>(1); // Baratza Encore by default --
+    const [theFilter, setTheFilter] = useState<number>(1);
     const [bloomTime, setBloomTime] = useState<number>(0);
     const [bloomWeight, setBloomWeight] = useState<number>(Number(localStorage.getItem("ChemexBloomWeight")) || 0);
     const [grindSize, setGrindSize] = useState<number>(Number(localStorage.getItem("ChemexGrind")) || 0);
@@ -35,13 +37,15 @@ const Clever = (props: CleverProps) => {
         const r1 = apiService('/api/options/grinders');
         const r2 = apiService('/api/users/bloom/'); // Get Default Bloom --
         const r3 = apiService('/api/users/who'); // Get Barista ID --
-        Promise.all([r0, r1, r2, r3])
+        const r4 = apiService('/api/filters/all');
+        Promise.all([r0, r1, r2, r3, r4])
             .then(v => {
                 setAllCoffeeBags(v[0]);
                 setTheCoffee(v[0].length + 1); // Newest Coffee Bag, won't work forever --
                 setAllGrinders(v[1]);
                 setBloomTime(v[2][0].bloom);
                 setTheBarista(v[3]);
+                setAllFilters(v[4]);
             });
     }
 
@@ -51,6 +55,7 @@ const Clever = (props: CleverProps) => {
             barista: theBarista,
             brewmethod: 7, // Chemex --
             coffeebag: theCoffee,
+            filter: theFilter,
             roasteddate: roastedOn,
             grinder: theGrinder,
             grindsize: grindSize,
@@ -72,6 +77,15 @@ const Clever = (props: CleverProps) => {
     const hCoffeeBag = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setTheCoffee(Number(e.target.value));
     }
+
+    const hFilter = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setTheFilter(Number(e.target.value));
+    }
+
+    const hGrinder = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setTheGrinder(Number(e.target.value));
+    }
+
 
     const hRoastedOn = (e: React.ChangeEvent<HTMLInputElement>) => {
         setRoastedOn(e.target.value);
@@ -140,12 +154,19 @@ const Clever = (props: CleverProps) => {
 
                 <label className="mr-2">Roasted On Date:
                 <input type="date" value={roastedOn} onChange={hRoastedOn} className="m-2"></input></label>
-                <label className="mr-2">Grinder: <select className="m-2">
+
+                <label className="mr-2">Filter: <select onChange={hFilter} className="m-2">
+                    {allFilters?.map(filter => (
+                        <option key={filter.id} value={filter.id}>{filter.brand_name_style}</option>
+                    ))}
+                </select></label>
+
+                <label className="mr-2">Grinder: <select onChange={hGrinder} className="m-2">
                     {allGrinders?.map(grind => (
                         <option key={grind.id} value={grind.id}>{grind.name}</option>
                     ))}
-                </select>
-                </label>
+                </select></label>
+
                 <label className="mr-2">Grind Size Setting: 
                 <input type="number" value={grindSize} onChange={hGrindSize} className="m-2"></input></label>
 

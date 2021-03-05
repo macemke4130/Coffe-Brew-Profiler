@@ -9,7 +9,7 @@ import Moment from 'react-moment';
 
 const BrewDetails = (props: BrewDetails) => {
     const { id } = useParams<{ id: string }>();
-    const [loggedIn, setLoggedIn] = useState<number>(0)
+    const [loggedIn, setLoggedIn] = useState<number>(0);
     const [loading, setLoading] = useState<Boolean>(true);
     const [b, setB] = useState<IBrew>();
     const [ratio, setRatio] = useState<number>(0);
@@ -35,7 +35,6 @@ const BrewDetails = (props: BrewDetails) => {
 
         const rBrew = await apiService("/api/brews/details/" + id);
         if (rBrew.status === 418) { // I'm a Teapot! --
-
             const b: IBrew = rBrew.data[0]; // b is for Brew --S
 
             // Do Math with b --
@@ -75,7 +74,7 @@ const BrewDetails = (props: BrewDetails) => {
     }
 
     const hDestroy = async () => {
-        const rDestroy = await apiService("/api/brews/destroy", "PUT", id);
+        const rDestroy = await apiService("/api/brews/destroy", "PUT", {id});
         if (rDestroy.success) history.goBack();
     }
 
@@ -88,7 +87,7 @@ const BrewDetails = (props: BrewDetails) => {
                     <h5>{b.brandname}</h5>
                     <h5>{b.brewmethod}</h5>
                     <p>Roasted on <Moment format="MMMM DD, YYYY">{b.roasteddate}</Moment> and Brewed on <Moment format="MMMM DD, YYYY">{b._createdat}</Moment></p>
-                    <p>{theDelta} days apart.</p>
+                    <p>{theDelta} days since roast.</p>
                 </div>
                 <p>Brew Ratio - Coffee to Water: 1:{ratio}</p>
                 <p>Coffee Filter: {b.filter}</p>
