@@ -14,22 +14,22 @@ const Clever = (props: CleverProps) => {
     // Commons --
     const [theCoffee, setTheCoffee] = useState<number>(Number(localStorage.getItem("CoffeeBag")) || 0);
     const [theGrinder, setTheGrinder] = useState<number>(Number(localStorage.getItem("Grinder")) || 1);
-    const [theFilter, setTheFilter] = useState<number>(Number(localStorage.getItem("Filter")) || 1);
-    const [bloomTime, setBloomTime] = useState<number>(Number(localStorage.getItem("BloomTime")) || 0);
+    const [theFilter, setTheFilter] = useState<number>(Number(localStorage.getItem("CleverFilter")) || 1);
     const [roastedOn, setRoastedOn] = useState<string>(localStorage.getItem("RoastedOn") || "");
 
     // Clever --
+    const [bloomTime, setBloomTime] = useState<number>(Number(localStorage.getItem("CleverBloomTime")) || 0);
     const [bloomWeight, setBloomWeight] = useState<number>(Number(localStorage.getItem("CleverBloomWeight")) || 0);
     const [grindSize, setGrindSize] = useState<number>(Number(localStorage.getItem("CleverGrindSize")) || 0);
     const [gramsPost, setGramsPost] = useState<number>(Number(localStorage.getItem("CleverGrams")) || 0);
     const [waterPre, setWaterPre] = useState<number>(Number(localStorage.getItem("WaterTempPre")) || 212);
     const [waterPost, setWaterPost] = useState<number>(Number(localStorage.getItem("WaterTempPost")) || 0);
     const [brewWeight, setBrewWeight] = useState<number>(Number(localStorage.getItem("CleverBrewWeight")) || 0);
-    const [drawDown, setDrawDown] = useState<number>(Number(localStorage.getItem("CleverDrawdown")) || 0);
-    const [theBrewMinute, setTheBrewMinute] = useState<number>(0);
-    const [theBrewSecond, setTheBrewSecond] = useState<number>(0);
-    const [theDrawDownMinute, setTheDrawDownMinute] = useState<number>(0);
-    const [theDrawDownSecond, setTheDrawDownSecond] = useState<number>(0);
+    
+    const [theDrawDownMinute, setTheDrawDownMinute] = useState<number>(Number(localStorage.getItem("CleverDDM") || 0));
+    const [theDrawDownSecond, setTheDrawDownSecond] = useState<number>(Number(localStorage.getItem("CleverDDS") || 0));
+    const [theBrewMinute, setTheBrewMinute] = useState<number>(Number(localStorage.getItem("CleverBM")) || 0);
+    const [theBrewSecond, setTheBrewSecond] = useState<number>(Number(localStorage.getItem("CleverBS")) || 0);
 
     const [yeild, setYeild] = useState<number>(0);
 
@@ -48,7 +48,6 @@ const Clever = (props: CleverProps) => {
         Promise.all([r0, r1, r2, r3, r4])
             .then(v => {
                 setAllCoffeeBags(v[0]);
-                setTheCoffee(v[0].length + 1); // Newest Coffee Bag, won't work forever --
                 setAllGrinders(v[1]);
                 setBloomTime(v[2][0].bloom);
                 setTheBarista(v[3]);
@@ -88,6 +87,7 @@ const Clever = (props: CleverProps) => {
 
     const hFilter = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setTheFilter(Number(e.target.value));
+        localStorage.setItem("CleverFiler", e.target.value);
     }
 
     const hGrinder = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -101,14 +101,17 @@ const Clever = (props: CleverProps) => {
 
     const hGramsPost = (e: React.ChangeEvent<HTMLInputElement>) => {
         setGramsPost(Number(e.target.value));
+        localStorage.setItem("CleverGrams", e.target.value);
     }
 
     const hWaterPre = (e: React.ChangeEvent<HTMLInputElement>) => {
         setWaterPre(Number(e.target.value));
+        localStorage.setItem("WaterTempPre", e.target.value);
     }
 
     const hWaterPost = (e: React.ChangeEvent<HTMLInputElement>) => {
         setWaterPost(Number(e.target.value));
+        localStorage.setItem("WaterTempPost", e.target.value);
     }
 
     const hGrindSize = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -118,6 +121,7 @@ const Clever = (props: CleverProps) => {
 
     const hBloomTime = (e: React.ChangeEvent<HTMLInputElement>) => {
         setBloomTime(Number(e.target.value));
+        localStorage.setItem("CleverBloomTime", e.target.value);
     }
 
     const hBloomWeight = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -130,28 +134,29 @@ const Clever = (props: CleverProps) => {
         localStorage.setItem("CleverBrewWeight", e.target.value);
     }
 
-    const hDrawDown = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setDrawDown(Number(e.target.value));
-    }
-
     const hYeild = (e: React.ChangeEvent<HTMLInputElement>) => {
         setYeild(Number(e.target.value));
+        localStorage.setItem("CleverYeild", e.target.value);
     }
 
     const hBrewMinute = (e: React.ChangeEvent<HTMLInputElement>) => {
         setTheBrewMinute(Number(e.target.value));
+        localStorage.setItem("CleverBM", e.target.value);
     }
 
     const hBrewSecond = (e: React.ChangeEvent<HTMLInputElement>) => {
         setTheBrewSecond(Number(e.target.value));
+        localStorage.setItem("CleverBS", e.target.value);
     }
 
     const hDrawDownMinute = (e: React.ChangeEvent<HTMLInputElement>) => {
         setTheDrawDownMinute(Number(e.target.value));
+        localStorage.setItem("CleverDDM", e.target.value);
     }
 
     const hDrawDownSecond = (e: React.ChangeEvent<HTMLInputElement>) => {
         setTheDrawDownSecond(Number(e.target.value));
+        localStorage.setItem("CleverDDS", e.target.value);
     }
 
     return (
