@@ -5,27 +5,32 @@ import apiService from '../../utils/api-service';
 import { ICoffeeBag, IOption, IBarista } from '../../utils/types';
 
 const Clever = (props: CleverProps) => {
+    // All Options --
     const [theBarista, setTheBarista] = useState<number>(0); // Baristas Table ID --
     const [allCoffeeBags, setAllCoffeeBags] = useState<Array<ICoffeeBag>>([]);
     const [allGrinders, setAllGrinders] = useState<Array<IOption>>([]);
     const [allFilters, setAllFilters] = useState<Array<IOption>>([]);
-    const [theCoffee, setTheCoffee] = useState<number>(0);
-    const [theGrinder, setTheGrinder] = useState<number>(1); // Baratza Encore by default --
-    const [theFilter, setTheFilter] = useState<number>(1);
-    const [bloomTime, setBloomTime] = useState<number>(0);
-    const [bloomWeight, setBloomWeight] = useState<number>(Number(localStorage.getItem("ChemexBloomWeight")) || 0);
-    const [grindSize, setGrindSize] = useState<number>(Number(localStorage.getItem("ChemexGrind")) || 0);
-    const [gramsPre, setGramsPre] = useState<number>(Number(localStorage.getItem("ChemexGrams")) || 0);
-    const [gramsPost, setGramsPost] = useState<number>(Number(localStorage.getItem("ChemexGrams")) || 0);
-    const [waterPre, setWaterPre] = useState<number>(212);
-    const [waterPost, setWaterPost] = useState<number>(0);
+
+    // Commons --
+    const [theCoffee, setTheCoffee] = useState<number>(Number(localStorage.getItem("CoffeeBag")) || 0);
+    const [theGrinder, setTheGrinder] = useState<number>(Number(localStorage.getItem("Grinder")) || 1);
+    const [theFilter, setTheFilter] = useState<number>(Number(localStorage.getItem("Filter")) || 1);
+    const [bloomTime, setBloomTime] = useState<number>(Number(localStorage.getItem("BloomTime")) || 0);
     const [roastedOn, setRoastedOn] = useState<string>(localStorage.getItem("RoastedOn") || "");
-    const [brewWeight, setBrewWeight] = useState<number>(Number(localStorage.getItem("ChemexBrewWeight")) || 0);
-    const [drawDown, setDrawDown] = useState<number>(0);
+
+    // Clever --
+    const [bloomWeight, setBloomWeight] = useState<number>(Number(localStorage.getItem("CleverBloomWeight")) || 0);
+    const [grindSize, setGrindSize] = useState<number>(Number(localStorage.getItem("CleverGrindSize")) || 0);
+    const [gramsPost, setGramsPost] = useState<number>(Number(localStorage.getItem("CleverGrams")) || 0);
+    const [waterPre, setWaterPre] = useState<number>(Number(localStorage.getItem("WaterTempPre")) || 212);
+    const [waterPost, setWaterPost] = useState<number>(Number(localStorage.getItem("WaterTempPost")) || 0);
+    const [brewWeight, setBrewWeight] = useState<number>(Number(localStorage.getItem("CleverBrewWeight")) || 0);
+    const [drawDown, setDrawDown] = useState<number>(Number(localStorage.getItem("CleverDrawdown")) || 0);
     const [theBrewMinute, setTheBrewMinute] = useState<number>(0);
     const [theBrewSecond, setTheBrewSecond] = useState<number>(0);
+    const [theDrawDownMinute, setTheDrawDownMinute] = useState<number>(0);
+    const [theDrawDownSecond, setTheDrawDownSecond] = useState<number>(0);
 
-    const [brewTime, setBrewTime] = useState<number>(0);
     const [yeild, setYeild] = useState<number>(0);
 
     const history = useHistory();
@@ -53,23 +58,23 @@ const Clever = (props: CleverProps) => {
 
     const hSubmitBrew = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
+
         const bodyObject = {
             barista: theBarista,
-            brewmethod: 7, // Chemex --
+            brewmethod: 7, // Clever --
             coffeebag: theCoffee,
             filter: theFilter,
             roasteddate: roastedOn,
             grinder: theGrinder,
             grindsize: grindSize,
-            gramspregrind: gramsPre,
             gramspostgrind: gramsPost,
             watertempprebrew: waterPre,
             watertemppostbrew: waterPost,
             bloomtimeinsec: bloomTime,
             bloomweight: bloomWeight,
-            brewtimeinsec: brewTime,
+            brewtimeinsec: (theBrewMinute * 60) + theBrewSecond,
             brewweight: brewWeight,
-            drawdown: drawDown,
+            drawdownstart: (theDrawDownMinute * 60) + theDrawDownSecond,
             yeild
         }
         const r = await apiService('/api/brews/new', "POST", bodyObject);
@@ -78,6 +83,7 @@ const Clever = (props: CleverProps) => {
 
     const hCoffeeBag = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setTheCoffee(Number(e.target.value));
+        localStorage.setItem("CoffeeBag", e.target.value);
     }
 
     const hFilter = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -88,16 +94,9 @@ const Clever = (props: CleverProps) => {
         setTheGrinder(Number(e.target.value));
     }
 
-
     const hRoastedOn = (e: React.ChangeEvent<HTMLInputElement>) => {
         setRoastedOn(e.target.value);
         localStorage.setItem("RoastedOn", e.target.value);
-    }
-
-    const hGramsPre = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setGramsPre(Number(e.target.value));
-        setGramsPost(Number(e.target.value));
-        localStorage.setItem("ChemexGrams", e.target.value);
     }
 
     const hGramsPost = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -114,7 +113,7 @@ const Clever = (props: CleverProps) => {
 
     const hGrindSize = (e: React.ChangeEvent<HTMLInputElement>) => {
         setGrindSize(Number(e.target.value));
-        localStorage.setItem("ChemexGrind", e.target.value);
+        localStorage.setItem("CleverGrindSize", e.target.value);
     }
 
     const hBloomTime = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -123,16 +122,12 @@ const Clever = (props: CleverProps) => {
 
     const hBloomWeight = (e: React.ChangeEvent<HTMLInputElement>) => {
         setBloomWeight(Number(e.target.value));
-        localStorage.setItem("ChemexBloomWeight", e.target.value);
+        localStorage.setItem("CleverBloomWeight", e.target.value);
     }
 
     const hBrewWeight = (e: React.ChangeEvent<HTMLInputElement>) => {
         setBrewWeight(Number(e.target.value));
-        localStorage.setItem("ChemexBrewWeight", e.target.value);
-    }
-
-    const hBrewTime = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setBrewTime(Number(e.target.value));
+        localStorage.setItem("CleverBrewWeight", e.target.value);
     }
 
     const hDrawDown = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -145,16 +140,18 @@ const Clever = (props: CleverProps) => {
 
     const hBrewMinute = (e: React.ChangeEvent<HTMLInputElement>) => {
         setTheBrewMinute(Number(e.target.value));
-        handleBrewTime();
     }
 
     const hBrewSecond = (e: React.ChangeEvent<HTMLInputElement>) => {
         setTheBrewSecond(Number(e.target.value));
-        handleBrewTime();
     }
 
-    const handleBrewTime = () => {
-        console.log((theBrewMinute * 60) + theBrewSecond);
+    const hDrawDownMinute = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setTheDrawDownMinute(Number(e.target.value));
+    }
+
+    const hDrawDownSecond = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setTheDrawDownSecond(Number(e.target.value));
     }
 
     return (
@@ -186,10 +183,7 @@ const Clever = (props: CleverProps) => {
                 <label className="mr-2">Grind Size Setting: 
                 <input type="number" value={grindSize} onChange={hGrindSize} className="m-2"></input></label>
 
-                <label className="mr-2">Grams Pre Grind:
-                <input type="number" value={gramsPre} onChange={hGramsPre} className="m-2"></input></label>
-
-                <label className="mr-2">Grind Post Grind:
+                <label className="mr-2">Grams of Coffee:
                 <input type="number" value={gramsPost} onChange={hGramsPost} className="m-2"></input></label>
 
                 <label className="mr-2">Water Temp Pre Brew (F):
@@ -204,8 +198,9 @@ const Clever = (props: CleverProps) => {
                 <label className="mr-2">Brew Weight:
                 <input type="number" value={brewWeight} onChange={hBrewWeight} className="m-2"></input></label>
 
-                <label className="mr-2">Drawdown in Seconds:
-                <input type="number" value={drawDown} onChange={hDrawDown} className="m-2"></input></label>
+                <label className="mr-2">Draw Down Start Time: (Minutes:Seconds)
+                <input type="number" value={theDrawDownMinute} onChange={hDrawDownMinute}></input><span>:</span>
+                <input type="number" value={theDrawDownSecond} onChange={hDrawDownSecond}></input></label>
 
                 <label className="mr-2">Total Brew Duration: (Minutes:Seconds)
                 <input type="number" value={theBrewMinute} onChange={hBrewMinute}></input><span>:</span>

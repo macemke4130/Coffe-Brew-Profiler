@@ -127,6 +127,7 @@ create table brews (
 );
 select * from brews where id = 12;
 alter table brews add drawdown int after brewweight;
+alter table brews add drawdownstart int after drawdown;
 alter table brews add filter int after coffeebag;
 update brews set drawdown = 123 where id = 10;
 

@@ -57,7 +57,6 @@ const Chemex = (props: ChemexProps) => {
             roasteddate: roastedOn,
             grinder: theGrinder,
             grindsize: grindSize,
-            gramspregrind: gramsPre,
             gramspostgrind: gramsPost,
             watertempprebrew: waterPre,
             watertemppostbrew: waterPost,
@@ -82,12 +81,6 @@ const Chemex = (props: ChemexProps) => {
     const hRoastedOn = (e: React.ChangeEvent<HTMLInputElement>) => {
         setRoastedOn(e.target.value);
         localStorage.setItem("RoastedOn", e.target.value);
-    }
-
-    const hGramsPre = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setGramsPre(Number(e.target.value));
-        setGramsPost(Number(e.target.value));
-        localStorage.setItem("ChemexGrams", e.target.value);
     }
 
     const hGramsPost = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -158,10 +151,7 @@ const Chemex = (props: ChemexProps) => {
                 <label className="mr-2">Grind Size Setting: 
                 <input type="number" value={grindSize} onChange={hGrindSize} className="m-2"></input></label>
 
-                <label className="mr-2">Grams Pre Grind:
-                <input type="number" value={gramsPre} onChange={hGramsPre} className="m-2"></input></label>
-
-                <label className="mr-2">Grind Post Grind:
+                <label className="mr-2">Grams of Coffee:
                 <input type="number" value={gramsPost} onChange={hGramsPost} className="m-2"></input></label>
 
                 <label className="mr-2">Water Temp Pre Brew (F):
