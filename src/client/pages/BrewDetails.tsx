@@ -114,7 +114,7 @@ const BrewDetails = (props: BrewDetails) => {
                         {b.barista === loggedIn && <button onClick={hEdit}>Edit Brew</button>}
                     </div>
                     <div className="col-6">
-                        <Compare />
+                        <Compare sourceId={Number(id)} />
                     </div>
                 </div>
             </>

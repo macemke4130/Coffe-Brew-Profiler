@@ -24,6 +24,7 @@ const Compare = (props: CompareProps) => {
     const [coffeeHeld, setCoffeeHeld] = useState<number>(0);
     const [theDelta, setTheDelta] = useState<number>(0);
 
+    const match = props.sourceId;
 
     useEffect(() => {
         DBCalls();
@@ -80,7 +81,6 @@ const Compare = (props: CompareProps) => {
 
             // Set b to State and Re-Render --
             setB(b);
-            console.log(b);
             setLoading(false);
         }
     }
@@ -92,7 +92,7 @@ const Compare = (props: CompareProps) => {
                 <select value={control} onChange={hCompare}>
                     <option value="0">Select a Brew...</option>
                     {compare?.map(brew => (
-                        <option key={brew.id} value={brew.id}>
+                        <option key={brew.id} value={brew.id} disabled={brew.id === match ? true : false}>
                             {dateFormat(brew._createdat)} - {brew.coffeename} - {brew.brewmethod}
                         </option>
                     ))}
@@ -135,6 +135,8 @@ const Compare = (props: CompareProps) => {
     }
 };
 
-interface CompareProps { }
+interface CompareProps {
+    sourceId: number
+ }
 
 export default Compare;
