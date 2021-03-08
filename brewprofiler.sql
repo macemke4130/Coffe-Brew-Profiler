@@ -125,11 +125,16 @@ create table brews (
 	brewphoto int,
 		foreign key (brewphoto) references brewphotos (id)
 );
-select * from brews where id = 12;
+select * from brews;
+select id from brews where id = (select min(id) from brews where is_active = 1 and id > 14); # Next Active Brew from ID 14 --
 alter table brews add drawdown int after brewweight;
 alter table brews add drawdownstart int after drawdown;
 alter table brews add filter int after coffeebag;
 update brews set drawdown = 123 where id = 10;
+
+select brews.id, coffeebags.name, brewmethods.name, brews._createdat from brews
+join coffeebags on coffeebags.id = brews.coffeebag
+join brewmethods on brewmethods.id = brews.brewmethod;
 
 select DATEDIFF((select _createdat from brews where id = 10), (select roasteddate from brews where id = 10));
 

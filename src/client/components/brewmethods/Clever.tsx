@@ -40,11 +40,11 @@ const Clever = (props: CleverProps) => {
     }, []);
 
     const DBCalls = async () => {
-        const r0 = apiService('/api/coffee/all/list/');
-        const r1 = apiService('/api/options/grinders');
+        const r0 = apiService('/api/coffee/all/list/'); // List of Coffee Bags --
+        const r1 = apiService('/api/options/grinders'); // List of Grinders --
         const r2 = apiService('/api/users/bloom/'); // Get Default Bloom --
         const r3 = apiService('/api/users/who'); // Get Barista ID --
-        const r4 = apiService('/api/filters/all');
+        const r4 = apiService('/api/filters/all'); // List of Filters --
         Promise.all([r0, r1, r2, r3, r4])
             .then(v => {
                 setAllCoffeeBags(v[0]);
@@ -87,7 +87,7 @@ const Clever = (props: CleverProps) => {
 
     const hFilter = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setTheFilter(Number(e.target.value));
-        localStorage.setItem("CleverFiler", e.target.value);
+        localStorage.setItem("CleverFilter", e.target.value);
     }
 
     const hGrinder = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -173,7 +173,7 @@ const Clever = (props: CleverProps) => {
                 <label className="mr-2">Roasted On Date:
                 <input type="date" value={roastedOn} onChange={hRoastedOn} className="m-2"></input></label>
 
-                <label className="mr-2">Filter: <select onChange={hFilter} className="m-2">
+                <label className="mr-2">Filter: <select value={theFilter} onChange={hFilter} className="m-2">
                     {allFilters?.map(filter => (
                         <option key={filter.id} value={filter.id}>{filter.brand_name_style}</option>
                     ))}

@@ -6,6 +6,7 @@ import { ICoffeeBag, IOption, IBarista, IBrew } from '../utils/types';
 import Nav from '../components/Nav';
 import Loading from '../components/Loading';
 import Moment from 'react-moment';
+import Compare from '../components/Compare';
 
 const BrewDetails = (props: BrewDetails) => {
     const { id } = useParams<{ id: string }>();
@@ -79,34 +80,43 @@ const BrewDetails = (props: BrewDetails) => {
     }
 
     const hEdit = async () => {
-        
+
     }
 
     if (loading === true) { return (<><Nav /><Loading /></>) } else {
         return (
             <>
                 <Nav />
-                <div>
-                    <h4>{b.coffeename}</h4>
-                    <h5>{b.brandname}</h5>
-                    <h5>{b.brewmethod}</h5>
-                    <p>Roasted on <Moment format="MMMM DD, YYYY">{b.roasteddate}</Moment> and Brewed on <Moment format="MMMM DD, YYYY">{b._createdat}</Moment></p>
-                    <p>{theDelta} days since roast.</p>
+                <div className="row">
+                    <div className="col-6">
+                        <div>
+                            <h4>{b.coffeename}</h4>
+                            <h5>{b.brandname}</h5>
+                            <h5>{b.brewmethod}</h5>
+                            <p>Roasted on <Moment format="MMMM DD, YYYY">{b.roasteddate}</Moment><br></br>
+                    Brewed on <Moment format="MMMM DD, YYYY">{b._createdat}</Moment></p>
+                            <p>{theDelta} days since roast.</p>
+                        </div>
+                        <p>Brew Ratio - Coffee to Water: 1:{ratio}</p>
+                        <p>Coffee Filter: {b.filter}</p>
+                        <p>{b.grinder} at setting {b.grindsize}</p>
+                        <p>{b.gramspostgrind} grams of Coffee</p>
+                        <p>{b.watertempprebrew} Degrees Farenheight beginning Water temp.</p>
+                        <p>{b.bloomtimeinsec} second Bloom. {bloomToBrewTimePercent}% of total Brew Time.</p>
+                        <p>{b.bloomweight} grams of water in Bloom.<br></br>
+                            {bloomToBrewWeightPercent}% of total Brew weight.</p>
+                        <p>Brew Time: {brewTime}</p>
+                        <p>Brew Weight: {b.brewweight} grams</p>
+                        {b.drawdownstart && <p>Draw Down Duration: {drawDown} - {drawDowntoBrewPercent}% of total Brew Time.</p>}
+                        <p>Coffee Yeild: {b.yeild} grams - {yeildPercent}% of Total Brew Weight</p>
+                        <p>{coffeeHeld} grams / ml of water lost in grounds.</p>
+                        {b.barista === loggedIn && <button onClick={hDestroy}>Delete Brew</button>}
+                        {b.barista === loggedIn && <button onClick={hEdit}>Edit Brew</button>}
+                    </div>
+                    <div className="col-6">
+                        <Compare />
+                    </div>
                 </div>
-                <p>Brew Ratio - Coffee to Water: 1:{ratio}</p>
-                <p>Coffee Filter: {b.filter}</p>
-                <p>{b.grinder} at setting {b.grindsize}</p>
-                <p>{b.gramspostgrind} grams of Coffee</p>
-                <p>{b.watertempprebrew} Degrees Farenheight beginning Water temp.</p>
-                <p>{b.bloomtimeinsec} second Bloom. {bloomToBrewTimePercent}% of total Brew Time.</p>
-                <p>{b.bloomweight} grams of water in Bloom. {bloomToBrewWeightPercent}% of total Brew weight.</p>
-                <p>Brew Time: {brewTime}</p>
-                <p>Brew Weight: {b.brewweight} grams</p>
-                {b.drawdownstart && <p>Draw Down Duration: {drawDown} - {drawDowntoBrewPercent}% of total Brew Time.</p>}
-                <p>Coffee Yeild: {b.yeild} grams - {yeildPercent}% of Total Brew Weight</p>
-                <p>{coffeeHeld} grams / ml of water lost in grounds.</p>
-                    {b.barista === loggedIn && <button onClick={hDestroy}>Delete Brew</button>}
-                    {b.barista === loggedIn && <button onClick={hEdit}>Edit Brew</button>}
             </>
         );
     }

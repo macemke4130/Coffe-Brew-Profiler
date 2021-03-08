@@ -28,9 +28,18 @@ router.get('/delta/:id', passport.authenticate('jwt'), async (req, res) => {
     }
 });
 
+router.get('/list/', passport.authenticate('jwt'), async (req: ReqUser, res) => {
+    try {
+        const listBrews = await db.brews.list(req.user.id);
+        res.status(200).json(listBrews);
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({ message: "nope", e});
+    }
+});
+
 router.get('/all/', passport.authenticate('jwt'), async (req: ReqUser, res) => {
     try {
-        // const barista = Number(req.params.barista);
         const getAllBrews = await db.brews.all(req.user.id);
         res.status(200).json(getAllBrews);
     } catch (e) {
