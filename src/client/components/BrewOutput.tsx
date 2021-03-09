@@ -5,6 +5,7 @@ import Moment from 'react-moment';
 
 import Loading from './Loading';
 import apiService from '../utils/api-service';
+import formatFromSeconds from '../utils/formatFromSeconds';
 import { IBrew, ICoffeeBag } from '../utils/types';
 
 const BrewOutput = (props: BrewOutputProps) => {
@@ -38,7 +39,7 @@ const BrewOutput = (props: BrewOutputProps) => {
             const b: IBrew = rBrew.data[0]; // b is for Brew --
 
             // Do Math with b --
-            setBrewTime(Math.floor(b.brewtimeinsec / 60) + ":" + (b.brewtimeinsec % 60));
+            setBrewTime(formatFromSeconds(b.brewtimeinsec));
 
             const btbWeight = (b.bloomweight / b.brewtimeinsec * 100).toFixed(2);
             setBloomToBrewWeightPercent(Number(btbWeight));
@@ -57,7 +58,7 @@ const BrewOutput = (props: BrewOutputProps) => {
 
             if (b.drawdownstart) {
                 const drawDownDuration = b.brewtimeinsec - b.drawdownstart;
-                const drawDownTimeFormat = Math.floor(drawDownDuration / 60) + ":" + (drawDownDuration % 60);
+                const drawDownTimeFormat = formatFromSeconds(drawDownDuration);
 
                 setDrawDown(drawDownTimeFormat);
                 setDrawDowntoBrewPercent(Number(((drawDownDuration / b.brewtimeinsec) * 100).toFixed(2)));
@@ -90,21 +91,21 @@ const BrewOutput = (props: BrewOutputProps) => {
                 <p>Roasted on <Moment format="MMMM DD, YYYY">{b.roasteddate}</Moment><br></br>
                         Brewed on <Moment format="MMMM DD, YYYY">{b._createdat}</Moment><br></br>
                     {theDelta} days since roast</p>
-                <p>Coffee Filter: {b.filter}</p>
-                <p>{b.grinder} at setting {b.grindsize}</p>
-                <p>Coffee Grams: {b.gramspostgrind}<br></br>Brew Ratio: {ratio}</p>
-                <p>Beginning Water Temp: {b.watertempprebrew}°F</p>
-                <p>Bloom Time: {b.bloomtimeinsec} seconds<br></br>
-                    {bloomToBrewTimePercent}% of total Brew Time</p>
-                <p>Bloom Water Weight: {b.bloomweight} grams / ml<br></br>
-                    {bloomToBrewWeightPercent}% of total Brew weight</p>
-                <p>Brew Duration: {brewTime}<br></br>
-                Brew Weight: {b.brewweight} grams / ml</p>
-                { b.drawdownstart && <p>Draw Down Duration: {drawDown}<br></br>
-                    {drawDowntoBrewPercent}% of total Brew Duration</p>}
-                <p>Coffee Yeild: {b.yeild} grams / ml<br></br>
-                    {yeildPercent}% of Total Brew Water Weight<br></br>
-                    Water Loss: {coffeeHeld} grams / ml</p>
+                <p>Coffee Filter: {b.filter}<br></br>
+                    {b.grinder} at setting {b.grindsize}</p>
+                <p>Coffee Grams: <strong>{b.gramspostgrind}</strong><br></br>Brew Ratio: <strong>{ratio}</strong></p>
+                <p>Beginning Water Temp: <strong>{b.watertempprebrew}</strong>°F</p>
+                <p>Bloom Time: <strong>{b.bloomtimeinsec}</strong> seconds<br></br>
+                    <strong>{bloomToBrewTimePercent}</strong>% of total Brew Time</p>
+                <p>Bloom Water: <strong>{b.bloomweight}</strong> grams / ml<br></br>
+                    <strong>{bloomToBrewWeightPercent}</strong>% of total Brew weight</p>
+                <p>Brew Duration: <strong>{brewTime}</strong><br></br>
+                Brew Weight: <strong>{b.brewweight}</strong> grams / ml</p>
+                { b.drawdownstart && <p>Draw Down Duration: <strong>{drawDown}</strong><br></br>
+                    <strong>{drawDowntoBrewPercent}</strong>% of total Brew Duration</p>}
+                <p>Coffee Yeild: <strong>{b.yeild}</strong> grams / ml<br></br>
+                    <strong>{yeildPercent}</strong>% of Total Brew Water Weight<br></br>
+                    Water Loss: <strong>{coffeeHeld}</strong> grams / ml</p>
             </>
         );
     }
