@@ -1,16 +1,17 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 
 import Nav from '../components/Nav';
 import apiService from '../utils/api-service';
-import { IOption } from '../utils/types';
+import { ICoffeeBag, IOption } from '../utils/types';
 
-const NewCoffeeBag = (props: NewCoffeeBagProps) => {
+const EditCoffeeBag = (props: EditCoffeeBagProps) => {
+    const { id } = useParams<{ id: string }>();
     const [allBrands, setAllBrands] = useState<Array<IOption>>([]);
     const [allProcesses, setAllProcesses] = useState<Array<IOption>>([]);
 
-    
+    const [bag, setBag] = useState<ICoffeeBag>();
 
     const [theBrand, setTheBrand] = useState<string>('');
     const [theProcess, setTheProcess] = useState<number>(0);
@@ -32,11 +33,16 @@ const NewCoffeeBag = (props: NewCoffeeBagProps) => {
         const rBrands = apiService("/api/options/brands");
         const rProcesses = apiService("/api/options/processes");
         const rWho = apiService("/api/users/who");
-        Promise.all([rBrands, rProcesses, rWho])
+        const rCoffeeBag = apiService("/api/coffee/editbag/" + id); // Does not exist yet --
+        Promise.all([rBrands, rProcesses, rWho, rCoffeeBag])
             .then(v => {
                 setAllBrands(v[0]);
                 setAllProcesses(v[1]);
                 setTheBarista(v[2]);
+                setTheCoffee(v[3][0].coffeename);
+                setTheRegion(v[3][0].region);
+                setTheCultivar(v[3][0].breed);
+                setTheElevation(v[3][0].elevation);
             })
     }
 
@@ -88,7 +94,6 @@ const NewCoffeeBag = (props: NewCoffeeBagProps) => {
     return (
         <>
             <Nav />
-            <h1>CoffeeBag Page</h1>
             <form className="d-flex flex-column">
                 <select onChange={hBrand}>
                     <option>-- Please Select Coffee Roaster --</option>
@@ -117,6 +122,6 @@ const NewCoffeeBag = (props: NewCoffeeBagProps) => {
     );
 };
 
-interface NewCoffeeBagProps { }
+interface EditCoffeeBagProps { }
 
-export default NewCoffeeBag;
+export default EditCoffeeBag;

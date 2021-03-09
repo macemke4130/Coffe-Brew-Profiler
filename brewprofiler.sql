@@ -79,6 +79,7 @@ create table coffeebags (
 		foreign key (process) references processes (id),
     blend bool
 );
+select * from coffeebags;
 
 drop table filters;
 create table filters (

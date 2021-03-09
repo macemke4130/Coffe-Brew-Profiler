@@ -18,6 +18,7 @@ import AllBrews from './pages/AllBrews';
 import BrewDetails from './pages/BrewDetails';
 import NewFilter from './pages/NewFilter';
 import AllFilters from './pages/AllFilters';
+import EditCoffeeBag from './pages/EditCoffeeBag';
 
 const App = (props: AppProps) => {
 return (
@@ -46,6 +47,9 @@ return (
 				</PrivateRoute>
 				<PrivateRoute path="/coffeebags/all">
 					<AllCoffeeBags />
+				</PrivateRoute>
+				<PrivateRoute path="/coffeebags/edit/:id">
+					<EditCoffeeBag />
 				</PrivateRoute>
 				<PrivateRoute path="/coffeebags/:id">
 					<SingleCoffeeBag />

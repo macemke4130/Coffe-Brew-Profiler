@@ -34,18 +34,21 @@ const SingleCoffeeBag = (props: SingleCoffeeBagProps) => {
         }
     }
 
+    const hEditCoffee = () => {
+        history.push("/coffeebags/edit/" + id);
+    }
+
     return (
         <>
             <Nav />
-            <h1>Single CoffeeBag Page</h1>
             <h4>{bag?.coffeename}</h4>
-            <p>{bag?.brand}</p>
-            <p>{bag?.breed}</p>
-            <p>{bag?.process}</p>
-            <p>{bag?.region}</p>
-            <p>{bag?.elevation}</p>
-            {isOwner && <button>Edit Coffee Bag</button>}
-            {isOwner && <button>Delete Coffee Bag</button>}
+            <h6>{bag?.brand}</h6>
+            {bag?.breed != "" ? <p>Breed: {bag?.breed}</p> : ""}
+            {bag?.process != "None" ? <p>Process: {bag?.process}</p> : ""}
+            {bag?.region != "" ? <p>Region: {bag?.region}</p> : ""}
+            {bag?.elevation != 0 ? <p>Elevation: {bag?.elevation} Meters Above Sea Level</p> : ""}
+            {isOwner && <button onClick={hEditCoffee}>Edit Coffee Bag</button>}
+            {isOwner && <button>Empty Coffee Bag</button>}
         </>
     );
 };

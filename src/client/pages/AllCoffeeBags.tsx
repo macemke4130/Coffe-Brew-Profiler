@@ -28,13 +28,11 @@ const AllCoffeeBags = (props: AllCoffeeBagsProps) => {
     return (
         <>
             <Nav />
-            <h1>CoffeeBag Page</h1>
+            <h2>Coffees in your Kitchen</h2>
             {allCoffeeBags?.map(bag => (
                 <div key={bag.id}>
                     <Link to={"/coffeebags/" + bag.id}><h4>{bag.coffeename}</h4></Link>
-                    <p>{bag.brand}</p>
-                    <p>{bag.region}</p>
-                    <p>{bag.breed}</p>
+                    <h6>{bag.brand}</h6>
                     <hr></hr>
                 </div>
             ))}
