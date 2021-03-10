@@ -92,20 +92,21 @@ const BrewOutput = (props: BrewOutputProps) => {
                         Brewed on <Moment format="MMMM DD, YYYY">{b._createdat}</Moment><br></br>
                     {theDelta} days since roast</p>
                 <p>Coffee Filter: {b.filter}<br></br>
-                    {b.grinder} at setting {b.grindsize}</p>
-                <p>Coffee Grams: <strong>{b.gramspostgrind}</strong><br></br>Brew Ratio: <strong>{ratio}</strong></p>
+                    {b.grinder} Setting: <strong>{b.grindsize}</strong></p>
+                <p>Coffee: <strong>{b.gramspostgrind}</strong> grams<br></br>Water: <strong>{b.brewweight}</strong> grams / ml<br></br>Brew Ratio: <strong>1:{ratio}</strong></p>
                 <p>Beginning Water Temp: <strong>{b.watertempprebrew}</strong>°F</p>
                 <p>Bloom Time: <strong>{b.bloomtimeinsec}</strong> seconds<br></br>
                     <strong>{bloomToBrewTimePercent}</strong>% of total Brew Time</p>
                 <p>Bloom Water: <strong>{b.bloomweight}</strong> grams / ml<br></br>
                     <strong>{bloomToBrewWeightPercent}</strong>% of total Brew weight</p>
-                <p>Brew Duration: <strong>{brewTime}</strong><br></br>
-                Brew Weight: <strong>{b.brewweight}</strong> grams / ml</p>
+                <p>Brew Duration: <strong>{brewTime}</strong></p>
                 { b.drawdownstart && <p>Draw Down Duration: <strong>{drawDown}</strong><br></br>
                     <strong>{drawDowntoBrewPercent}</strong>% of total Brew Duration</p>}
                 <p>Coffee Yeild: <strong>{b.yeild}</strong> grams / ml<br></br>
                     <strong>{yeildPercent}</strong>% of Total Brew Water Weight<br></br>
                     Water Loss: <strong>{coffeeHeld}</strong> grams / ml</p>
+                    {loggedIn === b.barista ? <button onClick={hDestroy}>Delete Brew</button> : ""}
+                    {loggedIn === b.barista ? <button onClick={hEdit}>Add Notes / Edit Brew</button> : ""}
             </>
         );
     }

@@ -3,12 +3,10 @@ import { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 
 import Nav from '../components/Nav';
-import Chemex from '../components/brewmethods/Chemex';
-
-import apiService from '../utils/api-service';
-import { IOption } from '../utils/types';
 import SelectBrewMethod from '../components/brewmethods/SelectBrewMethod';
+import Chemex from '../components/brewmethods/Chemex';
 import Clever from '../components/brewmethods/Clever';
+import KalitaWave from '../components/brewmethods/KalitaWave';
 
 const NewBrew = (props: NewBrewProps) => {
     const [theView, setTheView] = useState<number>(0);
@@ -72,7 +70,7 @@ const NewBrew = (props: NewBrewProps) => {
             return (
                 <>
                     <Nav />
-                    <h1>Kalita Wave</h1>
+                    <KalitaWave />
                 </>
             )
             break;

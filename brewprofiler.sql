@@ -132,6 +132,10 @@ alter table brews add drawdown int after brewweight;
 alter table brews add drawdownstart int after drawdown;
 alter table brews add filter int after coffeebag;
 update brews set drawdown = 123 where id = 10;
+select count(id) from brews where is_active = 1 and barista = 1; # Number of Brews --
+select sum(brewtimeinsec) from brews where is_active = 1 and barista = 1; #Number of Seconds Brewing --
+select sum(gramspostgrind) from brews where is_active = 1 and barista = 1; #Total Grams of Coffee Used --
+select sum(brewweight) from brews where is_active = 1 and barista = 1;
 
 select brews.id, coffeebags.name, brewmethods.name, brews._createdat from brews
 join coffeebags on coffeebags.id = brews.coffeebag
