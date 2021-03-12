@@ -50,7 +50,9 @@ export interface IBrew {
     coffeename: string,
     grinder: string,
     brewmethod: string,
-    brandname: string
+    brandname: string,
+    tastingnote: string,
+    brewingnote: string
 }
 
 

@@ -100,6 +100,10 @@ const BrewOutput = (props: BrewOutputProps) => {
                 <p>Coffee Yeild: <strong>{b.yeild}</strong> grams / ml<br></br>
                     <strong>{yeildPercent}</strong>% of Total Brew Water Weight<br></br>
                     Water Loss: <strong>{coffeeHeld}</strong> grams / ml</p>
+                    {b.tastingnote && <p>Tasting Notes: <br></br>
+                    {b.tastingnote}</p> }
+                    {b.brewingnote && <p>Brewing Notes: <br></br>
+                    {b.brewingnote}</p> }
                     {loggedIn === b.barista ? <button onClick={hEdit}>Add Notes / Edit Brew</button> : ""}
             </>
         );

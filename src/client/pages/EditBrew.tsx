@@ -113,8 +113,8 @@ const EditBrew = (props: EditBrewProps) => {
             brewweight: brewWeight,
             drawdownstart: (theDrawDownMinute * 60) + theDrawDownSecond,
             yeild,
-            tastingnotes: theTastingNote,
-            brewingnotes: theBrewingNote // Tasting and Brewing Notes need to be inside the BREWS table --
+            tastingnote: theTastingNote,
+            brewingnote: theBrewingNote
         }
         const r = await apiService('/api/brews/edit/', "PUT", bodyObject);
         if (r) history.push("/brew/details/" + id);

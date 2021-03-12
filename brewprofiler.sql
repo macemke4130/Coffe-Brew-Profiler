@@ -102,11 +102,13 @@ create table tastingnotes (
 	id int primary key auto_increment not null,
     notes varchar(10000)
 );
+drop table tastingnotes;
 
 create table brewnotes (
 	id int primary key auto_increment not null,
     notes varchar(10000)
 );
+drop table brewnotes;
 
 drop table brews;
 create table brews (
@@ -123,7 +125,6 @@ create table brews (
     grinder int,
 		foreign key (grinder) references grinders (id),
 	grindsize tinyint(1),
-    gramspregrind decimal(5, 2),
     gramspostgrind decimal(5, 2),
     watertempprebrew decimal(5, 2),
     watertemppostbrew decimal(5, 2),
@@ -132,19 +133,18 @@ create table brews (
     brewtimeinsec int,
     brewweight decimal(5, 2),
     yeild decimal(5, 2),
-    tastingnote int,
-		foreign key (tastingnote) references tastingnotes (id),
 	brewphoto int,
 		foreign key (brewphoto) references brewphotos (id)
 );
+alter table brews add tastingnote varchar(10000) after yeild;
+alter table brews add brewingnote varchar(10000) after tastingnote;
+
 select * from brews;
-select id from brews where id = (select min(id) from brews where is_active = 1 and id > 14); # Next Active Brew from ID 14 --
-alter table brews add drawdown int after brewweight;
+
 alter table brews add drawdownstart int after drawdown;
 alter table brews add filter int after coffeebag;
-alter table brews add brewnote int after tastingnote;
-alter table brews add constraint foreign key (brewnote) references brewnotes(id);
-update brews set drawdown = 123 where id = 10;
+
+select id from brews where id = (select min(id) from brews where is_active = 1 and id > 14); # Next Active Brew from ID 14 --
 select count(id) from brews where is_active = 1 and barista = 1; # Number of Brews --
 select sum(brewtimeinsec) from brews where is_active = 1 and barista = 1; #Number of Seconds Brewing --
 select sum(gramspostgrind) from brews where is_active = 1 and barista = 1; #Total Grams of Coffee Used --
