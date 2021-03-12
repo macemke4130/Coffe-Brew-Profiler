@@ -34,6 +34,11 @@ insert into brewmethods (name) values
 ("Chemex"), ("Hario V60"), ("Kona"), ("Aero-Press"),
 ("French Press"), ("Kalita Wave"), ("Clever");
 
+alter table brewmethods add is_active bool after name;
+update brewmethods set is_active = 1 where id = 1 or id = 2 or id = 6 or id = 7;
+update brewmethods set is_active = 0 where id = 2 or id = 3 or id = 4 or id = 5;
+select * from brewmethods;
+
 create table brands (
 	id int primary key auto_increment not null,
     name varchar(64) not null
@@ -97,6 +102,12 @@ create table tastingnotes (
 	id int primary key auto_increment not null,
     notes varchar(10000)
 );
+
+create table brewnotes (
+	id int primary key auto_increment not null,
+    notes varchar(10000)
+);
+
 drop table brews;
 create table brews (
 	id int primary key auto_increment not null,
@@ -131,11 +142,13 @@ select id from brews where id = (select min(id) from brews where is_active = 1 a
 alter table brews add drawdown int after brewweight;
 alter table brews add drawdownstart int after drawdown;
 alter table brews add filter int after coffeebag;
+alter table brews add brewnote int after tastingnote;
+alter table brews add constraint foreign key (brewnote) references brewnotes(id);
 update brews set drawdown = 123 where id = 10;
 select count(id) from brews where is_active = 1 and barista = 1; # Number of Brews --
 select sum(brewtimeinsec) from brews where is_active = 1 and barista = 1; #Number of Seconds Brewing --
 select sum(gramspostgrind) from brews where is_active = 1 and barista = 1; #Total Grams of Coffee Used --
-select sum(brewweight) from brews where is_active = 1 and barista = 1;
+select sum(brewweight) from brews where is_active = 1 and barista = 1; #ML of Water --
 
 select brews.id, coffeebags.name, brewmethods.name, brews._createdat from brews
 join coffeebags on coffeebags.id = brews.coffeebag

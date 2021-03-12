@@ -4,7 +4,9 @@ import { MySQLResponse } from '../models';
 
 const all = (id: number) => Query("select brews.id, brews._createdat, brewmethods.name as brewmethod, coffeebags.name as coffeename from brews 	join brewmethods on brewmethods.id = brews.brewmethod join coffeebags on coffeebags.id = brews.coffeebag where brews.barista = ? and brews.is_active = 1 order by brews.id desc", [id]);
 const list = (barista: number) => Query('select brews.id, coffeebags.name as coffeename, brewmethods.name as brewmethod, brews._createdat from brews join coffeebags on coffeebags.id = brews.coffeebag join brewmethods on brewmethods.id = brews.brewmethod where brews.barista = ? and brews.is_active = 1 order by brews.id desc limit 10', [barista]);
+const editPull = (id: number) => Query('select * from brews where id = ?', [id]);
 const insertBrew = (newBrew: IBrew) => Query<MySQLResponse>('Insert into brews set ?', [newBrew]);
+const editBrew = (editedBrew: IBrew, id: number) => Query('update brews set ? where id = ?', [editedBrew, id]);
 const destroy = (id: number) => Query('update brews set is_active = 0 where id = ?', [id]);
 const delta = (id1: number, id2: number) => Query('select DATEDIFF((select _createdat from brews where id = ?), (select roasteddate from brews where id = ?)) as delta', [id1, id2]);
 
@@ -13,7 +15,9 @@ const one = (subquery: number, brewid: number) => Query(`select brews.id, brews.
 export default {
     all,
     list,
+    editPull,
     insertBrew,
+    editBrew,
     destroy,
     delta,
     one

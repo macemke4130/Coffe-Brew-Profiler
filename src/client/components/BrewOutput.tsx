@@ -74,13 +74,8 @@ const BrewOutput = (props: BrewOutputProps) => {
         }
     }
 
-    const hDestroy = async () => {
-        const rDestroy = await apiService("/api/brews/destroy", "PUT", { id });
-        if (rDestroy.success) history.goBack();
-    }
-
     const hEdit = async () => {
-
+        history.push('/brew/edit/' + id);
     }
 
     if (loading === true) { return (<><Loading /></>) } else {
@@ -105,7 +100,6 @@ const BrewOutput = (props: BrewOutputProps) => {
                 <p>Coffee Yeild: <strong>{b.yeild}</strong> grams / ml<br></br>
                     <strong>{yeildPercent}</strong>% of Total Brew Water Weight<br></br>
                     Water Loss: <strong>{coffeeHeld}</strong> grams / ml</p>
-                    {loggedIn === b.barista ? <button onClick={hDestroy}>Delete Brew</button> : ""}
                     {loggedIn === b.barista ? <button onClick={hEdit}>Add Notes / Edit Brew</button> : ""}
             </>
         );

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 // Import Custom Components --
@@ -19,6 +18,7 @@ import BrewDetails from './pages/BrewDetails';
 import NewFilter from './pages/NewFilter';
 import AllFilters from './pages/AllFilters';
 import EditCoffeeBag from './pages/EditCoffeeBag';
+import EditBrew from './pages/EditBrew';
 
 const App = (props: AppProps) => {
 return (
@@ -44,6 +44,9 @@ return (
 				</PrivateRoute>
 				<PrivateRoute path="/brew/details/:id">
 					<BrewDetails />
+				</PrivateRoute>
+				<PrivateRoute path="/brew/edit/:id">
+					<EditBrew />
 				</PrivateRoute>
 				<PrivateRoute path="/coffeebags/all">
 					<AllCoffeeBags />

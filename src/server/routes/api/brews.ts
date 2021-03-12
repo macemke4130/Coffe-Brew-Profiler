@@ -48,6 +48,16 @@ router.get('/all/', passport.authenticate('jwt'), async (req: ReqUser, res) => {
     }
 });
 
+router.get('/editpull/:coffee', passport.authenticate('jwt'), async (req, res) => {
+    try {
+        const editPull = await db.brews.editPull(Number(req.params.coffee));
+        res.status(200).json(editPull);
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({ message: "nope", e});
+    }
+});
+
 router.post('/new', passport.authenticate('jwt'), async (req, res) => {
     try {
         console.log(req.body);
@@ -63,6 +73,16 @@ router.put('/destroy', passport.authenticate('jwt'), async (req, res) => {
     try {
         const destroy = await db.brews.destroy(req.body.id);
         res.status(200).json({ success: 1, destroy });
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({ message: "nope", e});
+    }
+});
+
+router.put('/edit', passport.authenticate('jwt'), async (req, res) => {
+    try {
+        const editBrew = await db.brews.editBrew(req.body, Number(req.body.id));
+        res.status(200).json({ success: 1, editBrew });
     } catch (e) {
         console.log(e);
         res.status(500).json({ message: "nope", e});

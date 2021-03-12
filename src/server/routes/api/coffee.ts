@@ -15,6 +15,26 @@ router.get('/bag/:coffee', async (req, res) => {
     }
 });
 
+router.get('/editpull/:coffee', async (req, res) => {
+    try {
+        const editPull = await db.coffee.editPull(Number(req.params.coffee));
+        res.json(editPull);
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({ message: "nope", e});
+    }
+});
+
+router.put('/editbag/:coffee', async (req, res) => {
+    try {
+        const editCoffee = await db.coffee.edit(Number(req.params.coffee), req.body);
+        res.json(editCoffee);
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({ message: "nope", e});
+    }
+});
+
 router.get('/all/list', passport.authenticate('jwt'), async (req: ReqUser, res) => {
     try {
         const allMyCoffeeList = await db.coffee.allMyCoffeeList(Number(req.user.id));

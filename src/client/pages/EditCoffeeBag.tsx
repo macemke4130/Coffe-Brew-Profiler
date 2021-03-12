@@ -33,17 +33,20 @@ const EditCoffeeBag = (props: EditCoffeeBagProps) => {
         const rBrands = apiService("/api/options/brands");
         const rProcesses = apiService("/api/options/processes");
         const rWho = apiService("/api/users/who");
-        const rCoffeeBag = apiService("/api/coffee/editbag/" + id); // Does not exist yet --
+        const rCoffeeBag = apiService("/api/coffee/editpull/" + id);
         Promise.all([rBrands, rProcesses, rWho, rCoffeeBag])
             .then(v => {
                 setAllBrands(v[0]);
                 setAllProcesses(v[1]);
                 setTheBarista(v[2]);
-                setTheCoffee(v[3][0].coffeename);
+                setTheBrand(v[3][0].brand);
+                setTheCoffee(v[3][0].name);
                 setTheRegion(v[3][0].region);
                 setTheCultivar(v[3][0].breed);
-                setTheElevation(v[3][0].elevation);
-            })
+                setTheElevation(v[3][0].elevationabovesealevelinmeters);
+                setTheProcess(v[3][0].process);
+                setTheBlend(v[3][0].blend);
+            });
     }
 
     const hBrand = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -84,24 +87,23 @@ const EditCoffeeBag = (props: EditCoffeeBagProps) => {
             elevationabovesealevelinmeters: theElevation,
             breed: theCultivar,
             process: processCatch,
-            blend: theBlend,
-            barista: theBarista
+            blend: theBlend
         }
-        const r = await apiService("/api/coffee/new", "POST", bodyObject);
-        if (r.serverStatus === 2) history.push('/coffeebag/' + r.insertId);
+        const r = await apiService("/api/coffee/editbag/" + id, "PUT", bodyObject);
+        if (r) history.push('/coffeebags/' + id);
     }
 
     return (
         <>
             <Nav />
             <form className="d-flex flex-column">
-                <select onChange={hBrand}>
+                <select value={theBrand} onChange={hBrand}>
                     <option>-- Please Select Coffee Roaster --</option>
                     {allBrands?.map(brand => (
                         <option key={brand.id} value={brand.id}>{brand.name}</option>
                     ))}
                 </select>
-                <select onChange={hProcess}>
+                <select value={theProcess} onChange={hProcess}>
                     <option>-- Please Select Process --</option>
                     {allProcesses?.map(process => (
                         <option key={process.id} value={process.id}>{process.name}</option>
