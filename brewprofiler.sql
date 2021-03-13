@@ -39,13 +39,16 @@ update brewmethods set is_active = 1 where id = 1 or id = 2 or id = 6 or id = 7;
 update brewmethods set is_active = 0 where id = 2 or id = 3 or id = 4 or id = 5;
 select * from brewmethods;
 
-create table brands (
+create table brands ( # Roasters --
 	id int primary key auto_increment not null,
     name varchar(64) not null
 );
+alter table brands add column barista int after name;
+alter table brands add column is_active bool default true after id;
 insert into brands (name) values
 ("Hyperion Coffee Company"), ("Peace Coffee Company"), ("Anodyne Coffee Company");
 insert into brands (name) values ("Dogwood Coffee Company");
+select * from brands;
 
 create table grinders (
 	id int primary key auto_increment not null,

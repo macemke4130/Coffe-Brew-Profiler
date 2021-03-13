@@ -114,7 +114,7 @@ const EditCoffeeBag = (props: EditCoffeeBagProps) => {
                 <input type="number" placeholder="Elevation" value={theElevation} onChange={hTheElevation}></input>
                 <small>If given a range of elevation, please input an average.</small>
                 <input type="text" placeholder="Cultivar" value={theCultivar} onChange={hTheCultivar}></input>
-                <select onChange={hBlend}>
+                <select value={theBlend} onChange={hBlend}>
                     <option value="0">Single Origin</option>
                     <option value="1">Blend</option>
                 </select>

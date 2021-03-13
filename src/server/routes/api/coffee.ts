@@ -75,4 +75,14 @@ router.post('/new', async (req, res) => {
     }
 });
 
+router.put('/emptybag', passport.authenticate('jwt'), async (req, res) => {
+    try {
+        const emptyBag = await db.coffee.empty(Number(req.body.id));
+        res.json(emptyBag);
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({ message: "nope", e});
+    }
+});
+
 export default router;

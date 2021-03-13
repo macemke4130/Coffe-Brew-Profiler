@@ -21,7 +21,7 @@ const SingleCoffeeBag = (props: SingleCoffeeBagProps) => {
     const DBCalls = async () => {
         const rWho = await apiService("/api/users/who");
         theBarista = rWho;
-        
+
         const rCoffeeBag = await apiService("/api/coffee/bag/" + id);
         setBag(rCoffeeBag[0]);
 
@@ -38,6 +38,11 @@ const SingleCoffeeBag = (props: SingleCoffeeBagProps) => {
         history.push("/coffeebags/edit/" + id);
     }
 
+    const hEmptyCoffee = async () => {
+        const r = await apiService("/api/coffee/emptybag/", "PUT", { id });
+        if (r) history.push("/coffeebags/all/");
+    }
+
     return (
         <>
             <Nav />
@@ -47,8 +52,9 @@ const SingleCoffeeBag = (props: SingleCoffeeBagProps) => {
             {bag?.process != "None" ? <p>Process: {bag?.process}</p> : ""}
             {bag?.region != "" ? <p>Region: {bag?.region}</p> : ""}
             {bag?.elevation != 0 ? <p>Elevation: {bag?.elevation} Meters Above Sea Level</p> : ""}
+            <p>{bag?.blend === 0 ? "Single Origin" : "Blend"}</p>
             {isOwner && <button onClick={hEditCoffee}>Edit Coffee Bag</button>}
-            {isOwner && <button>Empty Coffee Bag</button>}
+            {isOwner && <button onClick={hEmptyCoffee}>Empty Coffee Bag</button>}
         </>
     );
 };

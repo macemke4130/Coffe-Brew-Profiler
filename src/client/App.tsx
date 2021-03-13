@@ -19,6 +19,7 @@ import NewFilter from './pages/NewFilter';
 import AllFilters from './pages/AllFilters';
 import EditCoffeeBag from './pages/EditCoffeeBag';
 import EditBrew from './pages/EditBrew';
+import NewRoaster from './pages/NewRoaster';
 
 const App = (props: AppProps) => {
 return (
@@ -50,6 +51,9 @@ return (
 				</PrivateRoute>
 				<PrivateRoute path="/coffeebags/all">
 					<AllCoffeeBags />
+				</PrivateRoute>
+				<PrivateRoute exact path="/roaster/new">
+					<NewRoaster />
 				</PrivateRoute>
 				<PrivateRoute path="/coffeebags/edit/:id">
 					<EditCoffeeBag />

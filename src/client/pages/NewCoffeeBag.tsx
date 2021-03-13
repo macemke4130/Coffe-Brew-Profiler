@@ -10,7 +10,7 @@ const NewCoffeeBag = (props: NewCoffeeBagProps) => {
     const [allBrands, setAllBrands] = useState<Array<IOption>>([]);
     const [allProcesses, setAllProcesses] = useState<Array<IOption>>([]);
 
-    
+
 
     const [theBrand, setTheBrand] = useState<string>('');
     const [theProcess, setTheProcess] = useState<number>(0);
@@ -41,7 +41,12 @@ const NewCoffeeBag = (props: NewCoffeeBagProps) => {
     }
 
     const hBrand = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setTheBrand(e.target.value);
+        if (e.target.value === "newRoaster") {
+            history.push("/roaster/new");
+            //This should be a Modal --
+        } else {
+            setTheBrand(e.target.value);
+        }
     }
 
     const hProcess = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -82,7 +87,7 @@ const NewCoffeeBag = (props: NewCoffeeBagProps) => {
             barista: theBarista
         }
         const r = await apiService("/api/coffee/new", "POST", bodyObject);
-        if (r.serverStatus === 2) history.push('/coffeebag/' + r.insertId);
+        if (r.serverStatus === 2) history.push('/coffeebags/' + r.insertId);
     }
 
     return (
@@ -95,6 +100,7 @@ const NewCoffeeBag = (props: NewCoffeeBagProps) => {
                     {allBrands?.map(brand => (
                         <option key={brand.id} value={brand.id}>{brand.name}</option>
                     ))}
+                    <option value="newRoaster">Add New Roaster...</option>
                 </select>
                 <select onChange={hProcess}>
                     <option>-- Please Select Process --</option>
