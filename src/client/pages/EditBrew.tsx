@@ -81,8 +81,8 @@ const EditBrew = (props: EditBrewProps) => {
                 setWaterPost(v[5][0].waterPost || 0);
                 setYeild(v[5][0].yeild || 0);
 
-                setTheTastingNote(v[5][0].tastingnote);
-                setTheBrewingNote(v[5][0].brewingnote);
+                setTheTastingNote(v[5][0].tastingnote || "");
+                setTheBrewingNote(v[5][0].brewingnote || "");
 
                 const rd = v[5][0].roasteddate.split("T"); // Removes the Time section of the TIMESTAMP string --
                 setRoastedOn(rd[0]);

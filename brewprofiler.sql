@@ -49,6 +49,8 @@ insert into brands (name) values
 ("Hyperion Coffee Company"), ("Peace Coffee Company"), ("Anodyne Coffee Company");
 insert into brands (name) values ("Dogwood Coffee Company");
 select * from brands;
+update brands set barista = 1 where id > 0;
+delete from brands where id = 5;
 
 create table grinders (
 	id int primary key auto_increment not null,

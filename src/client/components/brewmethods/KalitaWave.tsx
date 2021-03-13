@@ -191,7 +191,7 @@ const KalitaWave = (props: KalitaWaveProps) => {
                 <input type="number" value={brewWeight} onChange={hBrewWeight} className="m-2"></input></label>
 
                 <label className="mr-2">Total Brew Duration: (Minutes:Seconds)
-                <input type="number" value={theBrewMinute} onChange={hBrewMinute}></input><span>:</span>
+                <input type="number" width={2} value={theBrewMinute} onChange={hBrewMinute}></input><span className="m-1">:</span>
                 <input type="number" value={theBrewSecond} onChange={hBrewSecond}></input></label>
 
                 <label className="mr-2">Water Temp Post Brew (F):

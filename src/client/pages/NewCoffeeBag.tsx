@@ -95,25 +95,25 @@ const NewCoffeeBag = (props: NewCoffeeBagProps) => {
             <Nav />
             <h1>CoffeeBag Page</h1>
             <form className="d-flex flex-column">
-                <select onChange={hBrand}>
+                <select onChange={hBrand} className="mb-3">
                     <option>-- Please Select Coffee Roaster --</option>
                     {allBrands?.map(brand => (
                         <option key={brand.id} value={brand.id}>{brand.name}</option>
                     ))}
                     <option value="newRoaster">Add New Roaster...</option>
                 </select>
-                <select onChange={hProcess}>
+                <select onChange={hProcess} className="mb-3">
                     <option>-- Please Select Process --</option>
                     {allProcesses?.map(process => (
                         <option key={process.id} value={process.id}>{process.name}</option>
                     ))}
                 </select>
-                <input type="text" placeholder="Coffee Name" value={theCoffee} onChange={hTheCoffee}></input>
-                <input type="text" placeholder="Region(s)" value={theRegion} onChange={hTheRegion}></input>
+                <input type="text" placeholder="Coffee Name" value={theCoffee} onChange={hTheCoffee} className="mb-3"></input>
+                <input type="text" placeholder="Region(s)" value={theRegion} onChange={hTheRegion} className="mb-3"></input>
                 <input type="number" placeholder="Elevation" value={theElevation} onChange={hTheElevation}></input>
-                <small>If given a range of elevation, please input an average.</small>
-                <input type="text" placeholder="Cultivar" value={theCultivar} onChange={hTheCultivar}></input>
-                <select onChange={hBlend}>
+                <small className="mb-3">If given a range of elevation, please input an average.</small>
+                <input type="text" placeholder="Cultivar" value={theCultivar} onChange={hTheCultivar} className="mb-3"></input>
+                <select onChange={hBlend} className="mb-3">
                     <option value="0">Single Origin</option>
                     <option value="1">Blend</option>
                 </select>

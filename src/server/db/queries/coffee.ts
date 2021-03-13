@@ -9,8 +9,8 @@ const insert = (newCoffee: ICoffeeBag) => Query('insert into coffeebags set ?', 
 const edit = (id: number, updateObject: ICoffeeBag) => Query("update coffeebags set ? where id = ?", [updateObject, id]);
 const empty = (id: number) => Query("update coffeebags set is_active = 0 where id = ?", [id]);
 
-const allMyCoffee = (id: number) => Query('select coffeebags.id, coffeebags.name as coffeename, coffeebags.region, coffeebags.elevationabovesealevelinmeters as elevation, coffeebags.breed, coffeebags.blend, brands.name as brand, processes.name as process from coffeebags join brands on brands.id = coffeebags.brand join processes on processes.id = coffeebags.process where coffeebags.barista = ? and is_active = 1 order by coffeebags.id desc', [id]);
-const allMyCoffeeList = (id: number) => Query('select brands.name as brand, coffeebags.name as coffeename, coffeebags.id from coffeebags join brands on brands.id = coffeebags.brand where coffeebags.barista = ? and is_active = 1 order by coffeebags.id desc', [id]);
+const allMyCoffee = (id: number) => Query('select coffeebags.id, coffeebags.name as coffeename, coffeebags.region, coffeebags.elevationabovesealevelinmeters as elevation, coffeebags.breed, coffeebags.blend, brands.name as brand, processes.name as process from coffeebags join brands on brands.id = coffeebags.brand join processes on processes.id = coffeebags.process where coffeebags.barista = ? and coffeebags.is_active = 1 order by coffeebags.id desc', [id]);
+const allMyCoffeeList = (id: number) => Query('select brands.name as brand, coffeebags.name as coffeename, coffeebags.id from coffeebags join brands on brands.id = coffeebags.brand where coffeebags.barista = ? and coffeebags.is_active = 1 order by coffeebags.id desc', [id]);
 
 export default {
     all,

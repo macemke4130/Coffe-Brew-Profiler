@@ -9,7 +9,7 @@ const Chemex = (props: ChemexProps) => {
     const [allCoffeeBags, setAllCoffeeBags] = useState<Array<ICoffeeBag>>([]);
     const [allGrinders, setAllGrinders] = useState<Array<IOption>>([]);
     const [allFilters, setAllFilters] = useState<Array<IOption>>([]);
-    const [theCoffee, setTheCoffee] = useState<number>(0);
+    const [theCoffee, setTheCoffee] = useState<number>(Number(localStorage.getItem("CoffeeBag")) || 0);
     const [theGrinder, setTheGrinder] = useState<number>(1); // Baratza Encore by default --
     const [theFilter, setTheFilter] = useState<number>(1); // 1 By Default --
     const [bloomTime, setBloomTime] = useState<number>(0);
@@ -21,7 +21,9 @@ const Chemex = (props: ChemexProps) => {
     const [waterPost, setWaterPost] = useState<number>(0);
     const [roastedOn, setRoastedOn] = useState<string>(localStorage.getItem("RoastedOn") || "");
     const [brewWeight, setBrewWeight] = useState<number>(Number(localStorage.getItem("ChemexBrewWeight")) || 0);
-    const [brewTime, setBrewTime] = useState<number>(0);
+    // const [brewTime, setBrewTime] = useState<number>(0);
+    const [theBrewMinute, setTheBrewMinute] = useState<number>(Number(localStorage.getItem("ChemexBM")) || 0);
+    const [theBrewSecond, setTheBrewSecond] = useState<number>(Number(localStorage.getItem("ChemexBS")) || 0);
     const [yeild, setYeild] = useState<number>(0);
 
     const history = useHistory();
@@ -39,7 +41,6 @@ const Chemex = (props: ChemexProps) => {
         Promise.all([r0, r1, r2, r3, r4])
             .then(v => {
                 setAllCoffeeBags(v[0]);
-                setTheCoffee(v[0].length + 1); // Newest Coffee Bag, won't work forever --
                 setAllGrinders(v[1]);
                 setBloomTime(v[2][0].bloom);
                 setTheBarista(v[3]);
@@ -62,10 +63,11 @@ const Chemex = (props: ChemexProps) => {
             watertemppostbrew: waterPost,
             bloomtimeinsec: bloomTime,
             bloomweight: bloomWeight,
-            brewtimeinsec: brewTime,
+            brewtimeinsec: (theBrewMinute * 60) + theBrewSecond,
             brewweight: brewWeight,
             yeild
         }
+        console.log(bodyObject);
         const r = await apiService('/api/brews/new', "POST", bodyObject);
         if(r.serverStatus === 2) history.push("/brew/details/" + r.insertId);
     }
@@ -114,8 +116,18 @@ const Chemex = (props: ChemexProps) => {
         localStorage.setItem("ChemexBrewWeight", e.target.value);
     }
 
-    const hBrewTime = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setBrewTime(Number(e.target.value));
+    // const hBrewTime = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //     setBrewTime(Number(e.target.value));
+    // }
+
+    const hBrewMinute = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setTheBrewMinute(Number(e.target.value));
+        localStorage.setItem("ChemexBM", e.target.value);
+    }
+
+    const hBrewSecond = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setTheBrewSecond(Number(e.target.value));
+        localStorage.setItem("ChemexBS", e.target.value);
     }
 
     const hYeild = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -166,18 +178,18 @@ const Chemex = (props: ChemexProps) => {
                 <label className="mr-2">Brew Weight:
                 <input type="number" value={brewWeight} onChange={hBrewWeight} className="m-2"></input></label>
 
-                <label className="mr-2">Total Brew Duration in Seconds:
-                <input type="number" value={brewTime} onChange={hBrewTime} className="m-2"></input></label>
-                <small>Number of minutes / 60 + any remaining seconds</small>
+                <label className="mr-2">Total Brew Duration: (Minutes:Seconds)
+                <input type="number" value={theBrewMinute} onChange={hBrewMinute}></input><span className="m-1">:</span>
+                <input type="number" value={theBrewSecond} onChange={hBrewSecond}></input></label>
 
                 <label className="mr-2">Water Temp Post Brew (F):
                 <input type="number" value={waterPost} onChange={hWaterPost} className="m-2"></input></label>
 
                 <label className="mr-2">Coffee Yeild in Grams:
                 <input type="number" value={yeild} onChange={hYeild} className="m-2"></input></label>
-
                 
                 <button onClick={hSubmitBrew} className="btn btn-primary">Submit Brew</button>
+                <small>You may enter Brewing and Tasting Notes on the next page.</small>
             </form>
         </>
 

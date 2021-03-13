@@ -1,5 +1,7 @@
 import * as express from 'express';
 import db from '../../db';
+import * as passport from 'passport';
+import { ReqUser } from '../../utils/types';
 
 const router = express.Router();
 
@@ -23,9 +25,9 @@ router.get('/grinders', async (req, res) => {
     }
 });
 
-router.get('/brands', async (req, res) => {
+router.get('/brands', passport.authenticate('jwt'), async (req: ReqUser, res) => {
     try {
-        const brands = await db.options.allBrands();
+        const brands = await db.options.allBrands(Number(req.user.id));
         res.json(brands);
     } catch (e) {
         console.log(e);

@@ -47,11 +47,11 @@ const NewFilter = (props: NewFilterProps) => {
             <h1>Add New Filter</h1>
             <form className="d-flex flex-column">
                 <input type="text" placeholder="Brand" value={theBrand} onChange={hTheBrand}></input>
-                <small>Chemex, Hario...</small>
+                <small className="mb-3">Chemex, Hario...</small>
                 <input type="text" placeholder="Name" value={theName} onChange={hTheName}></input>
-                <small>Bleached, Unbleached...</small>
+                <small className="mb-3">Bleached, Unbleached...</small>
                 <input type="text" placeholder="Number or Style" value={theStyle} onChange={hTheStyle}></input>
-                <small>4, Basket, Cone, Sock...</small>
+                <small className="mb-3">4, Basket, Cone, Sock...</small>
                 <button className="btn btn-primary" onClick={verifyBag}>Submit Filter</button>
             </form>
         </>
