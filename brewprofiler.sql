@@ -50,7 +50,6 @@ insert into brands (name) values
 insert into brands (name) values ("Dogwood Coffee Company");
 select * from brands;
 update brands set barista = 1 where id > 0;
-delete from brands where id = 5;
 
 create table grinders (
 	id int primary key auto_increment not null,
@@ -115,7 +114,6 @@ create table brewnotes (
 );
 drop table brewnotes;
 
-drop table brews;
 create table brews (
 	id int primary key auto_increment not null,
     is_active bool default true,
@@ -141,10 +139,11 @@ create table brews (
 	brewphoto int,
 		foreign key (brewphoto) references brewphotos (id)
 );
+select * from brews;
 alter table brews add tastingnote varchar(10000) after yeild;
 alter table brews add brewingnote varchar(10000) after tastingnote;
 
-select * from brews;
+select * from brews where id = 49;
 
 alter table brews add drawdownstart int after drawdown;
 alter table brews add filter int after coffeebag;
