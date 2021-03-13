@@ -10,12 +10,13 @@ const Home = (props: HomeProps) => {
         <>
             <Nav />
             <h1>Welcome!</h1>
+            <small>This site is in Beta mode and is still in development. Thank you for your patience.</small>
             <h4>How to use:</h4>
             <ol>
                 <li>Register Your Account using the Register Button Above</li>
                 <li>Add a Bag of Coffee to your Kitchen with the Add Coffee Button</li>
                 <ul>
-                    <li>You may also add Filters to your Kitchen</li>
+                    <li>You may also add Filters to your Kitchen. Some are already provided for you.</li>
                 </ul>
                 <li>Select the New Brew button</li>
                 <li>Choose your desired Brew Method</li>

@@ -26,11 +26,11 @@ const SelectBrewMethod = (props: SelectBrewMethodProps) => {
                 {brewMethods?.map(brew => (
                     <option key={brew.id} value={brew.id}>{brew.name}</option>
                 ))}
-                <option disabled={true}>Coming Soon!</option>
-                <option disabled={true}>Hario V60</option>
-                <option disabled={true}>AeroPress</option>
-                <option disabled={true}>French Press</option>
-                <option disabled={true}>Drip Machine</option>
+                <option disabled={true}>-- Coming Soon! --</option>
+                <option disabled={true}>- Hario V60</option>
+                <option disabled={true}>- AeroPress</option>
+                <option disabled={true}>- French Press</option>
+                <option disabled={true}>- Drip Machine</option>
             </select>
         </>
 

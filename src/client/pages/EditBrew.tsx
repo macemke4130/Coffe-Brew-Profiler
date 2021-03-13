@@ -212,7 +212,11 @@ const EditBrew = (props: EditBrewProps) => {
             <textarea value={theTastingNote} onChange={hTastingNote} cols={100} rows={4}></textarea></label></p>
             <p><label>Brewing Notes:<br></br>
             <textarea value={theBrewingNote} onChange={hBrewingNote} cols={100} rows={4}></textarea></label></p>
+            <button onClick={hSubmitBrew} className="btn btn-primary">Submit Edits</button>
             <hr></hr>
+
+            {/* The following should be hiddend behind a State Toggle -- */}
+            
             <form className="d-flex flex-column">
                 <label className="mr-2">Brew Method: <select value={theBrewMethod} onChange={hBrewMethod} className="m-2">
                     {allBrewMethods?.map(brew => (
@@ -275,7 +279,7 @@ const EditBrew = (props: EditBrewProps) => {
                 <label className="mr-2">Coffee Yeild in Grams:
                 <input type="number" value={yeild} onChange={hYeild} className="m-2"></input></label>
 
-                <button onClick={hSubmitBrew} className="btn btn-primary">Submit Brew</button>
+                <button onClick={hSubmitBrew} className="btn btn-primary">Submit Edits</button>
             </form>
 
             {loggedIn === theBarista ? <p><button onClick={hDestroy}>Delete Brew</button></p> : ""}

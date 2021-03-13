@@ -32,7 +32,7 @@ export interface IBrew {
     id: number,
     _createdat: Date,
     barista: number,
-    roasteddate: Date,
+    roasteddate: Date | string,
     filter: string,
     grindsize: number,
     gramspregrind: number,

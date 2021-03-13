@@ -21,7 +21,6 @@ const Chemex = (props: ChemexProps) => {
     const [waterPost, setWaterPost] = useState<number>(0);
     const [roastedOn, setRoastedOn] = useState<string>(localStorage.getItem("RoastedOn") || "");
     const [brewWeight, setBrewWeight] = useState<number>(Number(localStorage.getItem("ChemexBrewWeight")) || 0);
-    // const [brewTime, setBrewTime] = useState<number>(0);
     const [theBrewMinute, setTheBrewMinute] = useState<number>(Number(localStorage.getItem("ChemexBM")) || 0);
     const [theBrewSecond, setTheBrewSecond] = useState<number>(Number(localStorage.getItem("ChemexBS")) || 0);
     const [yeild, setYeild] = useState<number>(0);
@@ -45,17 +44,21 @@ const Chemex = (props: ChemexProps) => {
                 setBloomTime(v[2][0].bloom);
                 setTheBarista(v[3]);
                 setAllFilters(v[4]);
+                setTheCoffee(v[0][0].id);
             });
     }
 
     const hSubmitBrew = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
+
+        const dateCatch = roastedOn === "" ? "1970-01-01" : roastedOn;
+
         const bodyObject = {
             barista: theBarista,
             brewmethod: 1, // Chemex --
             coffeebag: theCoffee,
             filter: theFilter,
-            roasteddate: roastedOn,
+            roasteddate: dateCatch,
             grinder: theGrinder,
             grindsize: grindSize,
             gramspostgrind: gramsPost,
@@ -67,9 +70,12 @@ const Chemex = (props: ChemexProps) => {
             brewweight: brewWeight,
             yeild
         }
-        console.log(bodyObject);
-        const r = await apiService('/api/brews/new', "POST", bodyObject);
-        if(r.serverStatus === 2) history.push("/brew/details/" + r.insertId);
+        if (theCoffee === 0) {
+            alert("Coffee Field Can Not Be Blank.");
+        } else {
+            const r = await apiService('/api/brews/new', "POST", bodyObject);
+            if (r.serverStatus === 2) history.push("/brew/details/" + r.insertId);
+        }
     }
 
     const hCoffeeBag = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -154,14 +160,16 @@ const Chemex = (props: ChemexProps) => {
                     ))}
                 </select></label>
 
-                <label className="mr-2">Filter: <select onChange={hFilter}  className="m-2">
+                <label className="mr-2">Filter: <select onChange={hFilter} className="m-2">
                     {allFilters?.map(filter => (
                         <option key={filter.id} value={filter.id}>{filter.brand_name_style}</option>
                     ))}
                 </select></label>
 
-                <label className="mr-2">Grind Size Setting: 
+                <label className="mr-2">Grind Size Setting:
                 <input type="number" value={grindSize} onChange={hGrindSize} className="m-2"></input></label>
+                <small>If your grinder does not have numeric settings, assign your "fine" grind to a 1 and "course" to a 10.<br></br>
+                Ultimately, the numbers do not need to be true to life, they exist for consistancy. The goal is repeatability.</small>
 
                 <label className="mr-2">Grams of Coffee:
                 <input type="number" value={gramsPost} onChange={hGramsPost} className="m-2"></input></label>
@@ -180,14 +188,14 @@ const Chemex = (props: ChemexProps) => {
 
                 <label className="mr-2">Total Brew Duration: (Minutes:Seconds)
                 <input type="number" value={theBrewMinute} onChange={hBrewMinute}></input><span className="m-1">:</span>
-                <input type="number" value={theBrewSecond} onChange={hBrewSecond}></input></label>
+                    <input type="number" value={theBrewSecond} onChange={hBrewSecond}></input></label>
 
                 <label className="mr-2">Water Temp Post Brew (F):
                 <input type="number" value={waterPost} onChange={hWaterPost} className="m-2"></input></label>
 
                 <label className="mr-2">Coffee Yeild in Grams:
                 <input type="number" value={yeild} onChange={hYeild} className="m-2"></input></label>
-                
+
                 <button onClick={hSubmitBrew} className="btn btn-primary">Submit Brew</button>
                 <small>You may enter Brewing and Tasting Notes on the next page.</small>
             </form>

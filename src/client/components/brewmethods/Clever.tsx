@@ -25,7 +25,7 @@ const Clever = (props: CleverProps) => {
     const [waterPre, setWaterPre] = useState<number>(Number(localStorage.getItem("WaterTempPre")) || 212);
     const [waterPost, setWaterPost] = useState<number>(Number(localStorage.getItem("WaterTempPost")) || 0);
     const [brewWeight, setBrewWeight] = useState<number>(Number(localStorage.getItem("CleverBrewWeight")) || 0);
-    
+
     const [theDrawDownMinute, setTheDrawDownMinute] = useState<number>(Number(localStorage.getItem("CleverDDM") || 0));
     const [theDrawDownSecond, setTheDrawDownSecond] = useState<number>(Number(localStorage.getItem("CleverDDS") || 0));
     const [theBrewMinute, setTheBrewMinute] = useState<number>(Number(localStorage.getItem("CleverBM")) || 0);
@@ -52,18 +52,21 @@ const Clever = (props: CleverProps) => {
                 setBloomTime(v[2][0].bloom);
                 setTheBarista(v[3]);
                 setAllFilters(v[4]);
+                setTheCoffee(v[0][0].id);
             });
     }
 
     const hSubmitBrew = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
 
+        const dateCatch = roastedOn === "" ? "1970-01-01" : roastedOn;
+
         const bodyObject = {
             barista: theBarista,
             brewmethod: 7, // Clever --
             coffeebag: theCoffee,
             filter: theFilter,
-            roasteddate: roastedOn,
+            roasteddate: dateCatch,
             grinder: theGrinder,
             grindsize: grindSize,
             gramspostgrind: gramsPost,
@@ -76,8 +79,12 @@ const Clever = (props: CleverProps) => {
             drawdownstart: (theDrawDownMinute * 60) + theDrawDownSecond,
             yeild
         }
-        const r = await apiService('/api/brews/new', "POST", bodyObject);
-        if(r.serverStatus === 2) history.push("/brew/details/" + r.insertId);
+        if (theCoffee === 0) {
+            alert("Coffee Field Can Not Be Blank.");
+        } else {
+            const r = await apiService('/api/brews/new', "POST", bodyObject);
+            if (r.serverStatus === 2) history.push("/brew/details/" + r.insertId);
+        }
     }
 
     const hCoffeeBag = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -185,8 +192,10 @@ const Clever = (props: CleverProps) => {
                     ))}
                 </select></label>
 
-                <label className="mr-2">Grind Size Setting: 
+                <label className="mr-2">Grind Size Setting:
                 <input type="number" value={grindSize} onChange={hGrindSize} className="m-2"></input></label>
+                <small>If your grinder does not have numeric settings, assign your "fine" grind to a 1 and "course" to a 10.<br></br>
+                Ultimately, the numbers do not need to be true to life, they exist for consistancy. The goal is repeatability.</small>
 
                 <label className="mr-2">Grams of Coffee:
                 <input type="number" value={gramsPost} onChange={hGramsPost} className="m-2"></input></label>
@@ -205,11 +214,11 @@ const Clever = (props: CleverProps) => {
 
                 <label className="mr-2">Draw Down Start Time: (Minutes:Seconds)
                 <input type="number" value={theDrawDownMinute} onChange={hDrawDownMinute}></input><span className="m-1">:</span>
-                <input type="number" value={theDrawDownSecond} onChange={hDrawDownSecond}></input></label>
+                    <input type="number" value={theDrawDownSecond} onChange={hDrawDownSecond}></input></label>
 
                 <label className="mr-2">Total Brew Duration: (Minutes:Seconds)
                 <input type="number" value={theBrewMinute} onChange={hBrewMinute}></input><span className="m-1">:</span>
-                <input type="number" value={theBrewSecond} onChange={hBrewSecond}></input></label>
+                    <input type="number" value={theBrewSecond} onChange={hBrewSecond}></input></label>
 
                 <label className="mr-2">Water Temp Post Brew (F):
                 <input type="number" value={waterPost} onChange={hWaterPost} className="m-2"></input></label>

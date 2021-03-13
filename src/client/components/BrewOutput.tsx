@@ -56,7 +56,7 @@ const BrewOutput = (props: BrewOutputProps) => {
             const held = (b.brewweight - b.yeild);
             setCoffeeHeld(Number(held));
 
-            if (b.drawdownstart) {
+            if (b.drawdownstart != 0 && b.drawdownstart != null) {
                 const drawDownDuration = b.brewtimeinsec - b.drawdownstart;
                 const drawDownTimeFormat = formatFromSeconds(drawDownDuration);
 
@@ -83,9 +83,11 @@ const BrewOutput = (props: BrewOutputProps) => {
             <>
                 <h5>{b.coffeename} - {b.brandname}</h5>
                 <h5>{b.brewmethod}</h5>
-                <p>Roasted on <Moment format="MMMM DD, YYYY">{b.roasteddate}</Moment><br></br>
+                <p>
+                    {b.roasteddate != "1970-01-01T06:00:00.000Z" ? <span>Roasted on <Moment format="MMMM DD, YYYY">{b.roasteddate}</Moment><br></br></span> : ""}
                         Brewed on <Moment format="MMMM DD, YYYY">{b._createdat}</Moment><br></br>
-                    {theDelta} days since roast</p>
+                    {b.roasteddate != "1970-01-01T06:00:00.000Z" ? <span>{theDelta} days since roast</span> : ""}
+                </p>
                 <p>Coffee Filter: {b.filter}<br></br>
                     {b.grinder} Setting: <strong>{b.grindsize}</strong></p>
                 <p>Coffee: <strong>{b.gramspostgrind}</strong> grams<br></br>Water: <strong>{b.brewweight}</strong> grams / ml<br></br>Brew Ratio: <strong>1:{ratio}</strong></p>
@@ -95,16 +97,15 @@ const BrewOutput = (props: BrewOutputProps) => {
                 <p>Bloom Water: <strong>{b.bloomweight}</strong> grams / ml<br></br>
                     <strong>{bloomToBrewWeightPercent}</strong>% of total Brew weight</p>
                 <p>Brew Duration: <strong>{brewTime}</strong></p>
-                { b.drawdownstart && <p>Draw Down Duration: <strong>{drawDown}</strong><br></br>
-                    <strong>{drawDowntoBrewPercent}</strong>% of total Brew Duration</p>}
+                {drawDown != "0:00" && <p>Draw Down Duration: <strong>{drawDown}</strong><br></br><strong>{drawDowntoBrewPercent}</strong>% of total Brew Duration</p>}
                 <p>Coffee Yeild: <strong>{b.yeild}</strong> grams / ml<br></br>
                     <strong>{yeildPercent}</strong>% of Total Brew Water Weight<br></br>
                     Water Loss: <strong>{coffeeHeld}</strong> grams / ml</p>
-                    {b.tastingnote && <p>Tasting Notes: <br></br>
-                    {b.tastingnote}</p> }
-                    {b.brewingnote && <p>Brewing Notes: <br></br>
-                    {b.brewingnote}</p> }
-                    {loggedIn === b.barista ? <button onClick={hEdit}>Add Notes / Edit Brew</button> : ""}
+                {b.tastingnote && <p>Tasting Notes: <br></br>
+                    {b.tastingnote}</p>}
+                {b.brewingnote && <p>Brewing Notes: <br></br>
+                    {b.brewingnote}</p>}
+                {loggedIn === b.barista ? <button onClick={hEdit}>Add Notes / Edit Brew</button> : ""}
             </>
         );
     }
