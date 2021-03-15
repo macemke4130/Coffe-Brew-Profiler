@@ -30,6 +30,7 @@ const Home = (props: HomeProps) => {
             <p>Afer submitting the Brew, you may add Brewing or Tasting Notes.</p>
             <p>Once you have two or more Brews, you can compare them to see what you may want to
                 change about your tequniques.</p>
+                <p><strong>Any feedback, suggestions or bug reports can be sent to </strong>lucasmace4130@gmail.com</p>
         </>
     );
 };
