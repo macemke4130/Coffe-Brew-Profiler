@@ -23,6 +23,7 @@ const BrewOutput = (props: BrewOutputProps) => {
     const [drawDowntoBrewPercent, setDrawDowntoBrewPercent] = useState<number>();
     const [coffeeHeld, setCoffeeHeld] = useState<number>(0);
     const [theDelta, setTheDelta] = useState<number>(0);
+    const [drawDownStart, setDrawDownStart] = useState<string>("0:00");
 
     const history = useHistory();
 
@@ -44,6 +45,8 @@ const BrewOutput = (props: BrewOutputProps) => {
 
             // Do Math with b --
             setBrewTime(formatFromSeconds(b.brewtimeinsec));
+
+            setDrawDownStart(formatFromSeconds(b.drawdownstart));
 
             const btbWeight = (b.bloomweight / b.brewtimeinsec * 100).toFixed(2);
             setBloomToBrewWeightPercent(Number(btbWeight));
@@ -101,7 +104,7 @@ const BrewOutput = (props: BrewOutputProps) => {
                 <p>Bloom Water: <strong>{b.bloomweight}</strong> grams / ml<br></br>
                     <strong>{bloomToBrewWeightPercent}</strong>% of total Brew weight</p>
                 <p>Brew Duration: <strong>{brewTime}</strong></p>
-                {drawDown != "0:00" && <p>Draw Down Duration: <strong>{drawDown}</strong><br></br><strong>{drawDowntoBrewPercent}</strong>% of total Brew Duration</p>}
+                {drawDown != "0:00" && <p>Draw Down Start Time: <strong>{drawDownStart}</strong><br></br>Draw Down Duration: <strong>{drawDown}</strong><br></br><strong>{drawDowntoBrewPercent}</strong>% of total Brew Duration</p>}
                 <p>Coffee Yeild: <strong>{b.yeild}</strong> grams / ml<br></br>
                     <strong>{yeildPercent}</strong>% of Total Brew Water Weight<br></br>
                     Water Loss: <strong>{coffeeHeld}</strong> grams / ml</p>
