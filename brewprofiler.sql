@@ -191,6 +191,8 @@ join grinders on grinders.id = brews.grinder
 where brews.id = 12
 ;
 
+select brands.name from brands where id = 1;
+
 select filters.brand_name_style from brews
 join filters on filters.id = brews.filter;
 

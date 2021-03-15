@@ -19,5 +19,14 @@ router.post('/new', passport.authenticate('jwt'), async (req: ReqUser, res) => {
         res.status(500).json({ message: "nope", e});
     }
 });
+router.get('/name/:id', passport.authenticate('jwt'), async (req: ReqUser, res) => {
+    try {
+        const name = await db.roasters.getRoaster(Number(req.params.id));
+        res.status(200).json(name);
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({ message: "nope", e});
+    }
+});
 
 export default router;

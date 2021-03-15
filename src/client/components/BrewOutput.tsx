@@ -14,7 +14,7 @@ const BrewOutput = (props: BrewOutputProps) => {
     const [loading, setLoading] = useState<Boolean>(true);
     const [b, setB] = useState<IBrew>();
     const [ratio, setRatio] = useState<number>(0);
-    const [grindLoss, setGrindLoss] = useState<number>(0);
+    const [brandName, setBrandName] = useState<string>("");
     const [brewTime, setBrewTime] = useState<string>("0:00");
     const [bloomToBrewWeightPercent, setBloomToBrewWeightPercent] = useState<number>(0);
     const [bloomToBrewTimePercent, setBloomtoBrewTimePercent] = useState<number>(0);
@@ -37,6 +37,10 @@ const BrewOutput = (props: BrewOutputProps) => {
         const rBrew = await apiService("/api/brews/details/" + id);
         if (rBrew.status === 418) { // I'm a Teapot! --
             const b: IBrew = rBrew.data[0]; // b is for Brew --
+
+            // Heroku Server will not allow two subqueries. This is a workaround --
+            const rBrand = await apiService('/api/roasters/name/' + b.coffeebrand); 
+            setBrandName(rBrand[0].name);
 
             // Do Math with b --
             setBrewTime(formatFromSeconds(b.brewtimeinsec));
@@ -81,7 +85,7 @@ const BrewOutput = (props: BrewOutputProps) => {
     if (loading === true) { return (<><Loading /></>) } else {
         return (
             <>
-                <h5>{b.coffeename} - {b.brandname}</h5>
+                <h5>{b.coffeename} - {brandName}</h5>
                 <h5>{b.brewmethod}</h5>
                 <p>
                     {b.roasteddate != "1970-01-01T06:00:00.000Z" ? <span>Roasted on <Moment format="MMMM DD, YYYY">{b.roasteddate}</Moment><br></br></span> : ""}
