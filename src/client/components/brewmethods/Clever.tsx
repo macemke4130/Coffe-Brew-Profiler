@@ -25,6 +25,8 @@ const Clever = (props: CleverProps) => {
     const [waterPre, setWaterPre] = useState<number>(Number(localStorage.getItem("WaterTempPre")) || 212);
     const [waterPost, setWaterPost] = useState<number>(Number(localStorage.getItem("WaterTempPost")) || 0);
     const [brewWeight, setBrewWeight] = useState<number>(Number(localStorage.getItem("CleverBrewWeight")) || 0);
+    const [desiredRatio, setDesiredRatio] = useState<number>(Number(localStorage.getItem("CleverRatio")) || 0);
+    const [ratioOutput, setRatioOutput] = useState<number>(0);
 
     const [theDrawDownMinute, setTheDrawDownMinute] = useState<number>(Number(localStorage.getItem("CleverDDM") || 0));
     const [theDrawDownSecond, setTheDrawDownSecond] = useState<number>(Number(localStorage.getItem("CleverDDS") || 0));
@@ -53,6 +55,8 @@ const Clever = (props: CleverProps) => {
                 setTheBarista(v[3]);
                 setAllFilters(v[4]);
                 setTheCoffee(v[0][0].id);
+                
+                ratioCalc(Number(localStorage.getItem("CleverRatio")), gramsPost);
             });
     }
 
@@ -108,6 +112,7 @@ const Clever = (props: CleverProps) => {
 
     const hGramsPost = (e: React.ChangeEvent<HTMLInputElement>) => {
         setGramsPost(Number(e.target.value));
+        ratioCalc(desiredRatio, Number(e.target.value));
         localStorage.setItem("CleverGrams", e.target.value);
     }
 
@@ -166,6 +171,16 @@ const Clever = (props: CleverProps) => {
         localStorage.setItem("CleverDDS", e.target.value);
     }
 
+    const hDesiredRatio = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setDesiredRatio(Number(e.target.value));
+        ratioCalc(Number(e.target.value), Number(gramsPost));
+        localStorage.setItem("CleverRatio", e.target.value);
+    }
+
+    const ratioCalc = (ratio: number, grams: number) => {
+        setRatioOutput(ratio * grams);
+    }
+
     return (
         <>
             <h1>Clever</h1>
@@ -193,36 +208,40 @@ const Clever = (props: CleverProps) => {
                 </select></label>
 
                 <label className="mr-2">Grind Size Setting:<br></br>
-                <input type="number" value={grindSize} onChange={hGrindSize} className="m-2" style={{width: "75px"}}></input></label>
+                    <input type="number" value={grindSize} onChange={hGrindSize} className="m-2" style={{ width: "75px" }}></input></label>
 
                 <label className="mr-2">Grams of Coffee:<br></br>
-                <input type="number" value={gramsPost} onChange={hGramsPost} className="m-2" style={{width: "75px"}}></input></label>
+                    <input type="number" value={gramsPost} onChange={hGramsPost} className="m-2" style={{ width: "75px" }}></input></label>
+
+                <label className="mr-2">Desired Ratio:<br></br>
+                1:<input type="number" value={desiredRatio} onChange={hDesiredRatio} className="m-2" style={{ width: "75px" }}></input>
+                </label>
 
                 <label className="mr-2">Water Temp Pre Brew (F):<br></br>
-                <input type="number" value={waterPre} onChange={hWaterPre} className="m-2" style={{width: "75px"}}></input></label>
+                    <input type="number" value={waterPre} onChange={hWaterPre} className="m-2" style={{ width: "75px" }}></input></label>
 
                 <label className="mr-2">Bloom Duration in Seconds:<br></br>
-                <input type="number" value={bloomTime} onChange={hBloomTime} className="m-2" style={{width: "75px"}}></input></label>
+                    <input type="number" value={bloomTime} onChange={hBloomTime} className="m-2" style={{ width: "75px" }}></input></label>
 
                 <label className="mr-2">Bloom Weight in Grams:<br></br>
-                <input type="number" value={bloomWeight} onChange={hBloomWeight} className="m-2" style={{width: "75px"}}></input></label>
+                    <input type="number" value={bloomWeight} onChange={hBloomWeight} className="m-2" style={{ width: "75px" }}></input></label>
 
                 <label className="mr-2">Brew Weight in Grams:<br></br>
-                <input type="number" value={brewWeight} onChange={hBrewWeight} className="m-2" style={{width: "75px"}}></input></label>
+                    <input type="number" value={brewWeight} onChange={hBrewWeight} className="m-2" style={{ width: "75px" }}></input>1:{desiredRatio} = <strong>{ratioOutput}</strong> Grams</label>
 
                 <label className="mr-2">Draw Down Start Time: (Minutes:Seconds)<br></br>
-                <input type="number" value={theDrawDownMinute} onChange={hDrawDownMinute} style={{width: "75px"}}></input><span className="m-1">:</span>
-                    <input type="number" value={theDrawDownSecond} onChange={hDrawDownSecond} style={{width: "75px"}}></input></label>
+                    <input type="number" value={theDrawDownMinute} onChange={hDrawDownMinute} style={{ width: "75px" }}></input><span className="m-1">:</span>
+                    <input type="number" value={theDrawDownSecond} onChange={hDrawDownSecond} style={{ width: "75px" }}></input></label>
 
                 <label className="mr-2">Total Brew Duration: (Minutes:Seconds)<br></br>
-                <input type="number" value={theBrewMinute} onChange={hBrewMinute} style={{width: "75px"}}></input><span className="m-1">:</span>
-                    <input type="number" value={theBrewSecond} onChange={hBrewSecond} style={{width: "75px"}}></input></label>
+                    <input type="number" value={theBrewMinute} onChange={hBrewMinute} style={{ width: "75px" }}></input><span className="m-1">:</span>
+                    <input type="number" value={theBrewSecond} onChange={hBrewSecond} style={{ width: "75px" }}></input></label>
 
                 {/* <label className="mr-2">Water Temp Post Brew (F):<br></br>
                 <input type="number" value={waterPost} onChange={hWaterPost} className="m-2" style={{width: "75px"}}></input></label> */}
 
                 <label className="mr-2">Coffee Yeild in Grams:<br></br>
-                <input type="number" value={yeild} onChange={hYeild} className="m-2" style={{width: "75px"}}></input></label>
+                    <input type="number" value={yeild} onChange={hYeild} className="m-2" style={{ width: "75px" }}></input></label>
 
                 <button onClick={hSubmitBrew} className="btn btn-primary">Submit Brew</button>
             </form>
