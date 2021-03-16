@@ -10,20 +10,22 @@ const Chemex = (props: ChemexProps) => {
     const [allGrinders, setAllGrinders] = useState<Array<IOption>>([]);
     const [allFilters, setAllFilters] = useState<Array<IOption>>([]);
     const [theCoffee, setTheCoffee] = useState<number>(Number(localStorage.getItem("CoffeeBag")) || 0);
-    const [theGrinder, setTheGrinder] = useState<number>(1); // Baratza Encore by default --
-    const [theFilter, setTheFilter] = useState<number>(1); // 1 By Default --
-    const [bloomTime, setBloomTime] = useState<number>(0);
+    const [theGrinder, setTheGrinder] = useState<number>(Number(localStorage.getItem("Grinder")) || 1); 
+    const [theFilter, setTheFilter] = useState<number>(Number(localStorage.getItem("ChemexFilter")) || 1);
+    const [bloomTime, setBloomTime] = useState<number>(Number(localStorage.getItem("ChemexBloomTime")) || 0);
     const [bloomWeight, setBloomWeight] = useState<number>(Number(localStorage.getItem("ChemexBloomWeight")) || 0);
     const [grindSize, setGrindSize] = useState<number>(Number(localStorage.getItem("ChemexGrind")) || 0);
     const [gramsPre, setGramsPre] = useState<number>(Number(localStorage.getItem("ChemexGrams")) || 0);
     const [gramsPost, setGramsPost] = useState<number>(Number(localStorage.getItem("ChemexGrams")) || 0);
-    const [waterPre, setWaterPre] = useState<number>(212);
+    const [waterPre, setWaterPre] = useState<number>(Number(localStorage.getItem("WaterTempPre")) || 212);
     const [waterPost, setWaterPost] = useState<number>(0);
     const [roastedOn, setRoastedOn] = useState<string>(localStorage.getItem("RoastedOn") || "");
     const [brewWeight, setBrewWeight] = useState<number>(Number(localStorage.getItem("ChemexBrewWeight")) || 0);
     const [theBrewMinute, setTheBrewMinute] = useState<number>(Number(localStorage.getItem("ChemexBM")) || 0);
     const [theBrewSecond, setTheBrewSecond] = useState<number>(Number(localStorage.getItem("ChemexBS")) || 0);
     const [yeild, setYeild] = useState<number>(0);
+    const [desiredRatio, setDesiredRatio] = useState<number>(Number(localStorage.getItem("ChemexRatio")) || 0);
+    const [ratioOutput, setRatioOutput] = useState<number>(0);
 
     const history = useHistory();
 
@@ -45,6 +47,8 @@ const Chemex = (props: ChemexProps) => {
                 setTheBarista(v[3]);
                 setAllFilters(v[4]);
                 setTheCoffee(v[0][0].id);
+
+                ratioCalc(Number(localStorage.getItem("ChemexRatio")) || 0, gramsPost);
             });
     }
 
@@ -80,10 +84,12 @@ const Chemex = (props: ChemexProps) => {
 
     const hCoffeeBag = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setTheCoffee(Number(e.target.value));
+        localStorage.setItem("CoffeeBag", e.target.value);
     }
 
     const hFilter = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setTheFilter(Number(e.target.value));
+        localStorage.setItem("ChemexFilter", e.target.value);
     }
 
     const hRoastedOn = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -93,10 +99,13 @@ const Chemex = (props: ChemexProps) => {
 
     const hGramsPost = (e: React.ChangeEvent<HTMLInputElement>) => {
         setGramsPost(Number(e.target.value));
+        ratioCalc(desiredRatio, Number(e.target.value));
+        localStorage.setItem("ChemexGrams", e.target.value);
     }
 
     const hWaterPre = (e: React.ChangeEvent<HTMLInputElement>) => {
         setWaterPre(Number(e.target.value));
+        localStorage.setItem("WaterTempPre", e.target.value);
     }
 
     const hWaterPost = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -110,6 +119,7 @@ const Chemex = (props: ChemexProps) => {
 
     const hBloomTime = (e: React.ChangeEvent<HTMLInputElement>) => {
         setBloomTime(Number(e.target.value));
+        localStorage.setItem("ChemexBloomTime", e.target.value);
     }
 
     const hBloomWeight = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -121,10 +131,6 @@ const Chemex = (props: ChemexProps) => {
         setBrewWeight(Number(e.target.value));
         localStorage.setItem("ChemexBrewWeight", e.target.value);
     }
-
-    // const hBrewTime = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //     setBrewTime(Number(e.target.value));
-    // }
 
     const hBrewMinute = (e: React.ChangeEvent<HTMLInputElement>) => {
         setTheBrewMinute(Number(e.target.value));
@@ -138,6 +144,16 @@ const Chemex = (props: ChemexProps) => {
 
     const hYeild = (e: React.ChangeEvent<HTMLInputElement>) => {
         setYeild(Number(e.target.value));
+    }
+
+    const hDesiredRatio = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setDesiredRatio(Number(e.target.value));
+        ratioCalc(Number(e.target.value), Number(gramsPost));
+        localStorage.setItem("ChemexRatio", e.target.value);
+    }
+
+    const ratioCalc = (ratio: number, grams: number) => {
+        setRatioOutput(ratio * grams);
     }
 
     return (
@@ -172,6 +188,10 @@ const Chemex = (props: ChemexProps) => {
                 <label className="mr-2">Grams of Coffee:<br></br>
                 <input type="number" value={gramsPost} onChange={hGramsPost} className="m-2" style={{width: "75px"}}></input></label>
 
+                <label className="mr-2">Desired Ratio:<br></br>
+                1:<input type="number" value={desiredRatio} onChange={hDesiredRatio} className="m-2" style={{ width: "75px" }}></input>
+                </label>
+                
                 <label className="mr-2">Water Temp Pre Brew (F):<br></br>
                 <input type="number" value={waterPre} onChange={hWaterPre} className="m-2" style={{width: "75px"}}></input></label>
 
@@ -182,7 +202,7 @@ const Chemex = (props: ChemexProps) => {
                 <input type="number" value={bloomWeight} onChange={hBloomWeight} className="m-2" style={{width: "75px"}}></input></label>
 
                 <label className="mr-2">Brew Weight:<br></br>
-                <input type="number" value={brewWeight} onChange={hBrewWeight} className="m-2" style={{width: "75px"}}></input></label>
+                <input type="number" value={brewWeight} onChange={hBrewWeight} className="m-2" style={{width: "75px"}}></input>1:{desiredRatio} = <strong>{ratioOutput}</strong> Grams</label>
 
                 <label className="mr-2">Total Brew Duration: (Minutes:Seconds)<br></br>
                 <input type="number" value={theBrewMinute} onChange={hBrewMinute} style={{width: "75px"}}></input><span className="m-1">:</span>

@@ -25,6 +25,8 @@ const KalitaWave = (props: KalitaWaveProps) => {
     const [waterPre, setWaterPre] = useState<number>(Number(localStorage.getItem("WaterTempPre")) || 212);
     const [waterPost, setWaterPost] = useState<number>(Number(localStorage.getItem("WaterTempPost")) || 0);
     const [brewWeight, setBrewWeight] = useState<number>(Number(localStorage.getItem("KalitaWaveBrewWeight")) || 0);
+    const [desiredRatio, setDesiredRatio] = useState<number>(Number(localStorage.getItem("KalitaWaveRatio")) || 0);
+    const [ratioOutput, setRatioOutput] = useState<number>(0);
 
     const [theBrewMinute, setTheBrewMinute] = useState<number>(Number(localStorage.getItem("KalitaWaveBM")) || 0);
     const [theBrewSecond, setTheBrewSecond] = useState<number>(Number(localStorage.getItem("KalitaWaveBS")) || 0);
@@ -51,6 +53,8 @@ const KalitaWave = (props: KalitaWaveProps) => {
                 setTheBarista(v[3]);
                 setAllFilters(v[4]);
                 setTheCoffee(v[0][0].id);
+
+                ratioCalc(Number(localStorage.getItem("KalitaWaveRatio")) || 0, gramsPost);
             });
     }
 
@@ -105,6 +109,7 @@ const KalitaWave = (props: KalitaWaveProps) => {
 
     const hGramsPost = (e: React.ChangeEvent<HTMLInputElement>) => {
         setGramsPost(Number(e.target.value));
+        ratioCalc(desiredRatio, Number(e.target.value));
         localStorage.setItem("KalitaWaveGrams", e.target.value);
     }
 
@@ -153,6 +158,16 @@ const KalitaWave = (props: KalitaWaveProps) => {
         localStorage.setItem("KalitaWaveBS", e.target.value);
     }
 
+    const hDesiredRatio = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setDesiredRatio(Number(e.target.value));
+        ratioCalc(Number(e.target.value), Number(gramsPost));
+        localStorage.setItem("KalitaWaveRatio", e.target.value);
+    }
+
+    const ratioCalc = (ratio: number, grams: number) => {
+        setRatioOutput(ratio * grams);
+    }
+
     return (
         <>
             <h1>Kalita Wave</h1>
@@ -185,6 +200,10 @@ const KalitaWave = (props: KalitaWaveProps) => {
                 <label className="mr-2">Grams of Coffee:<br></br>
                 <input type="number" value={gramsPost} onChange={hGramsPost} className="m-2" style={{width: "75px"}}></input></label>
 
+                <label className="mr-2">Desired Ratio:<br></br>
+                1:<input type="number" value={desiredRatio} onChange={hDesiredRatio} className="m-2" style={{ width: "75px" }}></input>
+                </label>
+                
                 <label className="mr-2">Water Temp Pre Brew (F):<br></br>
                 <input type="number" value={waterPre} onChange={hWaterPre} className="m-2" style={{width: "75px"}}></input></label>
 
@@ -195,7 +214,7 @@ const KalitaWave = (props: KalitaWaveProps) => {
                 <input type="number" value={bloomWeight} onChange={hBloomWeight} className="m-2" style={{width: "75px"}}></input></label>
 
                 <label className="mr-2">Brew Weight in Grams:<br></br>
-                <input type="number" value={brewWeight} onChange={hBrewWeight} className="m-2" style={{width: "75px"}}></input></label>
+                <input type="number" value={brewWeight} onChange={hBrewWeight} className="m-2" style={{width: "75px"}}></input>1:{desiredRatio} = <strong>{ratioOutput}</strong> Grams</label>
 
                 <label className="mr-2">Total Brew Duration: (Minutes:Seconds)<br></br>
                 <input type="number" value={theBrewMinute} onChange={hBrewMinute} style={{width: "75px"}}></input><span className="m-1">:</span>

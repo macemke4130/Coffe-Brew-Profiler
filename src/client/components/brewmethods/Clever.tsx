@@ -56,7 +56,7 @@ const Clever = (props: CleverProps) => {
                 setAllFilters(v[4]);
                 setTheCoffee(v[0][0].id);
                 
-                ratioCalc(Number(localStorage.getItem("CleverRatio")), gramsPost);
+                ratioCalc(Number(localStorage.getItem("CleverRatio")) || 0, gramsPost);
             });
     }
 
