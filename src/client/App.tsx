@@ -22,6 +22,9 @@ import EditBrew from './pages/EditBrew';
 import NewRoaster from './pages/NewRoaster';
 
 const App = (props: AppProps) => {
+	console.log("Built by Lucas Mace");
+	console.log("lucasmace4130@gmail.com");
+	console.log("");
 return (
 		<Router>
 			<Switch>
