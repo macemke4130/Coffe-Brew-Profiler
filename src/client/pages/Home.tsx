@@ -27,7 +27,7 @@ const Home = (props: HomeProps) => {
             </ol>
             <p>Each Brew Method will remember your settings from your previous brew to speed up
                 your next brew.</p>
-            <p>Afer submitting the Brew, you may add Brewing or Tasting Notes.</p>
+            <p>After submitting the Brew, you may add Brewing or Tasting Notes.</p>
             <p>Once you have two or more Brews, you can compare them to see what you may want to
                 change about your tequniques.</p>
                 <p><strong>Any feedback, suggestions or bug reports can be sent to </strong>lucasmace4130@gmail.com</p>
