@@ -20,7 +20,7 @@ const AllBrews = (props: AllBrewsProps) => {
     const DBCalls = async () => {
         const rWho = await apiService("/api/users/who");
         setTheBarista(rWho);
-        
+
         const rAllBrews = await apiService("/api/brews/all/");
         setAllBrews(rAllBrews);
     }
@@ -28,14 +28,17 @@ const AllBrews = (props: AllBrewsProps) => {
     return (
         <>
             <Nav />
-            <h2>All Your Brews</h2>
-            {allBrews?.map(brew => (
-                <div key={brew.id}>
-                    <Link to={"/brew/details/" + brew.id}><h4>{brew.coffeename}</h4></Link>
-                    <p>{brew.brewmethod} <small>brewed on</small> <Moment format="MMMM DD, YYYY">{brew._createdat}</Moment></p>
-                    <hr></hr>
+            <div className="row d-flex flex-column align-items-center">
+            <h3>All Your Brews</h3>
+                <div className="col-sm-12 col-md-6">
+                    {allBrews?.map(brew => (
+                        <div key={brew.id} className="card border border-rounded p-3 shadow m-3">
+                            <Link to={"/brew/details/" + brew.id}><h4>{brew.coffeename}</h4></Link>
+                            <p>{brew.brewmethod} <small>brewed on</small> <Moment format="MMMM DD, YYYY">{brew._createdat}</Moment></p>
+                        </div>
+                    ))}
                 </div>
-            ))}
+            </div>
         </>
     );
 };

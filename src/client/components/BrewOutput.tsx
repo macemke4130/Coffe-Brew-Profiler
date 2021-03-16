@@ -40,7 +40,7 @@ const BrewOutput = (props: BrewOutputProps) => {
             const b: IBrew = rBrew.data[0]; // b is for Brew --
 
             // Heroku Server will not allow two subqueries. This is a workaround --
-            const rBrand = await apiService('/api/roasters/name/' + b.coffeebrand); 
+            const rBrand = await apiService('/api/roasters/name/' + b.coffeebrand);
             setBrandName(rBrand[0].name);
 
             // Do Math with b --
@@ -88,31 +88,54 @@ const BrewOutput = (props: BrewOutputProps) => {
     if (loading === true) { return (<><Loading /></>) } else {
         return (
             <>
-                <h5>{b.coffeename} - {brandName}</h5>
-                <h5>{b.brewmethod}</h5>
-                <p>
-                    {b.roasteddate != "1970-01-01T06:00:00.000Z" ? <span>Roasted on <Moment format="MMMM DD, YYYY">{b.roasteddate}</Moment><br></br></span> : ""}
+                <div className="bg-light p-2 d-flex flex-column align-items-center">
+                    <h5>{b.coffeename}</h5>
+                    <h6>{brandName}</h6>
+                    <h6>{b.brewmethod}</h6>
+                </div>
+                <div className="bg-white p-2">
+                    <p className="text-center">
+                        {b.roasteddate != "1970-01-01T06:00:00.000Z" ? <span>Roasted on <Moment format="MMMM DD, YYYY">{b.roasteddate}</Moment><br></br></span> : ""}
                         Brewed on <Moment format="MMMM DD, YYYY">{b._createdat}</Moment><br></br>
-                    {b.roasteddate != "1970-01-01T06:00:00.000Z" ? <span>{theDelta} days since roast</span> : ""}
-                </p>
-                <p>Coffee Filter: {b.filter}<br></br>
-                    {b.grinder} Setting: <strong>{b.grindsize}</strong></p>
-                <p>Coffee: <strong>{b.gramspostgrind}</strong> grams<br></br>Water: <strong>{b.brewweight}</strong> grams / ml<br></br>Brew Ratio: <strong>1:{ratio}</strong></p>
-                <p>Beginning Water Temp: <strong>{b.watertempprebrew}</strong>°F</p>
-                <p>Bloom Time: <strong>{b.bloomtimeinsec}</strong> seconds<br></br>
-                    <strong>{bloomToBrewTimePercent}</strong>% of total Brew Time</p>
-                <p>Bloom Water: <strong>{b.bloomweight}</strong> grams / ml<br></br>
-                    <strong>{bloomToBrewWeightPercent}</strong>% of total Brew weight</p>
-                <p>Brew Duration: <strong>{brewTime}</strong></p>
-                {drawDown != "0:00" && <p>Draw Down Start Time: <strong>{drawDownStart}</strong><br></br>Draw Down Duration: <strong>{drawDown}</strong><br></br><strong>{drawDowntoBrewPercent}</strong>% of total Brew Duration</p>}
-                <p>Coffee Yeild: <strong>{b.yeild}</strong> grams / ml<br></br>
-                    <strong>{yeildPercent}</strong>% of Total Brew Water Weight<br></br>
+                        {b.roasteddate != "1970-01-01T06:00:00.000Z" ? <span>{theDelta} days since roast</span> : ""}
+                    </p>
+                </div>
+                <div className="bg-light p-2">
+                    <p className="text-center">Filter: {b.filter}<br></br>
+                        {b.grinder} Setting: <strong>{b.grindsize}</strong></p>
+                </div>
+                <div className="bg-white p-2">
+                    <p className="text-center">Coffee: <strong>{b.gramspostgrind}</strong> grams<br></br>
+                    Water: <strong>{b.brewweight}</strong> grams / ml<br></br>
+                    Brew Ratio: <strong>1:{ratio}</strong></p>
+                </div>
+                <div className="bg-light p-2">
+                    <p className="text-center">Beginning Water Temp: <strong>{b.watertempprebrew}</strong>°F</p>
+                </div>
+                <div className="bg-white p-2">
+                    <p className="text-center">Bloom Time: <strong>{b.bloomtimeinsec}</strong> seconds<br></br>
+                        <strong>{bloomToBrewTimePercent}</strong>% of total Brew Time</p>
+                </div>
+                <div className="bg-light p-2">
+                    <p className="text-center">Bloom Water: <strong>{b.bloomweight}</strong> grams / ml<br></br>
+                        <strong>{bloomToBrewWeightPercent}</strong>% of total Brew weight</p>
+                </div>
+                <div className="bg-white p-2">
+                    <p className="text-center">Brew Duration: <strong>{brewTime}</strong></p>
+                </div>
+                <div className="bg-light p-2">
+                    {drawDown != "0:00" && <p className="text-center">Draw Down Start Time: <strong>{drawDownStart}</strong><br></br>Draw Down Duration: <strong>{drawDown}</strong><br></br><strong>{drawDowntoBrewPercent}</strong>% of total Brew Duration</p>}
+                </div>
+                <div className="bg-white p-2">
+                    <p className="text-center">Coffee Yeild: <strong>{b.yeild}</strong> grams / ml<br></br>
+                        <strong>{yeildPercent}</strong>% of Total Brew Water Weight<br></br>
                     Water Loss: <strong>{coffeeHeld}</strong> grams / ml</p>
+                </div>
                 {b.tastingnote && <p>Tasting Notes: <br></br>
                     {b.tastingnote}</p>}
                 {b.brewingnote && <p>Brewing Notes: <br></br>
                     {b.brewingnote}</p>}
-                {loggedIn === b.barista ? <button onClick={hEdit}>Add Notes / Edit Brew</button> : ""}
+                {loggedIn === b.barista ? <button className="btn btn-primary btn-sm m-2" onClick={hEdit}>Add Notes / Edit Brew</button> : ""}
             </>
         );
     }

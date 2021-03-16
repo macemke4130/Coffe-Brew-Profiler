@@ -34,7 +34,7 @@ const NewFilter = (props: NewFilterProps) => {
             <h1>Add New Coffee Roaster</h1>
             <form className="d-flex flex-column">
                 <input type="text" placeholder="Coffee Company" value={theBrand} onChange={hTheBrand}></input>
-                <button className="btn btn-primary mt-3" onClick={verifyRoaster}>Submit Filter</button>
+                <button className="btn btn-primary mt-3" onClick={verifyRoaster}>Submit Roaster</button>
             </form>
         </>
     );

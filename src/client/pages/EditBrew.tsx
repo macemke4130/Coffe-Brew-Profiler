@@ -282,7 +282,7 @@ const EditBrew = (props: EditBrewProps) => {
                 <button onClick={hSubmitBrew} className="btn btn-primary">Submit Edits</button>
             </form>
 
-            {loggedIn === theBarista ? <p><button onClick={hDestroy}>Delete Brew</button></p> : ""}
+            {loggedIn === theBarista ? <p><button className="btn btn-warning btn-sm m-2" onClick={hDestroy}>Delete Brew</button></p> : ""}
         </>
 
     );
