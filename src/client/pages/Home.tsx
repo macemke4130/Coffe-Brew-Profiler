@@ -10,7 +10,8 @@ const Home = (props: HomeProps) => {
         <>
             <Nav />
             <h1>Welcome!</h1>
-            <small>This site is in Beta mode and is still in development. Thank you for your patience.</small>
+            <small>This site is fully functional and still in development. New features and updates will roll out periodically.
+                Thank you for your patience and happy brewing! - Lucas</small>
             <h4>How to use:</h4>
             <ol>
                 <li>Register Your Account using the Register Button Above</li>
