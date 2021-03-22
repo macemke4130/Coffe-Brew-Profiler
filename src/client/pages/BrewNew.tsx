@@ -254,15 +254,6 @@ const BrewNew = (props: BrewNewProps) => {
         return (
             <>
                 <Nav />
-                <hr></hr>
-                <div className="d-flex justify-content-around">
-                    <button onClick={hMethod} value={1} className="btn btn-primary btn-sm">Chemex</button>
-                    <button onClick={hMethod} value={7} className="btn btn-primary btn-sm">Clever</button>
-                    <button onClick={hMethod} value={6} className="btn btn-primary btn-sm">Kalita Wave</button>
-                    <button onClick={hMethod} value={2} className="btn btn-primary btn-sm">Hario V60</button>
-                    <button onClick={hMethod} value={4} className="btn btn-primary btn-sm">Aero Press</button>
-                    <button onClick={hMethod} value={5} className="btn btn-primary btn-sm">French Press</button>
-                </div>
                 <h1>{theMethodName}</h1>
                 <form className="d-flex flex-column">
                     <label className="mr-2">Coffee: <select value={theCoffee} onChange={hCoffeeBag} className="m-2">
