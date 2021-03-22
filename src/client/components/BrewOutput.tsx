@@ -110,7 +110,7 @@ const BrewOutput = (props: BrewOutputProps) => {
                 </div>
                 <div className="bg-white p-2">
                     <p className="text-center">Coffee: <strong>{b.gramspostgrind}</strong> grams<br></br>
-                    Water: <strong>{b.brewweight}</strong> grams / ml<br></br>
+                    Water: <strong>{b.brewweight}</strong> ml<br></br>
                     Brew Ratio: <strong>1:{ratio}</strong></p>
                 </div>
                 <div className="bg-light p-2">
@@ -122,7 +122,7 @@ const BrewOutput = (props: BrewOutputProps) => {
 
                 </div>
                 <div className="bg-light p-2">
-                    <p className="text-center">Bloom Water: <strong>{b.bloomweight}</strong> grams / ml<br></br>
+                    <p className="text-center">Bloom Water: <strong>{b.bloomweight}</strong> ml<br></br>
                         <strong>{bloomToBrewWeightPercent}</strong>% of total Brew weight<br></br>
                         Bloom Water to Grounds: <strong>{bloomToGroundsRatio}</strong>%</p>
                 </div>
@@ -135,9 +135,9 @@ const BrewOutput = (props: BrewOutputProps) => {
                     <p className="text-center">Brew Duration: <strong>{brewTime}</strong></p>
                 </div>
                 <div className="bg-light p-2">
-                    <p className="text-center">Coffee Yeild: <strong>{b.yeild}</strong> grams / ml<br></br>
+                    <p className="text-center">Coffee Yeild: <strong>{b.yeild}</strong> ml<br></br>
                         <strong>{yeildPercent}</strong>% of Total Brew Water Weight<br></br>
-                    Water Loss: <strong>{coffeeHeld}</strong> grams / ml</p>
+                    Water Loss: <strong>{coffeeHeld}</strong> ml</p>
                 </div>
                 {b.tastingnote && <p>Tasting Notes: <br></br>
                     {b.tastingnote}</p>}

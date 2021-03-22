@@ -30,6 +30,7 @@ export interface ICoffeeBag {
 
 export interface IBrew {
     id: number,
+    name: string,
     _createdat: Date,
     barista: number,
     roasteddate: Date | string,

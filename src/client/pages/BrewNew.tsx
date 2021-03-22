@@ -245,7 +245,7 @@ const BrewNew = (props: BrewNewProps) => {
                     <button onClick={hMethod} value={7} className="btn btn-primary btn-sm">Clever</button>
                     <button onClick={hMethod} value={6} className="btn btn-primary btn-sm">Kalita Wave</button>
                     <button onClick={hMethod} value={2} className="btn btn-primary btn-sm">Hario V60</button>
-                    <button onClick={hMethod} value={4} className="btn btn-primary btn-sm">Aero Press</button>
+                    <button onClick={hMethod} value={4} className="btn btn-primary btn-sm">AeroPress</button>
                     <button onClick={hMethod} value={5} className="btn btn-primary btn-sm">French Press</button>
                 </div>
             </>
@@ -283,7 +283,7 @@ const BrewNew = (props: BrewNewProps) => {
                         </select></label>
 
                         <label className="mr-2">Grind Setting:
-                            <input type="number" value={grindSize} onChange={hGrindSize} className="m-2" style={{ width: "60px" }}></input></label>
+                            <input type="number" value={Number(grindSize).toString()} onChange={hGrindSize} className="m-2" style={{ width: "60px" }}></input></label>
                     </div>
 
                     <div>

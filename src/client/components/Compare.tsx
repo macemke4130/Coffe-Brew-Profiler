@@ -20,34 +20,33 @@ const Compare = (props: CompareProps) => {
     }, []);
 
     const DBCalls = async () => {
-        const rList = await apiService("/api/brews/list/");
-        setAllCompare(rList);
+        const brewMethod = await apiService('/api/brews/method/' + match);
+        const getSameMethodBrews = await apiService('/api/brews/methodmatches/' + brewMethod[0].brewmethod);
+        setAllCompare(getSameMethodBrews);
+
     }
 
-    // This is a hack. Moment.JS produces Object Object inside of an <option> tag --
-    const dateFormat = (x: any) => {
-        return x.split("T")[0];
-    }
-
-    const hCompare = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setControl(Number(e.target.value));
-        setSourceId(Number(e.target.value));
+    const hCompare = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        setControl(Number(e.target.id));
+        setSourceId(Number(e.target.id));
     }
 
     if (control === 0) {
         return (
             <>
-                <h4>Compare with...</h4>
-                <select value={control} onChange={hCompare}>
-                    <option value="0">Select a Brew...</option>
-                    {allCompare?.map(brew => (
-                        <option key={brew.id} value={brew.id} disabled={brew.id === match ? true : false}>
-                            {dateFormat(brew._createdat)} - {brew.coffeename} - {brew.brewmethod}
-                        </option>
-                    ))}
-                </select>
+                {allCompare?.map(brew => (
+                    brew.id != match &&
+                    <div key={brew.id}>
+                        <p className="d-flex align-items-center justify-content-between">
+                            <small><Moment format="MMMM DD">{brew._createdat}</Moment> - {brew.name}</small>
+                            <button onClick={hCompare} id={brew.id.toString()} className="btn btn-info btn-sm align-self-end">Compare</button>
+                        </p>
+                        <hr></hr>
+                    </div>
+
+                ))}
             </>
-        )
+        );
     } else {
         return (
             <BrewOutput sourceId={sourceId} />

@@ -98,5 +98,24 @@ router.get('/previous/:method', passport.authenticate('jwt'), async (req: ReqUse
         res.status(500).json({ message: "nope", e});
     }
 });
+router.get('/methodmatches/:method', passport.authenticate('jwt'), async (req: ReqUser, res) => {
+    try {
+        const getSameMethod = await db.brews.sameMethod(Number(req.params.method), Number(req.user.id));
+        res.status(200).json(getSameMethod);
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({ message: "nope", e});
+    }
+});
+
+router.get('/method/:id', passport.authenticate('jwt'), async (req: ReqUser, res) => {
+    try {
+        const getMethod = await db.brews.getMethod(Number(req.params.id));
+        res.status(200).json(getMethod);
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({ message: "nope", e});
+    }
+});
 
 export default router;
