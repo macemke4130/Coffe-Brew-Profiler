@@ -89,4 +89,14 @@ router.put('/edit', passport.authenticate('jwt'), async (req, res) => {
     }
 });
 
+router.get('/previous/:method', passport.authenticate('jwt'), async (req: ReqUser, res) => {
+    try {
+        const getPrevious = await db.brews.prev(Number(req.params.method), Number(req.user.id));
+        res.status(200).json(getPrevious);
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({ message: "nope", e});
+    }
+});
+
 export default router;

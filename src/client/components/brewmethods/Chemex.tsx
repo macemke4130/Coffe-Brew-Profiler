@@ -83,6 +83,9 @@ const Chemex = (props: ChemexProps) => {
     }
 
     const hCoffeeBag = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        if(e.target.value === "Add New") {
+            history.push("/coffeebags/new");
+        }
         setTheCoffee(Number(e.target.value));
         localStorage.setItem("CoffeeBag", e.target.value);
     }
@@ -164,6 +167,7 @@ const Chemex = (props: ChemexProps) => {
                     {allCoffeeBags?.map(bag => (
                         <option key={bag.id} value={bag.id}>{bag.brand} - {bag.coffeename}</option>
                     ))}
+                    <option value="Add New">Add New Coffee Bag...</option>
                 </select>
                 </label>
 

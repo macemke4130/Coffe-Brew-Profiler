@@ -8,8 +8,7 @@ import PrivateRoute from './components/PrivateRoute';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import NewBrew from './pages/NewBrew';
-import Chemex from './pages/brewmethods/Chemex';
+// import NewBrew from './pages/NewBrew';
 import NewCoffeeBag from './pages/NewCoffeeBag';
 import AllCoffeeBags from './pages/AllCoffeeBags';
 import SingleCoffeeBag from './pages/SingleCoffeeBag';
@@ -20,6 +19,7 @@ import AllFilters from './pages/AllFilters';
 import EditCoffeeBag from './pages/EditCoffeeBag';
 import EditBrew from './pages/EditBrew';
 import NewRoaster from './pages/NewRoaster';
+import BrewNew from './pages/BrewNew';
 
 const App = (props: AppProps) => {
 	console.log("Built by Lucas Mace");
@@ -64,11 +64,8 @@ return (
 				<PrivateRoute path="/coffeebags/:id">
 					<SingleCoffeeBag />
 				</PrivateRoute>
-				<PrivateRoute path="/brew/chemex/:id">
-					<Chemex />
-				</PrivateRoute>
 				<PrivateRoute exact path="/brews/new">
-					<NewBrew />
+					<BrewNew />
 				</PrivateRoute>
 				<PrivateRoute exact path="/brews/all">
 					<AllBrews />
