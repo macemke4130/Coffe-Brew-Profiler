@@ -206,7 +206,7 @@ const EditBrew = (props: EditBrewProps) => {
         setTheBrewingNote(e.target.value);
     }
 
-    const hEditMore = () {
+    const hEditMore = () => {
         setMoreEdits(true);
         setSubmitButtonText("Submit Notes and Edits");
     }
@@ -308,11 +308,6 @@ const EditBrew = (props: EditBrewProps) => {
         );
 
     }
-
-
-    {/* The following should be hiddend behind a State Toggle -- */ }
-
-
 };
 
 interface EditBrewProps { }

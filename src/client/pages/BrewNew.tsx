@@ -239,6 +239,7 @@ const BrewNew = (props: BrewNewProps) => {
                 <h1>{theMethodName}</h1>
                 <form className="d-flex flex-column">
                     <label className="mr-2">Coffee: <select value={theCoffee} onChange={hCoffeeBag} className="m-2">
+                        <option value="0">Select Coffee</option>
                         {allCoffeeBags?.map(bag => (
                             <option key={bag.id} value={bag.id}>{bag.brand} - {bag.coffeename}</option>
                         ))}
