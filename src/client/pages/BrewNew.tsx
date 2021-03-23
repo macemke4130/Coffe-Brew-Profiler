@@ -59,8 +59,6 @@ const BrewNew = (props: BrewNewProps) => {
                 setTheBarista(v[3]);
                 setAllFilters(v[4]);
                 setTheCoffee(v[0][0].id);
-
-                ratioCalc(Number(localStorage.getItem("CleverRatio")) || 0, gramsPost);
             });
     }
 
@@ -113,7 +111,6 @@ const BrewNew = (props: BrewNewProps) => {
             history.push("/coffeebags/new");
         }
         setTheCoffee(Number(e.target.value));
-        localStorage.setItem("CoffeeBag", e.target.value);
     }
 
     const hFilter = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -121,7 +118,6 @@ const BrewNew = (props: BrewNewProps) => {
             history.push("/filters/new");
         }
         setTheFilter(Number(e.target.value));
-        localStorage.setItem("CleverFilter", e.target.value);
     }
 
     const hGrinder = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -130,74 +126,60 @@ const BrewNew = (props: BrewNewProps) => {
 
     const hRoastedOn = (e: React.ChangeEvent<HTMLInputElement>) => {
         setRoastedOn(e.target.value);
-        localStorage.setItem("RoastedOn", e.target.value);
     }
 
     const hGramsPost = (e: React.ChangeEvent<HTMLInputElement>) => {
         setGramsPost(Number(e.target.value));
         ratioCalc(desiredRatio, Number(e.target.value));
-        localStorage.setItem("CleverGrams", e.target.value);
     }
 
     const hWaterPre = (e: React.ChangeEvent<HTMLInputElement>) => {
         setWaterPre(Number(e.target.value));
-        localStorage.setItem("WaterTempPre", e.target.value);
     }
 
     const hWaterPost = (e: React.ChangeEvent<HTMLInputElement>) => {
         setWaterPost(Number(e.target.value));
-        localStorage.setItem("WaterTempPost", e.target.value);
     }
 
     const hGrindSize = (e: React.ChangeEvent<HTMLInputElement>) => {
         setGrindSize(Number(e.target.value));
-        localStorage.setItem("CleverGrindSize", e.target.value);
     }
 
     const hBloomTime = (e: React.ChangeEvent<HTMLInputElement>) => {
         setBloomTime(Number(e.target.value));
-        localStorage.setItem("CleverBloomTime", e.target.value);
     }
 
     const hBloomWeight = (e: React.ChangeEvent<HTMLInputElement>) => {
         setBloomWeight(Number(e.target.value));
-        localStorage.setItem("CleverBloomWeight", e.target.value);
     }
 
     const hBrewWeight = (e: React.ChangeEvent<HTMLInputElement>) => {
         setBrewWeight(Number(e.target.value));
-        localStorage.setItem("CleverBrewWeight", e.target.value);
     }
 
     const hYeild = (e: React.ChangeEvent<HTMLInputElement>) => {
         setYeild(Number(e.target.value));
-        localStorage.setItem("CleverYeild", e.target.value);
     }
 
     const hBrewMinute = (e: React.ChangeEvent<HTMLInputElement>) => {
         setTheBrewMinute(Number(e.target.value));
-        localStorage.setItem("CleverBM", e.target.value);
     }
 
     const hBrewSecond = (e: React.ChangeEvent<HTMLInputElement>) => {
         setTheBrewSecond(Number(e.target.value));
-        localStorage.setItem("CleverBS", e.target.value);
     }
 
     const hDrawDownMinute = (e: React.ChangeEvent<HTMLInputElement>) => {
         setTheDrawDownMinute(Number(e.target.value));
-        localStorage.setItem("CleverDDM", e.target.value);
     }
 
     const hDrawDownSecond = (e: React.ChangeEvent<HTMLInputElement>) => {
         setTheDrawDownSecond(Number(e.target.value));
-        localStorage.setItem("CleverDDS", e.target.value);
     }
 
     const hDesiredRatio = (e: React.ChangeEvent<HTMLInputElement>) => {
         setDesiredRatio(Number(e.target.value));
         ratioCalc(Number(e.target.value), Number(gramsPost));
-        localStorage.setItem("CleverRatio", e.target.value);
     }
 
     const ratioCalc = (ratio: number, grams: number) => {

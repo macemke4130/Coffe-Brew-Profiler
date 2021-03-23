@@ -10,8 +10,9 @@ import BrewOutput from './BrewOutput';
 
 const Compare = (props: CompareProps) => {
     const [allCompare, setAllCompare] = useState<Array<IBrew>>([]);
-    const [control, setControl] = useState<number>(0);
+    const [control, setControl] = useState<number>(99);
     const [sourceId, setSourceId] = useState<number>(0);
+    const [brewMethod, setBrewMethod] = useState<string>("");
 
     const match = props.sourceId;
 
@@ -22,6 +23,7 @@ const Compare = (props: CompareProps) => {
     const DBCalls = async () => {
         const brewMethod = await apiService('/api/brews/method/' + match);
         const getSameMethodBrews = await apiService('/api/brews/methodmatches/' + brewMethod[0].brewmethod);
+        setBrewMethod(brewMethod[0].name);
         setAllCompare(getSameMethodBrews);
 
     }
@@ -31,14 +33,24 @@ const Compare = (props: CompareProps) => {
         setSourceId(Number(e.target.id));
     }
 
-    if (control === 0) {
+    const hViewOtherBrews = () => {
+        setControl(0);
+    }
+
+    if (control === 99) {
         return (
-            <>
+            <div className="d-flex justify-content-center">
+                <button onClick={hViewOtherBrews} className="btn btn-info btn-sm">Compare Brew</button>
+            </div>
+        );
+    } else if (control === 0) {
+        return (
+            <><h5 className="text-center">Previous {brewMethod} Brews</h5>
                 {allCompare?.map(brew => (
                     brew.id != match &&
                     <div key={brew.id}>
                         <p className="d-flex align-items-center justify-content-between">
-                            <small><Moment format="MMMM DD">{brew._createdat}</Moment> - {brew.name}</small>
+                            <span><small><Moment format="MMMM DD">{brew._createdat}</Moment></small><br></br>{brew.name}</span>
                             <button onClick={hCompare} id={brew.id.toString()} className="btn btn-info btn-sm align-self-end">Compare</button>
                         </p>
                         <hr></hr>

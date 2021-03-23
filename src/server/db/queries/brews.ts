@@ -10,8 +10,8 @@ const editBrew = (editedBrew: IBrew, id: number) => Query('update brews set ? wh
 const destroy = (id: number) => Query('update brews set is_active = 0 where id = ?', [id]);
 const delta = (id1: number, id2: number) => Query('select DATEDIFF((select _createdat from brews where id = ?), (select roasteddate from brews where id = ?)) as delta', [id1, id2]);
 const prev = (method: number, barista: number) => Query('select * from brews where barista = ? and brewmethod = ? and is_active = 1 order by id desc limit 1', [barista, method]);
-const getMethod = (id: number) => Query('select brewmethod from brews where id = ?', [id]);
-const sameMethod = (method: number, barista: number) => Query('select brews.id, brews._createdat, coffeebags.name from brews join coffeebags on coffeebags.id = brews.coffeebag where brews.is_active = 1 and brews.barista = ? and brews.brewmethod = ?;', [barista, method]);
+const getMethod = (id: number) => Query('select brews.brewmethod, brewmethods.name from brews join brewmethods on brewmethods.id = brews.brewmethod where brews.id = ?', [id]);
+const sameMethod = (method: number, barista: number) => Query('select brews.id, brews._createdat, coffeebags.name from brews join coffeebags on coffeebags.id = brews.coffeebag where brews.is_active = 1 and brews.barista = ? and brews.brewmethod = ? order by brews.id desc;', [barista, method]);
 
 const one = (subquery: number, brewid: number) => Query(`select brews.id, brews._createdat, brews.barista, brews.roasteddate, brews.grindsize, brews.gramspostgrind, brews.watertempprebrew, brews.watertemppostbrew, brews.bloomtimeinsec, brews.bloomweight, brews.brewtimeinsec, brews.drawdownstart, brews.brewweight, brews.yeild, brews.tastingnote, brews.brewingnote, coffeebags.id as coffeebagid, coffeebags.brand as coffeebrand, coffeebags.name as coffeename, filters.brand_name_style as filter, grinders.name as grinder, brewmethods.name as brewmethod from brews join filters on filters.id = brews.filter join coffeebags on coffeebags.id = brews.coffeebag join brewmethods on brewmethods.id = brews.brewmethod join grinders on grinders.id = brews.grinder where brews.id = ?`, [subquery, brewid]);
 

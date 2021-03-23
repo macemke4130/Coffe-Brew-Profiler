@@ -36,6 +36,7 @@ const AllCoffeeBags = (props: AllCoffeeBagsProps) => {
                     <hr></hr>
                 </div>
             ))}
+            <Link to="/coffeebags/new"><button className="btn btn-primary btn-sm">Add Coffee</button></Link>
         </>
     );
 };

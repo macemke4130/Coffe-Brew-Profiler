@@ -53,8 +53,8 @@ const SingleCoffeeBag = (props: SingleCoffeeBagProps) => {
             {bag?.region != "" ? <p>Region: {bag?.region}</p> : ""}
             {bag?.elevation != 0 ? <p>Elevation: {bag?.elevation} Meters Above Sea Level</p> : ""}
             <p>{bag?.blend === 0 ? "Single Origin" : "Blend"}</p>
-            {isOwner && <button onClick={hEditCoffee}>Edit Coffee Bag</button>}
-            {isOwner && <button onClick={hEmptyCoffee}>Empty Coffee Bag</button>}
+            {isOwner && <button onClick={hEditCoffee} className="btn btn-primary btn-sm mr-3">Edit Coffee Bag</button>}
+            {isOwner && <button onClick={hEmptyCoffee} className="btn btn-warning btn-sm">Empty Coffee Bag</button>}
         </>
     );
 };

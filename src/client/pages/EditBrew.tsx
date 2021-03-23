@@ -9,6 +9,8 @@ const EditBrew = (props: EditBrewProps) => {
     const { id } = useParams<{ id: string }>();
 
     const [loggedIn, setLoggedIn] = useState<number>(0);
+    const [moreEdits, setMoreEdits] = useState<Boolean>(false);
+    const [submitButtonText, setSubmitButtonText] = useState<string>("Submit Notes");
 
     // All Options --
     const [theBarista, setTheBarista] = useState<number>(0); // Baristas Table ID --
@@ -204,88 +206,113 @@ const EditBrew = (props: EditBrewProps) => {
         setTheBrewingNote(e.target.value);
     }
 
-    return (
-        <>
-            <Nav />
-            <h1>Edit Brew</h1>
-            <p><label>Tasting Notes:<br></br>
-            <textarea value={theTastingNote} onChange={hTastingNote} cols={100} rows={4}></textarea></label></p>
-            <p><label>Brewing Notes:<br></br>
-            <textarea value={theBrewingNote} onChange={hBrewingNote} cols={100} rows={4}></textarea></label></p>
-            <button onClick={hSubmitBrew} className="btn btn-primary">Submit Edits</button>
-            <hr></hr>
+    const hEditMore = () {
+        setMoreEdits(true);
+        setSubmitButtonText("Submit Notes and Edits");
+    }
 
-            {/* The following should be hiddend behind a State Toggle -- */}
-            
-            <form className="d-flex flex-column">
-                <label className="mr-2">Brew Method: <select value={theBrewMethod} onChange={hBrewMethod} className="m-2">
-                    {allBrewMethods?.map(brew => (
-                        <option key={brew.id} value={brew.id}>{brew.name}</option>
-                    ))}
-                </select>
-                </label>
+    if (moreEdits === false) {
+        return (
+            <>
+                <Nav />
+                <h5>Add Notes</h5>
+                <p><label>Tasting Notes:<br></br>
+                    <textarea value={theTastingNote} onChange={hTastingNote} cols={100} rows={4}></textarea></label></p>
+                <p><label>Brewing Notes:<br></br>
+                    <textarea value={theBrewingNote} onChange={hBrewingNote} cols={100} rows={4}></textarea></label></p>
+                <button onClick={hSubmitBrew} className="btn btn-primary">{submitButtonText}</button>
+                <hr></hr>
 
-                <label className="mr-2">Coffee: <select value={theCoffee} onChange={hCoffeeBag} className="m-2">
-                    {allCoffeeBags?.map(bag => (
-                        <option key={bag.id} value={bag.id}>{bag.brand} - {bag.coffeename}</option>
-                    ))}
-                </select>
-                </label>
+                <button onClick={hEditMore} className="btn btn-primary">Edit More Brew Details</button>
+            </>
+        );
+    } else {
+        return (
+            <>
+                <Nav />
+                <h5>Add Notes</h5>
+                <p><label>Tasting Notes:<br></br>
+                    <textarea value={theTastingNote} onChange={hTastingNote} cols={100} rows={4}></textarea></label></p>
+                <p><label>Brewing Notes:<br></br>
+                    <textarea value={theBrewingNote} onChange={hBrewingNote} cols={100} rows={4}></textarea></label></p>
+                <button onClick={hSubmitBrew} className="btn btn-primary">{submitButtonText}</button>
+                <hr></hr>
+                <h5>Edit Brew Details</h5>
+                <form className="d-flex flex-column">
+                    <label className="mr-2">Brew Method: <select value={theBrewMethod} onChange={hBrewMethod} className="m-2">
+                        {allBrewMethods?.map(brew => (
+                            <option key={brew.id} value={brew.id}>{brew.name}</option>
+                        ))}
+                    </select>
+                    </label>
 
-                <label className="mr-2">Roasted On Date:
+                    <label className="mr-2">Coffee: <select value={theCoffee} onChange={hCoffeeBag} className="m-2">
+                        {allCoffeeBags?.map(bag => (
+                            <option key={bag.id} value={bag.id}>{bag.brand} - {bag.coffeename}</option>
+                        ))}
+                    </select>
+                    </label>
+
+                    <label className="mr-2">Roasted On Date:
                 <input type="date" value={roastedOn} onChange={hRoastedOn} className="m-2"></input></label>
 
-                <label className="mr-2">Filter: <select value={theFilter} onChange={hFilter} className="m-2">
-                    {allFilters?.map(filter => (
-                        <option key={filter.id} value={filter.id}>{filter.brand_name_style}</option>
-                    ))}
-                </select></label>
+                    <label className="mr-2">Filter: <select value={theFilter} onChange={hFilter} className="m-2">
+                        {allFilters?.map(filter => (
+                            <option key={filter.id} value={filter.id}>{filter.brand_name_style}</option>
+                        ))}
+                    </select></label>
 
-                <label className="mr-2">Grinder: <select value={theGrinder} onChange={hGrinder} className="m-2">
-                    {allGrinders?.map(grind => (
-                        <option key={grind.id} value={grind.id}>{grind.name}</option>
-                    ))}
-                </select></label>
+                    <label className="mr-2">Grinder: <select value={theGrinder} onChange={hGrinder} className="m-2">
+                        {allGrinders?.map(grind => (
+                            <option key={grind.id} value={grind.id}>{grind.name}</option>
+                        ))}
+                    </select></label>
 
-                <label className="mr-2">Grind Size Setting:
+                    <label className="mr-2">Grind Size Setting:
                 <input type="number" value={grindSize} onChange={hGrindSize} className="m-2"></input></label>
 
-                <label className="mr-2">Grams of Coffee:
+                    <label className="mr-2">Grams of Coffee:
                 <input type="number" value={gramsPost} onChange={hGramsPost} className="m-2"></input></label>
 
-                <label className="mr-2">Water Temp Pre Brew (F):
+                    <label className="mr-2">Water Temp Pre Brew (F):
                 <input type="number" value={waterPre} onChange={hWaterPre} className="m-2"></input></label>
 
-                <label className="mr-2">Bloom Duration:
+                    <label className="mr-2">Bloom Duration:
                 <input type="number" value={bloomTime} onChange={hBloomTime} className="m-2"></input></label>
 
-                <label className="mr-2">Bloom Weight:
+                    <label className="mr-2">Bloom Weight:
                 <input type="number" value={bloomWeight} onChange={hBloomWeight} className="m-2"></input></label>
 
-                <label className="mr-2">Brew Weight:
+                    <label className="mr-2">Brew Weight:
                 <input type="number" value={brewWeight} onChange={hBrewWeight} className="m-2"></input></label>
 
-                <label className="mr-2">Draw Down Start Time: (Minutes:Seconds)
+                    <label className="mr-2">Draw Down Start Time: (Minutes:Seconds)
                 <input type="number" value={theDrawDownMinute} onChange={hDrawDownMinute}></input><span>:</span>
-                    <input type="number" value={theDrawDownSecond} onChange={hDrawDownSecond}></input></label>
+                        <input type="number" value={theDrawDownSecond} onChange={hDrawDownSecond}></input></label>
 
-                <label className="mr-2">Total Brew Duration: (Minutes:Seconds)
+                    <label className="mr-2">Total Brew Duration: (Minutes:Seconds)
                 <input type="number" value={theBrewMinute} onChange={hBrewMinute}></input><span>:</span>
-                    <input type="number" value={theBrewSecond} onChange={hBrewSecond}></input></label>
+                        <input type="number" value={theBrewSecond} onChange={hBrewSecond}></input></label>
 
-                <label className="mr-2">Water Temp Post Brew (F):
+                    <label className="mr-2">Water Temp Post Brew (F):
                 <input type="number" value={waterPost} onChange={hWaterPost} className="m-2"></input></label>
 
-                <label className="mr-2">Coffee Yeild in Grams:
+                    <label className="mr-2">Coffee Yeild in Grams:
                 <input type="number" value={yeild} onChange={hYeild} className="m-2"></input></label>
+                    
+                    <button onClick={hSubmitBrew} className="btn btn-primary">{submitButtonText}</button>
+                </form>
 
-                <button onClick={hSubmitBrew} className="btn btn-primary">Submit Edits</button>
-            </form>
+                { loggedIn === theBarista ? <p><button className="btn btn-warning btn-sm m-2" onClick={hDestroy}>Delete Brew</button></p> : ""}
+            </>
+        );
 
-            {loggedIn === theBarista ? <p><button className="btn btn-warning btn-sm m-2" onClick={hDestroy}>Delete Brew</button></p> : ""}
-        </>
+    }
 
-    );
+
+    {/* The following should be hiddend behind a State Toggle -- */ }
+
+
 };
 
 interface EditBrewProps { }

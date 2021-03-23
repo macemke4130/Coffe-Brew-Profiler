@@ -35,6 +35,7 @@ const AllFilters = (props: AllFiltersProps) => {
                     <hr></hr>
                 </div>
             ))}
+            <Link to="/filters/new"><button className="btn btn-primary btn-sm">Add Filter</button></Link>
         </>
     );
 };
