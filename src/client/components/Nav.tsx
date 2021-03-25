@@ -25,6 +25,7 @@ const Nav = (props: NavProps) => {
 					{v && <Link to="/brews/all"><button className="btn btn-primary btn-sm m-2">All Brews</button></Link>}
 					{v && <Link to="/coffeebags/all"><button className="btn btn-primary btn-sm m-2">All Coffees</button></Link>}
 					{v && <Link to="/filters/all"><button className="btn btn-primary btn-sm m-2">All Filters</button></Link>}
+					{v && <Link to="/profile"><button className="btn btn-primary btn-sm m-2">Profile</button></Link>}
 					{v && <button onClick={hLogOut} className="btn btn-primary btn-sm m-2">Log Out</button>}
 				</nav>
 			</div>

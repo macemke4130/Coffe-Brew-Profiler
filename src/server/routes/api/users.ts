@@ -6,7 +6,18 @@ import { ReqUser } from '../../utils/types';
 
 const router = express.Router();
 
-router.use('/bloom', passport.authenticate('jwt'), async (req: ReqUser, res) => {
+router.get('/seconds', passport.authenticate('jwt'), async (req: ReqUser, res) => {
+    try {
+        const userid = req.user.id;
+        const seconds = await db.users.secondsBrewing(userid);
+        res.json(seconds);
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({ message: "nope", e});
+    }
+});
+
+router.get('/bloom', passport.authenticate('jwt'), async (req: ReqUser, res) => {
     try {
         const userid = req.user.id;
         const myBloom = await db.users.myBloom(userid);
@@ -18,7 +29,7 @@ router.use('/bloom', passport.authenticate('jwt'), async (req: ReqUser, res) => 
 });
 
 // Gets userid of person logged in without a db call. COOL! --
-router.use('/who', passport.authenticate('jwt'), async (req: ReqUser, res) => {
+router.get('/who', passport.authenticate('jwt'), async (req: ReqUser, res) => {
     try {
         const userid = req.user.id;
         res.json(userid);
@@ -27,5 +38,40 @@ router.use('/who', passport.authenticate('jwt'), async (req: ReqUser, res) => {
         res.status(500).json({ message: "nope", e});
     }
 });
+
+router.get('/profile', passport.authenticate('jwt'), async (req: ReqUser, res) => {
+    try {
+        const userid = req.user.id;
+        const profile = await db.users.profile(userid);
+        res.json(profile);
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({ message: "nope", e});
+    }
+});
+
+router.get('/grams', passport.authenticate('jwt'), async (req: ReqUser, res) => {
+    try {
+        const userid = req.user.id;
+        const grams = await db.users.grams(userid);
+        res.json(grams);
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({ message: "nope", e});
+    }
+});
+
+router.get('/brews', passport.authenticate('jwt'), async (req: ReqUser, res) => {
+    try {
+        const userid = req.user.id;
+        const brews = await db.users.brews(userid);
+        res.json(brews);
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({ message: "nope", e});
+    }
+});
+
+
 
 export default router;

@@ -15,6 +15,14 @@ const disable = (id: number) => Query('update users set is_visible = 0 where id 
 
 const myBloom = (id: number) => Query('select bloom from baristas where id = ?', [id]);
 
+const profile = (barista: number) => Query('select id, username, email, bloom, _created, role from baristas where id = ?', [barista]);
+
+const brews = (barista: number) => Query('select count(*) as brews from brews where barista = ? and is_active = 1', [barista]);
+
+const secondsBrewing = (barista: number) => Query('select sum(brewtimeinsec) as brewseconds from brews where is_active = 1 and barista = ?', [barista]);
+
+const grams = (barista: number) => Query('select sum(gramspostgrind) as grams from brews where is_active = 1 and barista = ?', [barista])
+
 export default {
     one,
     username,
@@ -22,5 +30,9 @@ export default {
     find,
     editProfile,
     disable,
-    myBloom
+    myBloom,
+    profile,
+    brews,
+    secondsBrewing,
+    grams
 }
