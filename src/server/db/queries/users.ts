@@ -7,6 +7,10 @@ const username = (id: number) => Query('select username from users where id = ?'
 
 const insert = (newUser: any) => Query<MySQLResponse>('Insert into baristas set ?', [newUser]);
 
+const update = (barista: number, updatedUser: any) => Query<MySQLResponse>('update baristas set ? where id = ?', [updatedUser, barista]);
+
+const updatePassword = (barista: number, password: string) => Query('update baristas set password = ? where id = ?', [password, barista]);
+
 const find = (column: string, value: string | number) => Query<UsersTable[]>('select * from baristas where ?? = ? and is_active = 1', [column, value]);
 
 const editProfile = (id: number, username: string, email: string) => Query('update users set username = ?, email = ? where id = ?', [username, email, id])
@@ -27,6 +31,8 @@ export default {
     one,
     username,
     insert,
+    update,
+    updatePassword,
     find,
     editProfile,
     disable,

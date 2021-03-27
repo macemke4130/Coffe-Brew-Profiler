@@ -72,6 +72,18 @@ router.get('/brews', passport.authenticate('jwt'), async (req: ReqUser, res) => 
     }
 });
 
+router.put('/updateprofile', passport.authenticate('jwt'), async (req: ReqUser, res) => {
+    try {
+        const userid = req.user.id;
+        const updatedUser = req.body
+        const update = await db.users.update(userid, updatedUser);
+        res.json(update);
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({ message: "nope", e});
+    }
+});
+
 
 
 export default router;

@@ -20,6 +20,7 @@ import EditBrew from './pages/EditBrew';
 import NewRoaster from './pages/NewRoaster';
 import BrewNew from './pages/BrewNew';
 import Profile from './pages/Profile';
+import EditProfile from './pages/EditProfile';
 
 const App = (props: AppProps) => {
 	console.log("Built by Lucas Mace");
@@ -37,6 +38,9 @@ return (
 				<Route exact path="/register">
 					<Register />
 				</Route>
+				<PrivateRoute path="/editprofile">
+					<EditProfile />
+				</PrivateRoute>
 				<PrivateRoute path="/profile">
 					<Profile />
 				</PrivateRoute>

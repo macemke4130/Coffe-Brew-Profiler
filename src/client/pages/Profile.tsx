@@ -17,6 +17,8 @@ const Profile = (props: Profile) => {
     const [timeBrewing, setTimeBrewing] = useState<string>("0:00");
     const [totalGrams, setTotalGrams] = useState<number>(0);
 
+    const history = useHistory();
+
     useEffect(() => {
         DBCalls();
     }, []);
@@ -36,11 +38,16 @@ const Profile = (props: Profile) => {
             });
     }
 
+    const hEditProfile = () => {
+        history.push('/editprofile');
+    }
+
     if (loaded === true) {
         return (
             <>
                 <Nav />
-                <h2>Hello {b.username}</h2>
+                <h2>Hi {b.username}.</h2>
+                <h4>Thanks for Brewing.</h4>
                 <div>
                     <p>Member since <Moment format="MMMM DD, YYYY">{b._created}</Moment></p>
                     {b.role === 1 && <p>Admin Account</p>}
@@ -48,7 +55,7 @@ const Profile = (props: Profile) => {
                     <p>Total Brews: {totalBrews}<br></br>
                     Total Time Brewing: {timeBrewing}<br></br>
                     Total Coffee Brewed: {totalGrams} grams</p>
-
+                    <button onClick={hEditProfile} className="btn btn-primary btn-sm">Edit Profile</button>
                 </div>
             </>
         );
