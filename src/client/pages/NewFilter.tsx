@@ -7,9 +7,9 @@ import apiService from '../utils/api-service';
 import { IOption } from '../utils/types';
 
 const NewFilter = (props: NewFilterProps) => {
-    const [theBrand, setTheBrand] = useState<string>('');
-    const [theName, setTheName] = useState<string>('');
-    const [theStyle, setTheStyle] = useState<string>('');
+    const [theBrand, setTheBrand] = useState<string>("");
+    const [theName, setTheName] = useState<string>("");
+    const [theStyle, setTheStyle] = useState<string>("");
 
     const history = useHistory();
 
@@ -29,16 +29,18 @@ const NewFilter = (props: NewFilterProps) => {
         setTheStyle(e.target.value);
     }
 
-    const verifyBag = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const verifyFilter = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
+        if (theBrand === "" || theName === "" || theStyle === ""){
+            alert("Please fill out all fields.");
+            return;
+        }
 
         const bodyObject = {
             brand_name_style: theBrand + " - " + theName + " - " + theStyle
         }
         const r = await apiService("/api/filters/new", "POST", bodyObject);
-        console.log(bodyObject);
-        console.log(r);
-        if (r.serverStatus === 2) history.push('/');
+        if (r.serverStatus === 2) history.push('/brews/new');
     }
 
     return (
@@ -52,7 +54,7 @@ const NewFilter = (props: NewFilterProps) => {
                 <small className="mb-3">Bleached, Unbleached...</small>
                 <input type="text" placeholder="Number or Style" value={theStyle} onChange={hTheStyle}></input>
                 <small className="mb-3">4, Basket, Cone, Sock...</small>
-                <button className="btn btn-primary" onClick={verifyBag}>Submit Filter</button>
+                <button className="btn btn-primary" onClick={verifyFilter}>Submit Filter</button>
             </form>
         </>
     );

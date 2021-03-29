@@ -75,6 +75,17 @@ const NewCoffeeBag = (props: NewCoffeeBagProps) => {
 
     const verifyBag = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
+
+        if (theBrand === "0" || theBrand === "") {
+            alert("Roaster can not be blank.");
+            return;
+        }
+
+        if (theCoffee === "" || theCoffee === " ") {
+            alert("Coffee Name can not be blank.");
+            return;
+        }
+
         let processCatch = theProcess === 0 ? 4 : theProcess; // 4 is "None" in the Database. Fulfils a foreign key constraint --
         const bodyObject = {
             brand: theBrand,
@@ -96,7 +107,7 @@ const NewCoffeeBag = (props: NewCoffeeBagProps) => {
             <h1>CoffeeBag Page</h1>
             <form className="d-flex flex-column">
                 <select onChange={hBrand} className="mb-3">
-                    <option>-- Please Select Coffee Roaster --</option>
+                    <option value="0">-- Please Select Coffee Roaster --</option>
                     {allBrands?.map(brand => (
                         <option key={brand.id} value={brand.id}>{brand.name}</option>
                     ))}

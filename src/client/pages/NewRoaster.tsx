@@ -22,9 +22,12 @@ const NewFilter = (props: NewFilterProps) => {
     const verifyRoaster = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
 
+        if (theBrand === "" || theBrand === " "){
+            alert("Coffee Company can not be blank.");
+            return;
+        }
+
         const r = await apiService("/api/roasters/new", "POST", { brand: theBrand });
-        console.log(theBrand);
-        console.log(r);
         if (r) history.push('/coffeebags/new');
     }
 
