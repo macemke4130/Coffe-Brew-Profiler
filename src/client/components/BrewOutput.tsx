@@ -36,7 +36,18 @@ const BrewOutput = (props: BrewOutputProps) => {
         const rDelta = await apiService("/api/brews/delta/" + id);
         setTheDelta(rDelta[0].delta);
 
-        const rBrew = await apiService("/api/brews/details/" + id);
+        const getMethod = await apiService("/api/brews/method/" + id);
+        const brewMethod = getMethod[0].brewmethod;
+
+        let isFilter: string;
+
+        if (brewMethod === 5 || brewMethod === 8) {
+            isFilter = "false";
+        } else {
+            isFilter = "true";
+        }
+
+        const rBrew = await apiService("/api/brews/details/" + id + "&" + isFilter);
         if (rBrew.status === 418) { // I'm a Teapot! --
             const b: IBrew = rBrew.data[0]; // b is for Brew --
 

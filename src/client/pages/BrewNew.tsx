@@ -40,6 +40,8 @@ const BrewNew = (props: BrewNewProps) => {
 
     const [yeild, setYeild] = useState<number>(0);
 
+    const [waterAdded, setWaterAdded] = useState<string>("");
+
     const history = useHistory();
 
     useEffect(() => {
@@ -188,8 +190,13 @@ const BrewNew = (props: BrewNewProps) => {
 
         // French Press or Moka Pot --
         if (e.target.value === "5" || e.target.value === "8") {
-            console.log("No Filter");
             setNoFilter(true);
+        }
+
+        if (e.target.value === "8") {
+            setWaterAdded("Water Added in Grams");
+        } else {
+            setWaterAdded("Brew Weight in Grams");
         }
 
         const prev = await apiService('/api/brews/previous/' + e.target.value);
@@ -224,14 +231,14 @@ const BrewNew = (props: BrewNewProps) => {
             <>
                 <Nav />
                 <h4 className="text-center">Choose Your Brew Method</h4>
-                <div className="d-flex justify-content-around">
-                    <button onClick={hMethod} value={1} className="btn btn-primary btn-sm">Chemex</button>
-                    <button onClick={hMethod} value={7} className="btn btn-primary btn-sm">Clever</button>
-                    <button onClick={hMethod} value={6} className="btn btn-primary btn-sm">Kalita Wave</button>
-                    <button onClick={hMethod} value={2} className="btn btn-primary btn-sm">Hario V60</button>
-                    <button onClick={hMethod} value={4} className="btn btn-primary btn-sm">AeroPress</button>
-                    <button onClick={hMethod} value={5} className="btn btn-primary btn-sm">French Press</button>
-                    <button onClick={hMethod} value={8} className="btn btn-primary btn-sm">Moka Pot</button>
+                <div className="d-flex flex-column align-items-center">
+                    <button onClick={hMethod} value={1} className="btn btn-primary btn-sm mb-3">Chemex</button>
+                    <button onClick={hMethod} value={7} className="btn btn-primary btn-sm mb-3">Clever</button>
+                    <button onClick={hMethod} value={6} className="btn btn-primary btn-sm mb-3">Kalita Wave</button>
+                    <button onClick={hMethod} value={2} className="btn btn-primary btn-sm mb-3">Hario V60</button>
+                    <button onClick={hMethod} value={4} className="btn btn-primary btn-sm mb-3">AeroPress</button>
+                    <button onClick={hMethod} value={5} className="btn btn-primary btn-sm mb-3">French Press</button>
+                    <button onClick={hMethod} value={8} className="btn btn-primary btn-sm mb-3">Moka Pot</button>
                 </div>
             </>
         )
@@ -281,16 +288,22 @@ const BrewNew = (props: BrewNewProps) => {
                         </label>
                     </div>
 
-                    <label className="mr-2">Water Temp Pre Brew (F):<br></br>
-                        <input type="number" value={Number(waterPre).toString()} onChange={hWaterPre} style={{ width: "60px" }}></input></label>
+                    {theMethod != 8 &&
+                        <label className="mr-2">Water Temp Pre Brew (F):<br></br>
+                            <input type="number" value={Number(waterPre).toString()} onChange={hWaterPre} style={{ width: "60px" }}></input></label>
+                    }
 
-                    <label className="mr-2">Bloom Duration in Seconds:<br></br>
-                        <input type="number" value={Number(bloomTime).toString()} onChange={hBloomTime} style={{ width: "60px" }}></input></label>
+                    {theMethod != 8 &&
+                        <label className="mr-2">Bloom Duration in Seconds:<br></br>
+                            <input type="number" value={Number(bloomTime).toString()} onChange={hBloomTime} style={{ width: "60px" }}></input></label>
+                    }
 
-                    <label className="mr-2">Bloom Weight in Grams:<br></br>
-                        <input type="number" value={Number(bloomWeight).toString()} onChange={hBloomWeight} style={{ width: "60px" }}></input></label>
+                    {theMethod != 8 &&
+                        <label className="mr-2">Bloom Weight in Grams:<br></br>
+                            <input type="number" value={Number(bloomWeight).toString()} onChange={hBloomWeight} style={{ width: "60px" }}></input></label>
+                    }
 
-                    <label className="mr-2">Brew Weight in Grams:<br></br>
+                    <label className="mr-2">{waterAdded}<br></br>
                         <input type="number" value={Number(brewWeight).toString()} onChange={hBrewWeight} style={{ width: "60px" }}></input>1:{desiredRatio} = <strong>{ratioOutput}</strong> Grams</label>
                     {
                         theMethod === 7 && // Clever --
@@ -305,6 +318,7 @@ const BrewNew = (props: BrewNewProps) => {
                             <input type="number" value={Number(theDrawDownMinute).toString()} onChange={hDrawDownMinute} style={{ width: "50px" }}></input><span className="m-1">:</span>
                             <input type="number" value={Number(theDrawDownSecond).toString()} onChange={hDrawDownSecond} style={{ width: "60px" }}></input></label>
                     }
+
                     <label className="mr-2">Total Brew Duration: (Minutes:Seconds)<br></br>
                         <input type="number" value={Number(theBrewMinute).toString()} onChange={hBrewMinute} style={{ width: "50px" }}></input><span className="m-1">:</span>
                         <input type="number" value={Number(theBrewSecond).toString()} onChange={hBrewSecond} style={{ width: "60px" }}></input></label>

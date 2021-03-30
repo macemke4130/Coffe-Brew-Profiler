@@ -5,12 +5,17 @@ import { ReqUser } from '../../utils/types';
 
 const router = express.Router();
 
-router.get('/details/:brew', passport.authenticate('jwt'), async (req, res) => {
+router.get('/details/:brew&:filter', passport.authenticate('jwt'), async (req, res) => {
     try {
         const brewid = Number(req.params.brew);
-        // Passed into one() twice due to a subquery inside the DB call --
-        const getBrew = await db.brews.one(brewid, brewid);
-        res.status(200).json({ data: getBrew, status: 418 }); // Just for fun --
+
+        if (req.params.filter === "false") {
+            const getBrew = await db.brews.oneNoFilter(brewid);
+            res.status(200).json({ data: getBrew, status: 418 }); // Just for fun --
+        } else {
+            const getBrew = await db.brews.one(brewid);
+            res.status(200).json({ data: getBrew, status: 418 }); // Just for fun --
+        }
     } catch (e) {
         console.log(e);
         res.status(500).json({ message: "nope", e});

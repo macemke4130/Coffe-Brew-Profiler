@@ -13,7 +13,8 @@ const prev = (method: number, barista: number) => Query('select * from brews whe
 const getMethod = (id: number) => Query('select brews.brewmethod, brewmethods.name from brews join brewmethods on brewmethods.id = brews.brewmethod where brews.id = ?', [id]);
 const sameMethod = (method: number, barista: number) => Query('select brews.id, brews._createdat, coffeebags.name from brews join coffeebags on coffeebags.id = brews.coffeebag where brews.is_active = 1 and brews.barista = ? and brews.brewmethod = ? order by brews.id desc;', [barista, method]);
 
-const one = (subquery: number, brewid: number) => Query(`select brews.id, brews._createdat, brews.barista, brews.roasteddate, brews.grindsize, brews.gramspostgrind, brews.watertempprebrew, brews.watertemppostbrew, brews.bloomtimeinsec, brews.bloomweight, brews.brewtimeinsec, brews.drawdownstart, brews.brewweight, brews.yeild, brews.tastingnote, brews.brewingnote, coffeebags.id as coffeebagid, coffeebags.brand as coffeebrand, coffeebags.name as coffeename, filters.brand_name_style as filter, grinders.name as grinder, brewmethods.name as brewmethod from brews join filters on filters.id = brews.filter join coffeebags on coffeebags.id = brews.coffeebag join brewmethods on brewmethods.id = brews.brewmethod join grinders on grinders.id = brews.grinder where brews.id = ?`, [subquery, brewid]);
+const one = (brewid: number) => Query(`select brews.id, brews._createdat, brews.barista, brews.roasteddate, brews.grindsize, brews.gramspostgrind, brews.watertempprebrew, brews.watertemppostbrew, brews.bloomtimeinsec, brews.bloomweight, brews.brewtimeinsec, brews.drawdownstart, brews.brewweight, brews.yeild, brews.tastingnote, brews.brewingnote, coffeebags.id as coffeebagid, coffeebags.brand as coffeebrand, coffeebags.name as coffeename, filters.brand_name_style as filter, grinders.name as grinder, brewmethods.name as brewmethod from brews join filters on filters.id = brews.filter join coffeebags on coffeebags.id = brews.coffeebag join brewmethods on brewmethods.id = brews.brewmethod join grinders on grinders.id = brews.grinder where brews.id = ?`, [brewid]);
+const oneNoFilter = (brewid: number) => Query(`select brews.id, brews._createdat, brews.barista, brews.roasteddate, brews.grindsize, brews.gramspostgrind, brews.watertempprebrew, brews.watertemppostbrew, brews.bloomtimeinsec, brews.bloomweight, brews.brewtimeinsec, brews.drawdownstart, brews.brewweight, brews.yeild, brews.tastingnote, brews.brewingnote, coffeebags.id as coffeebagid, coffeebags.brand as coffeebrand, coffeebags.name as coffeename, grinders.name as grinder, brewmethods.name as brewmethod from brews join coffeebags on coffeebags.id = brews.coffeebag join brewmethods on brewmethods.id = brews.brewmethod join grinders on grinders.id = brews.grinder where brews.id = ?`, [brewid]);
 
 export default {
     all,
@@ -26,5 +27,6 @@ export default {
     prev,
     getMethod,
     sameMethod,
-    one
+    one,
+    oneNoFilter
 }
