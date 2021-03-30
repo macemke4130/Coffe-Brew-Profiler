@@ -15,6 +15,7 @@ const BrewNew = (props: BrewNewProps) => {
     const [allCoffeeBags, setAllCoffeeBags] = useState<Array<ICoffeeBag>>([]);
     const [allGrinders, setAllGrinders] = useState<Array<IOption>>([]);
     const [allFilters, setAllFilters] = useState<Array<IOption>>([]);
+    const [noFilter, setNoFilter] = useState<Boolean>(false);
 
     // Commons --
     const [theCoffee, setTheCoffee] = useState<number>(0);
@@ -76,14 +77,14 @@ const BrewNew = (props: BrewNewProps) => {
             drawDownCatch = null;
         }
 
-        // French Press should not require a filter field --
-        const frenchCatch = theMethod === 5 ? 0 : theFilter;
+        // French Press or Moka Pot should not require a filter field --
+        const filterCatch = noFilter === true ? 0 : theFilter;
 
         const bodyObject = {
             barista: theBarista,
             brewmethod: theMethod,
             coffeebag: theCoffee,
-            filter: frenchCatch,
+            filter: filterCatch,
             roasteddate: dateCatch,
             grinder: theGrinder,
             grindsize: grindSize,
@@ -100,7 +101,6 @@ const BrewNew = (props: BrewNewProps) => {
         if (theCoffee === 0) {
             alert("Coffee Field Can Not Be Blank.");
         } else {
-            console.log(bodyObject);
             const r = await apiService('/api/brews/new', "POST", bodyObject);
             if (r.serverStatus === 2) history.push("/brew/details/" + r.insertId);
         }
@@ -135,10 +135,6 @@ const BrewNew = (props: BrewNewProps) => {
 
     const hWaterPre = (e: React.ChangeEvent<HTMLInputElement>) => {
         setWaterPre(Number(e.target.value));
-    }
-
-    const hWaterPost = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setWaterPost(Number(e.target.value));
     }
 
     const hGrindSize = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -190,6 +186,12 @@ const BrewNew = (props: BrewNewProps) => {
         setTheMethod(Number(e.target.value));
         setTheMethodName(e.target.innerHTML);
 
+        // French Press or Moka Pot --
+        if (e.target.value === "5" || e.target.value === "8") {
+            console.log("No Filter");
+            setNoFilter(true);
+        }
+
         const prev = await apiService('/api/brews/previous/' + e.target.value);
         if (prev[0] != undefined) {
             const p = prev[0];
@@ -229,6 +231,7 @@ const BrewNew = (props: BrewNewProps) => {
                     <button onClick={hMethod} value={2} className="btn btn-primary btn-sm">Hario V60</button>
                     <button onClick={hMethod} value={4} className="btn btn-primary btn-sm">AeroPress</button>
                     <button onClick={hMethod} value={5} className="btn btn-primary btn-sm">French Press</button>
+                    <button onClick={hMethod} value={8} className="btn btn-primary btn-sm">Moka Pot</button>
                 </div>
             </>
         )
@@ -250,7 +253,7 @@ const BrewNew = (props: BrewNewProps) => {
                     <label className="mr-2">Roasted On Date:
                     <input type="date" value={roastedOn} onChange={hRoastedOn} className="m-2"></input></label>
 
-                    {theMethod != 5 && // French Press --
+                    {noFilter === false && // French Press or Moka Pot --
                         <label className="mr-2">Filter: <select value={theFilter} onChange={hFilter} className="m-2">
                             {allFilters?.map(filter => (
                                 <option key={filter.id} value={filter.id}>{filter.brand_name_style}</option>

@@ -34,6 +34,9 @@ insert into brewmethods (name) values
 ("Chemex"), ("Hario V60"), ("Kona"), ("Aero-Press"),
 ("French Press"), ("Kalita Wave"), ("Clever");
 
+insert into brewmethods (name) values ("Moka Pot");
+update brewmethods set is_active = 1 where id = 8;
+
 alter table brewmethods add is_active bool after name;
 update brewmethods set is_active = 1 where id = 1 or id = 2 or id = 6 or id = 7;
 update brewmethods set is_active = 0 where id = 2 or id = 3 or id = 4 or id = 5;
